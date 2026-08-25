@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOM Studios | Budget</title>
+<link rel="icon" type="image/png" href="assets/mascot.png">
+<link rel="apple-touch-icon" href="assets/mascot.png">
+<style>
+:root{
+  --bg:#f1f0ec; --bg-pill:#fafaf9; --bg-dark:#2a2b2c; --ink:#2a2b2c; --ink-soft:#6f6f6d;
+  --ink-on-dark:#f1f0ec; --line:#dcdad3; --accent:#02367B; --accent-hover:#022a5f;
+  --accent-on-dark:#5B9AE0; --good:#2e7d32; --bad:#c0392b; --warn:#cd7f32;
+  --container:1320px; --gutter:clamp(16px,5vw,56px); --radius-pill:999px; --radius-card:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Helvetica Neue",Arial,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:70px;overflow-x:hidden;}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button,input,select{font-family:inherit;}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+.eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;display:block;margin-bottom:8px;}
+.tnum{font-variant-numeric:tabular-nums;}
+.pos{color:var(--good);} .neg{color:var(--bad);}
+.muted{color:var(--ink-soft);}
+.hidden{display:none!important;}
+
+/* nav */
+.nav-shell{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px var(--gutter) 0;pointer-events:none;}
+nav.pill{pointer-events:auto;max-width:var(--container);margin:0 auto;background:var(--bg-pill);border:1px solid var(--line);border-radius:var(--radius-pill);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 2px rgba(0,0,0,.03);gap:12px;}
+.nav-toggle{display:flex;align-items:center;justify-content:center;width:38px;height:38px;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;flex:0 0 auto;}
+.nav-toggle span{width:18px;height:2px;background:var(--ink);display:block;border-radius:2px;}
+.brand-mark{font-weight:800;font-size:17px;letter-spacing:.02em;white-space:nowrap;}
+.nav-right{display:flex;align-items:center;gap:16px;}
+nav.pill .nav-links{display:flex;gap:22px;list-style:none;}
+nav.pill .nav-links a{font-size:14px;font-weight:500;color:var(--ink);cursor:pointer;transition:color .2s;}
+nav.pill .nav-links a:hover,nav.pill .nav-links a.active{color:var(--accent);}
+.mobile-menu{position:fixed;top:0;left:0;height:100%;width:min(340px,86vw);background:var(--bg-pill);z-index:1100;transform:translateX(-100%);transition:transform .3s;padding:26px;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,.08);overflow-y:auto;}
+.mobile-menu.open{transform:translateX(0);}
+.mobile-menu .close-menu{align-self:flex-end;background:none;border:none;font-size:28px;cursor:pointer;color:var(--ink);line-height:1;margin-bottom:16px;}
+.mobile-menu ul{list-style:none;display:flex;flex-direction:column;}
+.mobile-menu ul li{border-bottom:1px solid var(--line);}
+.mobile-menu ul li a{display:block;padding:16px 4px;font-size:18px;font-weight:600;color:var(--ink);cursor:pointer;}
+.mobile-menu ul li a.active{color:var(--accent);}
+.mobile-menu .menu-media{margin-top:24px;display:flex;align-items:center;justify-content:center;}
+.mobile-menu .menu-media img{width:100%;max-width:130px;height:auto;object-fit:contain;}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:1050;opacity:0;pointer-events:none;transition:opacity .3s;}
+.scrim.show{opacity:1;pointer-events:auto;}
+
+/* lock gate */
+.gate{position:fixed;inset:0;background:var(--bg);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px;}
+.gate-card{background:var(--bg-pill);border:1px solid var(--line);border-radius:var(--radius-card);padding:34px 30px;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.1);}
+.gate-card .brand-mark{font-size:22px;display:block;margin-bottom:2px;}
+.gate-card .g-sub{color:var(--ink-soft);font-size:13px;margin-bottom:20px;}
+.gate-card input{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:15px;margin-bottom:12px;background:#fff;color:var(--ink);}
+.gate-card input:focus{outline:2px solid var(--accent);outline-offset:1px;}
+.g-err{color:var(--bad);font-size:13px;margin-top:8px;min-height:16px;}
+.g-note{font-size:11px;color:var(--ink-soft);margin-top:16px;line-height:1.5;}
+.lock-ico{width:46px;height:46px;margin:0 auto 10px;display:block;}
+
+/* buttons */
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--ink-on-dark);border-radius:var(--radius-pill);padding:11px 20px;font-size:14px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;}
+.btn:hover{background:var(--accent-hover);}
+.btn:disabled{opacity:.5;cursor:default;}
+.btn.block{width:100%;justify-content:center;padding:13px;}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink);}
+.btn.ghost:hover{background:var(--ink);color:var(--bg-pill);}
+.btn.sm{padding:7px 13px;font-size:13px;}
+.btn.danger{border-color:var(--bad);background:var(--bad);}
+.btn.danger:hover{background:#a5301f;}
+.btn.danger.ghost{background:transparent;color:var(--bad);}
+.btn.danger.ghost:hover{background:var(--bad);color:#fff;}
+.icon-btn{background:none;border:1px solid var(--line);border-radius:10px;width:32px;height:32px;cursor:pointer;color:var(--ink-soft);font-size:15px;display:inline-flex;align-items:center;justify-content:center;transition:.15s;}
+.icon-btn:hover{border-color:var(--ink);color:var(--ink);}
+.icon-btn.del:hover{border-color:var(--bad);color:var(--bad);}
+
+/* page + heads */
+.page{padding-top:104px;}
+.view-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:22px;}
+.view-head h1{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.01em;}
+.view-head p{color:var(--ink-soft);font-size:14px;margin-top:2px;}
+.head-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.badge{font-size:12px;font-weight:600;border-radius:var(--radius-pill);padding:8px 14px;border:1px solid var(--line);white-space:nowrap;}
+.badge.cloud{background:#e7f0ff;border-color:#bcd4f5;color:var(--accent);}
+.badge.saving{background:#fff6e5;border-color:#f0d9a8;color:var(--warn);}
+.badge.err{background:#fdecea;border-color:#f5c6c0;color:var(--bad);}
+
+/* cards + grids */
+.card{background:var(--bg-pill);border:1px solid var(--line);border-radius:var(--radius-card);padding:22px;}
+.card h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);font-weight:700;margin-bottom:16px;}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;}
+.kpi{background:var(--bg-pill);border:1px solid var(--line);border-radius:var(--radius-card);padding:18px 20px;}
+.kpi .k-lbl{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);font-weight:600;}
+.kpi .k-val{font-size:26px;font-weight:800;letter-spacing:-.01em;margin-top:6px;font-variant-numeric:tabular-nums;}
+.kpi .k-sub{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+.kpi.accent{background:var(--bg-dark);color:var(--ink-on-dark);border-color:var(--bg-dark);}
+.kpi.accent .k-lbl{color:var(--accent-on-dark);}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.stack{display:flex;flex-direction:column;gap:16px;}
+
+/* donut + bars */
+.donut-wrap{display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
+.legend{list-style:none;display:flex;flex-direction:column;gap:9px;flex:1;min-width:150px;}
+.legend li{display:flex;align-items:center;gap:10px;font-size:14px;}
+.legend .dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto;}
+.legend .lv{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-soft);}
+.bars{display:flex;flex-direction:column;gap:11px;}
+.bar-row{display:grid;grid-template-columns:120px 1fr 92px;align-items:center;gap:12px;font-size:14px;}
+.bar-track{background:#e9e7e1;border-radius:var(--radius-pill);height:14px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:var(--radius-pill);background:var(--accent);}
+.bar-row .bv{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-soft);}
+
+/* wallet cards */
+.wgroup{margin-bottom:18px;}
+.wgroup-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;}
+.wgroup-head h3{font-size:15px;font-weight:800;}
+.wgroup-head .wg-total{font-size:14px;font-weight:700;color:var(--ink-soft);font-variant-numeric:tabular-nums;}
+.wcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;}
+.wcard{background:var(--bg-pill);border:1px solid var(--line);border-radius:16px;padding:16px 18px;position:relative;}
+.wcard .w-name{font-size:13px;font-weight:600;color:var(--ink-soft);display:flex;align-items:center;gap:8px;}
+.wcard .w-bal{font-size:24px;font-weight:800;margin-top:6px;font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+.wcard .w-meta{font-size:12px;color:var(--ink-soft);margin-top:4px;}
+.wcard.debt{border-color:#f0d3ce;background:#fdf6f5;}
+.wcard.debt .w-bal{color:var(--bad);}
+.wcard .w-actions{position:absolute;top:12px;right:12px;display:flex;gap:6px;opacity:0;transition:.15s;}
+.wcard:hover .w-actions{opacity:1;}
+.credit-bar{height:8px;background:#eadfdc;border-radius:99px;margin-top:10px;overflow:hidden;}
+.credit-bar>span{display:block;height:100%;background:var(--bad);border-radius:99px;}
+
+/* forms */
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:12px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;}
+input[type=text],input[type=number],input[type=password],input[type=month],select,textarea{
+  border:1px solid var(--line);border-radius:11px;padding:10px 12px;font-size:14px;background:#fff;color:var(--ink);width:100%;}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.cat-select-row{display:flex;align-items:center;gap:10px;}
+.cat-swatch{width:18px;height:18px;border-radius:6px;flex:0 0 auto;border:1px solid rgba(0,0,0,.1);}
+
+/* tables */
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table.data{width:100%;border-collapse:collapse;font-size:14px;min-width:560px;}
+table.data th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line);}
+table.data td{padding:10px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;vertical-align:middle;}
+table.data tr:last-child td{border-bottom:none;}
+table.data .r{text-align:right;}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;color:#fff;white-space:nowrap;}
+.chip.dot-only{padding:3px 10px 3px 8px;}
+.type-tag{font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px;border:1px solid var(--line);color:var(--ink-soft);text-transform:capitalize;}
+.type-tag.income{color:var(--good);border-color:#bfe0c0;background:#eef7ef;}
+.type-tag.expense{color:var(--bad);border-color:#f2cdc7;background:#fdf0ee;}
+.type-tag.transfer{color:var(--accent);border-color:#bcd4f5;background:#eef4fd;}
+.type-tag.charge{color:var(--warn);border-color:#f0d9a8;background:#fff6e5;}
+.type-tag.remainder{color:#6f6f6d;}
+
+.empty{text-align:center;padding:36px 20px;color:var(--ink-soft);}
+.empty img{max-width:120px;margin:0 auto 12px;opacity:.9;}
+
+/* toast */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-dark);color:var(--ink-on-dark);padding:12px 20px;border-radius:99px;font-size:14px;font-weight:600;z-index:4000;opacity:0;pointer-events:none;transition:.25s;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.bad{background:var(--bad);}
+
+/* modal */
+.modal-scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:.2s;}
+.modal-scrim.show{opacity:1;pointer-events:auto;}
+.modal{background:var(--bg-pill);border-radius:var(--radius-card);border:1px solid var(--line);max-width:520px;width:100%;max-height:88vh;overflow-y:auto;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.2);}
+.modal h3{font-size:19px;font-weight:800;margin-bottom:4px;}
+.modal .m-sub{color:var(--ink-soft);font-size:13px;margin-bottom:18px;}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap;}
+
+.subtabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.subtab{border:1px solid var(--line);background:var(--bg-pill);border-radius:99px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-soft);}
+.subtab.active{background:var(--ink);color:var(--bg-pill);border-color:var(--ink);}
+
+.mascot-corner{position:fixed;right:16px;bottom:12px;width:70px;opacity:.9;z-index:1;pointer-events:none;}
+.hint{font-size:12px;color:var(--ink-soft);background:#eef4fd;border:1px solid #d5e3f7;border-radius:12px;padding:10px 14px;margin-bottom:16px;}
+
+@media(max-width:980px){.kpis{grid-template-columns:1fr 1fr;}.grid3{grid-template-columns:1fr;}}
+@media(max-width:860px){nav.pill .nav-links{display:none;}.nav-shell{padding:12px var(--gutter) 0;}}
+@media(max-width:720px){.grid2{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr;}.mascot-corner{display:none;}.bar-row{grid-template-columns:100px 1fr 84px;}}
+@media(max-width:520px){.kpis{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ============ LOCK GATE ============ -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <svg class="lock-ico" viewBox="0 0 24 24" fill="none" stroke="#02367B" stroke-width="1.7"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4" fill="#02367B" stroke="none"/></svg>
+    <span class="brand-mark">FOM STUDIOS</span>
+    <p class="g-sub">Private budget · enter your passphrase</p>
+    <input type="password" id="passInput" placeholder="Passphrase" autocomplete="current-password">
+    <input type="password" id="passConfirm" placeholder="Confirm new passphrase" autocomplete="new-password" class="hidden">
+    <button class="btn block" id="unlockBtn">Unlock</button>
+    <p class="g-err" id="gateErr"></p>
+    <p class="g-note" id="gateNote">Your passphrase never leaves this device. It derives the key that encrypts your data (AES-GCM) and the address it syncs to. Lose it and the data is unrecoverable — there is no reset.</p>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<div class="scrim" id="scrim"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-menu" id="closeMenu" aria-label="Close menu">&times;</button>
+  <ul id="mobileLinks"></ul>
+  <div class="menu-media"><img src="assets/mascot.png" alt="FOM Studios mascot" onerror="this.style.display='none'"></div>
+</div>
+<div class="nav-shell app-only hidden" id="navShell">
+  <nav class="pill">
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span></button>
+    <span class="brand-mark">FOM · BUDGET</span>
+    <div class="nav-right">
+      <ul class="nav-links" id="desktopLinks"></ul>
+    </div>
+  </nav>
+</div>
+
+<!-- ============ APP ============ -->
+<div class="page wrap app-only hidden" id="app">
+  <div class="view-head">
+    <div>
+      <span class="eyebrow" id="viewEyebrow">Overview</span>
+      <h1 id="viewTitle">Dashboard</h1>
+      <p id="viewSub">Everything at a glance</p>
+    </div>
+    <div class="head-actions">
+      <span class="badge cloud" id="syncBadge">☁ Synced</span>
+      <button class="btn ghost sm" id="refreshBtn" title="Pull latest from cloud">Refresh</button>
+      <button class="btn ghost sm" id="lockBtn">Lock</button>
+    </div>
+  </div>
+  <div id="view"></div>
+</div>
+
+<div class="mascot-corner app-only hidden"><img src="assets/mascot.png" alt="" onerror="this.parentElement.style.display='none'"></div>
+
+<div class="modal-scrim" id="modalScrim"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================================
+   FOM STUDIOS BUDGET — everything below runs in your browser only.
+   The cloud worker stores ciphertext; it never sees these numbers.
+   ===================================================================== */
+
+const CONFIG = {
+  // Paste your deployed Cloudflare Worker URL here (no trailing slash):
+  workerUrl: "https://fom-budget.cold-moon-d65c.workers.dev",
+  pbkdf2: 250000,          // key-derivation cost (encryption)
+  pbkdf2Locator: 120000,   // key-derivation cost (address)
+};
+
+/* ---------- tiny helpers ---------- */
+const $ = id => document.getElementById(id);
+const el = (tag, props={}, html) => { const n=document.createElement(tag); Object.assign(n, props); if(html!=null) n.innerHTML=html; return n; };
+const escapeHtml = s => String(s==null?'':s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const uid = () => Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);
+const clampNum = v => { const n=parseFloat(v); return isFinite(n)?n:0; };
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function fmtR(n, dp=2){
+  n = +n||0; const neg = n<0; n=Math.abs(n);
+  const s = n.toFixed(dp); let [i,f]=s.split('.');
+  i = i.replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+  return (neg?'-R':'R')+i+(dp?('.'+f):'');
+}
+const ymKey = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+const prettyMonth = mk => { const [y,m]=mk.split('-'); return MONTHS[+m-1]+' '+y; };
+const prettyDate = d => d.getDate()+' '+MONTHS[d.getMonth()]+' '+d.getFullYear();
+
+/* ---------- toast ---------- */
+let toastT=null;
+function toast(msg, bad=false){ const t=$('toast'); t.textContent=msg; t.className='toast show'+(bad?' bad':''); clearTimeout(toastT); toastT=setTimeout(()=>t.className='toast',2400); }
+
+/* =====================================================================
+   CRYPTO  (Web Crypto — AES-GCM + PBKDF2)
+   ===================================================================== */
+const _enc = new TextEncoder(), _dec = new TextDecoder();
+const b64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
+const unb64 = s => Uint8Array.from(atob(s), c=>c.charCodeAt(0));
+
+async function deriveKey(passphrase, salt){
+  const base = await crypto.subtle.importKey('raw', _enc.encode(passphrase), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    { name:'PBKDF2', salt, iterations:CONFIG.pbkdf2, hash:'SHA-256' },
+    base, { name:'AES-GCM', length:256 }, false, ['encrypt','decrypt']);
+}
+async function deriveLocator(passphrase){
+  const base = await crypto.subtle.importKey('raw', _enc.encode(passphrase), 'PBKDF2', false, ['deriveBits']);
+  const bits = await crypto.subtle.deriveBits(
+    { name:'PBKDF2', salt:_enc.encode('FOM-BUDGET::locator::v1'), iterations:CONFIG.pbkdf2Locator, hash:'SHA-256' },
+    base, 256);
+  return [...new Uint8Array(bits)].map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+async function encryptData(passphrase, obj){
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await deriveKey(passphrase, salt);
+  const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, _enc.encode(JSON.stringify(obj)));
+  return { v:1, salt:b64(salt), iv:b64(iv), ct:b64(ct), updatedAt:Date.now() };
+}
+async function decryptData(passphrase, blob){
+  const key = await deriveKey(passphrase, unb64(blob.salt));
+  const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv:unb64(blob.iv)}, key, unb64(blob.ct));
+  return JSON.parse(_dec.decode(pt));
+}
+
+/* =====================================================================
+   CLOUD SYNC
+   ===================================================================== */
+let LOCATOR=null, PASS=null;
+async function cloudGet(){
+  const r = await fetch(CONFIG.workerUrl, { headers:{ 'X-Budget-Key':LOCATOR } });
+  if(!r.ok) throw new Error('Cloud read failed ('+r.status+')');
+  const j = await r.json();
+  return (j && j.ct) ? j : null;
+}
+async function cloudPut(blob){
+  const r = await fetch(CONFIG.workerUrl, { method:'PUT', headers:{ 'X-Budget-Key':LOCATOR,'Content-Type':'application/json' }, body:JSON.stringify(blob) });
+  if(!r.ok){ let e=''; try{e=(await r.json()).error;}catch{} throw new Error('Cloud save failed ('+r.status+') '+(e||'')); }
+  return r.json();
+}
+
+/* =====================================================================
+   DEFAULT DATA
+   ===================================================================== */
+function defaultData(){
+  const now = new Date();
+  // Seed every scheduled run whose date has already passed as "applied",
+  // so past 1st/25th dates never retroactively fire — only future ones do.
+  const applied = [];
+  const mk = ymKey(now);
+  [1,25].forEach(day=>{ if(new Date(now.getFullYear(),now.getMonth(),day) <= now) applied.push(mk+':'+day); });
+
+  return {
+    meta:{ schema:1, createdAt:Date.now(), updatedAt:Date.now() },
+    wallets:[
+      {id:'sb',        name:'Standard Bank',        group:'Standard Bank', type:'asset',   balance:248},
+      {id:'sbs1',      name:'SB Savings (1)',       group:'Standard Bank', type:'asset',   balance:9.33},
+      {id:'sbs2',      name:'SB Savings (2)',       group:'Standard Bank', type:'asset',   balance:4000},
+      {id:'sbloan',    name:'SB Loan',              group:'Standard Bank', type:'debtNeg', balance:-18657.26},
+      {id:'disc',      name:'Discovery',            group:'Discovery',     type:'asset',   balance:98.70},
+      {id:'disccredit',name:'Discovery Credit',     group:'Discovery',     type:'debtPos', balance:2378.68, limit:32000},
+      {id:'discsav',   name:'Discovery Savings',    group:'Discovery',     type:'asset',   balance:14.45},
+      {id:'discmiles', name:'Discovery Miles',      group:'Discovery',     type:'points',  balance:17759, unit:'miles'},
+      {id:'retire',    name:'Retirement',           group:'Investments',   type:'asset',   balance:13500},
+      {id:'unit',      name:'Unit Trust',           group:'Investments',   type:'asset',   balance:5000},
+      {id:'cash',      name:'Cash Savings',         group:'Cash',          type:'asset',   balance:1500},
+      {id:'nmgsav',    name:'NMG · Savings Pot',    group:'NMG Retirement',type:'asset',   balance:17671.97},
+      {id:'nmgret',    name:'NMG · Retirement Pot', group:'NMG Retirement',type:'asset',   balance:35343.99},
+    ],
+    categories:[
+      {id:'salary',       name:'Salary',        color:'#2e7d32'},
+      {id:'housing',      name:'Housing',       color:'#02367B'},
+      {id:'insurance',    name:'Insurance',     color:'#5B9AE0'},
+      {id:'utilities',    name:'Utilities',     color:'#00897b'},
+      {id:'subs',         name:'Subscriptions', color:'#8e44ad'},
+      {id:'debt',         name:'Debt',          color:'#c0392b'},
+      {id:'investments',  name:'Investments',   color:'#00695c'},
+      {id:'savings',      name:'Savings',       color:'#0277bd'},
+      {id:'fuel',         name:'Fuel',          color:'#cd7f32'},
+      {id:'health',       name:'Health',        color:'#43a047'},
+      {id:'entertainment',name:'Entertainment', color:'#e0a93b'},
+      {id:'food',         name:'Food',          color:'#d81b60'},
+      {id:'transfer',     name:'Transfer',      color:'#6f6f6d'},
+      {id:'other',        name:'Other',         color:'#455a64'},
+    ],
+    transactions:[],
+    monthly:[
+      {id:uid(), name:'Salary',                amount:22300,   kind:'income',   wallet:'sb',                     category:'salary',       day:25, active:true},
+      {id:uid(), name:'NMG · Savings growth',  amount:1013.23, kind:'income',   wallet:'nmgsav',                 category:'investments',  day:1,  active:true, note:'33.33% of R3040'},
+      {id:uid(), name:'NMG · Retirement growth',amount:2026.77,kind:'income',   wallet:'nmgret',                 category:'investments',  day:1,  active:true, note:'66.67% of R3040'},
+      {id:uid(), name:'Rent',                  amount:9002.80, kind:'expense',  wallet:'sb',                     category:'housing',      day:1,  active:true},
+      {id:uid(), name:'Insurance',             amount:1395.85, kind:'expense',  wallet:'sb',                     category:'insurance',    day:1,  active:true},
+      {id:uid(), name:'MTN',                   amount:215.65,  kind:'expense',  wallet:'sb',                     category:'utilities',    day:1,  active:true},
+      {id:uid(), name:'Loan repayment',        amount:1503.24, kind:'transfer', wallet:'sb', toWallet:'sbloan',  category:'debt',         day:1,  active:true},
+      {id:uid(), name:'SB Loan · charges',     amount:720,     kind:'charge',   wallet:'sbloan',                 category:'debt',         day:1,  active:true, note:'100 insurance + 70 service + 550 interest'},
+      {id:uid(), name:'Adobe',                 amount:263.35,  kind:'expense',  wallet:'sb',                     category:'subs',         day:1,  active:true},
+      {id:uid(), name:'Shopify (+charges)',    amount:183.67,  kind:'expense',  wallet:'sb',                     category:'subs',         day:1,  active:true, note:'167.93 + 8.50 + 7.24'},
+      {id:uid(), name:'Cartrack',              amount:108.90,  kind:'expense',  wallet:'sb',                     category:'subs',         day:1,  active:true},
+      {id:uid(), name:'Apple Storage',         amount:60,      kind:'expense',  wallet:'disc', fundFrom:'sb',    category:'subs',         day:1,  active:true},
+      {id:uid(), name:'Apple Music',           amount:60,      kind:'expense',  wallet:'disc', fundFrom:'sb',    category:'subs',         day:1,  active:true},
+      {id:uid(), name:'Gym',                   amount:420,     kind:'expense',  wallet:'disc', fundFrom:'sb',    category:'health',       day:1,  active:true},
+      {id:uid(), name:'Retirement annuity',    amount:1500,    kind:'transfer', wallet:'sb', toWallet:'retire',  category:'investments',  day:1,  active:true},
+      {id:uid(), name:'Unit trust',            amount:500,     kind:'transfer', wallet:'sb', toWallet:'unit',    category:'investments',  day:1,  active:true},
+      {id:uid(), name:'Credit payment',        amount:2000,    kind:'transfer', wallet:'sb', toWallet:'disccredit',category:'debt',       day:1,  active:true},
+      {id:uid(), name:'Discovery Credit · charges',amount:686.62,kind:'charge', wallet:'disccredit',             category:'debt',         day:1,  active:true, note:'115 + 66 + 69 + 436.62 interest'},
+      {id:uid(), name:'Savings → SB Savings 2',amount:2000,    kind:'transfer', wallet:'sb', toWallet:'sbs2',    category:'savings',      day:1,  active:true},
+      {id:uid(), name:'Fuel',                  amount:2000,    kind:'expense',  wallet:'sb',                     category:'fuel',         day:1,  active:true},
+      {id:uid(), name:'Entertainment (balance)',amount:0,      kind:'remainder',wallet:'sb',                     category:'entertainment',day:1,  active:true},
+    ],
+    debts:[
+      { id:'d_loan', name:'Standard Bank Loan', walletId:'sbloan', sign:'neg',
+        payment:1503.24, interestMode:'fixed', interestRate:0,
+        charges:[{name:'Insurance fee',amount:100},{name:'Service fee',amount:70},{name:'Interest',amount:550}],
+        extra:{}, startOverride:null },
+      { id:'d_credit', name:'Discovery Credit Card', walletId:'disccredit', sign:'pos',
+        payment:2000, interestMode:'fixed', interestRate:21,
+        charges:[{name:'Monthly fee',amount:115},{name:'Vitality premium',amount:66},{name:'Facility fee',amount:69},{name:'Interest (21%)',amount:436.62}],
+        extra:{}, startOverride:null },
+    ],
+    schedule:{ autoRun:true, applied, runs:[] },
+  };
+}
+
+/* =====================================================================
+   STATE
+   ===================================================================== */
+let state=null, dirty=false, saveTimer=null;
+const walletById = id => state.wallets.find(w=>w.id===id);
+const catById = id => state.categories.find(c=>c.id===id) || {name:'—',color:'#6f6f6d'};
+
+function markChanged(){ dirty=true; setBadge('saving'); clearTimeout(saveTimer); saveTimer=setTimeout(save,900); }
+function setBadge(kind){
+  const b=$('syncBadge');
+  if(kind==='saving'){ b.className='badge saving'; b.textContent='● Saving…'; }
+  else if(kind==='synced'){ b.className='badge cloud'; b.textContent='☁ Synced'; }
+  else if(kind==='err'){ b.className='badge err'; b.textContent='⚠ Offline'; }
+}
+async function save(){
+  if(!state) return;
+  try{
+    state.meta.updatedAt = Date.now();
+    const blob = await encryptData(PASS, state);
+    await cloudPut(blob);
+    dirty=false; setBadge('synced');
+  }catch(e){ console.error(e); setBadge('err'); toast('Couldn’t sync — will retry',true); clearTimeout(saveTimer); saveTimer=setTimeout(save,4000); }
+}
+async function refreshFromCloud(silent){
+  try{
+    const blob = await cloudGet();
+    if(!blob) return;
+    if(dirty){ if(!silent) toast('Local edits pending — saving first'); return; }
+    const remote = await decryptData(PASS, blob);
+    if((remote.meta?.updatedAt||0) > (state.meta?.updatedAt||0)){
+      state = remote; catchUp(); render(); if(!silent) toast('Updated from your other device');
+    } else if(!silent){ toast('Already up to date'); }
+    setBadge('synced');
+  }catch(e){ console.warn(e); setBadge('err'); if(!silent) toast('Couldn’t reach cloud',true); }
+}
+
+/* =====================================================================
+   WALLET ENGINE
+   ===================================================================== */
+// Apply a signed movement to a wallet given a transaction "type".
+function affect(wallet, type, amount){
+  const a = +amount||0;
+  if(!wallet) return;
+  if(wallet.type==='asset' || wallet.type==='points'){
+    wallet.balance += (type==='income' ? a : -a);
+  } else if(wallet.type==='debtNeg'){        // loan, stored negative
+    wallet.balance += (type==='income' ? a : -a);   // income = repayment (toward 0)
+  } else if(wallet.type==='debtPos'){        // credit, stored positive-owed
+    wallet.balance += (type==='income' ? -a : a);   // income = payment (toward 0)
+  }
+}
+// Apply a "charge" (grows the debt) to a debt wallet.
+function affectCharge(wallet, amount){
+  const a=+amount||0; if(!wallet) return;
+  if(wallet.type==='debtNeg') wallet.balance -= a;
+  else if(wallet.type==='debtPos') wallet.balance += a;
+  else wallet.balance -= a;
+}
+
+/* ---- immediate manual transaction (Tracker) ---- */
+function applyTransaction(t){
+  if(t.kind==='transfer'){
+    affect(walletById(t.wallet),'expense',t.amount);
+    affect(walletById(t.toWallet),'income',t.amount);
+  } else {
+    affect(walletById(t.wallet), t.kind, t.amount);
+  }
+}
+function reverseTransaction(t){
+  if(t.kind==='transfer'){
+    affect(walletById(t.wallet),'income',t.amount);
+    affect(walletById(t.toWallet),'expense',t.amount);
+  } else {
+    affect(walletById(t.wallet), t.kind==='income'?'expense':'income', t.amount);
+  }
+}
+
+/* ---- remainder (entertainment = leftover of income after outflows on a wallet) ---- */
+function remainderFor(item){
+  const W=item.wallet;
+  let income=0, outflow=0;
+  state.monthly.forEach(m=>{
+    if(!m.active || m.kind==='remainder') return;
+    if(m.kind==='income' && m.wallet===W) income+=(+m.amount||0);
+    if(m.kind==='expense'){ if(m.fundFrom===W || (!m.fundFrom && m.wallet===W)) outflow+=(+m.amount||0); }
+    if(m.kind==='transfer' && m.wallet===W) outflow+=(+m.amount||0);
+  });
+  return Math.max(0, +(income-outflow).toFixed(2));
+}
+
+/* ---- monthly batch: compute deltas for a given day (1 or 25) without mutating ---- */
+function computeBatch(day){
+  const deltas={}; // walletId -> delta
+  const bump=(id,d)=>{ if(!id) return; deltas[id]=+((deltas[id]||0)+d).toFixed(2); };
+  const items = state.monthly.filter(m=>m.active && m.day===day);
+  const lines=[];
+  items.forEach(m=>{
+    const w=walletById(m.wallet); if(!w && m.kind!=='remainder') return;
+    let amt=+m.amount||0;
+    if(m.kind==='remainder') amt=remainderFor(m);
+    const disp={name:m.name, kind:m.kind, amount:amt, category:m.category};
+    if(m.kind==='income'){ bump(m.wallet, w.type==='debtPos'?-amt:amt); }
+    else if(m.kind==='expense' || m.kind==='remainder'){
+      if(m.fundFrom){ bump(m.fundFrom, -amt); /* fund source */ } // net: source down, target unchanged
+      else { bump(m.wallet, w.type==='debtPos'?amt:-amt); }
+    }
+    else if(m.kind==='transfer'){
+      bump(m.wallet, w.type==='debtPos'?amt:-amt);              // out of source
+      const tw=walletById(m.toWallet);
+      if(tw) bump(m.toWallet, tw.type==='debtNeg'?amt : tw.type==='debtPos'?-amt : amt); // into dest
+      disp.to=m.toWallet;
+    }
+    else if(m.kind==='charge'){ bump(m.wallet, w.type==='debtPos'?amt : -amt); }
+    lines.push(disp);
+  });
+  return {deltas, lines};
+}
+
+/* ---- apply a run (mutates wallets, records reversible run) ---- */
+function applyRun(day, monthKey, opts={}){
+  const {deltas, lines} = computeBatch(day);
+  Object.entries(deltas).forEach(([id,d])=>{ const w=walletById(id); if(w) w.balance=+(w.balance+d).toFixed(2); });
+  const run={ id:uid(), key:monthKey+':'+day, monthKey, day, at:Date.now(),
+              label:prettyMonth(monthKey)+' · '+(day===25?'Salary':'1st batch'),
+              deltas, lines, manual:!!opts.manual };
+  state.schedule.runs.push(run);
+  if(!state.schedule.applied.includes(run.key)) state.schedule.applied.push(run.key);
+  return run;
+}
+function reverseRun(runId){
+  const idx=state.schedule.runs.findIndex(r=>r.id===runId);
+  if(idx<0) return;
+  const run=state.schedule.runs[idx];
+  Object.entries(run.deltas).forEach(([id,d])=>{ const w=walletById(id); if(w) w.balance=+(w.balance-d).toFixed(2); });
+  state.schedule.applied = state.schedule.applied.filter(k=>k!==run.key);
+  state.schedule.runs.splice(idx,1);
+}
+
+/* ---- catch up: auto-apply any due future runs (idempotent) ---- */
+function catchUp(){
+  if(!state.schedule.autoRun) return 0;
+  const now=new Date();
+  const start=new Date(state.meta.createdAt); start.setDate(1);
+  const applied=new Set(state.schedule.applied);
+  const due=[];
+  let d=new Date(start.getFullYear(), start.getMonth(), 1);
+  while(d<=now){
+    const mk=ymKey(d);
+    [1,25].forEach(day=>{
+      const runDate=new Date(d.getFullYear(), d.getMonth(), day);
+      const key=mk+':'+day;
+      if(runDate<=now && !applied.has(key)) due.push({mk,day,runDate,key});
+    });
+    d.setMonth(d.getMonth()+1);
+  }
+  due.sort((a,b)=>a.runDate-b.runDate);
+  due.forEach(x=>applyRun(x.day, x.mk));
+  if(due.length){ markChanged(); }
+  return due.length;
+}
+function nextRunDate(){
+  const now=new Date(); const applied=new Set(state.schedule.applied);
+  for(let i=0;i<26;i++){
+    const dm=new Date(now.getFullYear(), now.getMonth()+i, 1);
+    for(const day of [1,25]){
+      const rd=new Date(dm.getFullYear(), dm.getMonth(), day);
+      if(rd>now && !applied.has(ymKey(dm)+':'+day)) return {date:rd, day};
+    }
+  }
+  return null;
+}
+
+/* =====================================================================
+   DEBT PLANNER MATH
+   ===================================================================== */
+function debtStart(debt){
+  if(debt.startOverride!=null && debt.startOverride!=='') return Math.abs(+debt.startOverride);
+  const w=walletById(debt.walletId);
+  return w ? Math.abs(w.balance) : 0;
+}
+function debtChargesTotal(debt, balance){
+  let total=0;
+  debt.charges.forEach(c=>{ total+=(+c.amount||0); });
+  if(debt.interestMode==='percent'){
+    // replace any single 'interest' style figure with computed % — we treat percent mode as: charges list are the FIXED fees, plus computed interest
+    total += balance*(+debt.interestRate||0)/100/12;
+  }
+  return +total.toFixed(2);
+}
+function projectDebt(debt, maxMonths=600){
+  let bal=debtStart(debt);
+  const rows=[]; const now=new Date();
+  let month=new Date(now.getFullYear(), now.getMonth(), 1);
+  let totalInterest=0, totalPaid=0, i=0;
+  const feesFixed = debt.charges.reduce((a,c)=>a+(+c.amount||0),0);
+  while(bal>0.005 && i<maxMonths){
+    // advance to next month first (repayments happen going forward)
+    month=new Date(month.getFullYear(), month.getMonth()+1, 1);
+    const mk=ymKey(month);
+    const opening=bal;
+    const charge = debt.interestMode==='percent'
+        ? +(feesFixed + bal*(+debt.interestRate||0)/100/12).toFixed(2)
+        : +feesFixed.toFixed(2);
+    bal += charge;
+    const extra = +(debt.extra[mk]||0);
+    const pay = (+debt.payment||0) + extra;
+    const applied = Math.min(pay, bal);
+    bal = +(bal - pay).toFixed(2);
+    if(bal<0) bal=0;
+    totalInterest += charge; totalPaid += applied;
+    rows.push({mk, month:new Date(month), opening:+opening.toFixed(2), charge, pay, extra, closing:bal});
+    i++;
+  }
+  const payoff = bal<=0.005 && rows.length ? rows[rows.length-1].month : null;
+  const stalls = bal>0.005 && i>=maxMonths;
+  const netPerMonth = (+debt.payment||0) - feesFixed - (debt.interestMode==='percent'?0:0);
+  return {rows, payoff, stalls, totalInterest:+totalInterest.toFixed(2), months:rows.length, feesFixed, start:debtStart(debt)};
+}
+
+/* =====================================================================
+   SVG DONUT
+   ===================================================================== */
+function donutSVG(segs, size=180, stroke=28, centerTop='', centerBottom=''){
+  const r=(size-stroke)/2, c=2*Math.PI*r, cx=size/2;
+  const total=segs.reduce((a,s)=>a+Math.max(0,s.value),0)||1; let off=0, arcs='';
+  segs.forEach(s=>{ if(s.value<=0) return; const len=s.value/total*c;
+    arcs+=`<circle cx="${cx}" cy="${cx}" r="${r}" fill="none" stroke="${s.color}" stroke-width="${stroke}" stroke-dasharray="${len} ${c-len}" stroke-dashoffset="${-off}" transform="rotate(-90 ${cx} ${cx})"/>`;
+    off+=len; });
+  return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" role="img">
+    <circle cx="${cx}" cy="${cx}" r="${r}" fill="none" stroke="#e9e7e1" stroke-width="${stroke}"/>${arcs}
+    <text x="${cx}" y="${cx-2}" text-anchor="middle" font-size="20" font-weight="800" fill="#2a2b2c">${centerTop}</text>
+    <text x="${cx}" y="${cx+16}" text-anchor="middle" font-size="11" fill="#6f6f6d" letter-spacing="1">${centerBottom}</text></svg>`;
+}
+
+/* =====================================================================
+   VIEWS / ROUTER
+   ===================================================================== */
+const VIEWS=[
+  {id:'dashboard', label:'Dashboard', eyebrow:'Overview',    sub:'Everything at a glance'},
+  {id:'wallets',   label:'Wallets',   eyebrow:'Accounts',    sub:'Balances across every account'},
+  {id:'tracker',   label:'Tracker',   eyebrow:'Day to day',  sub:'Log a purchase or income — wallets update instantly'},
+  {id:'monthly',   label:'Monthly',   eyebrow:'Automation',  sub:'Recurring income & expenses (1st & 25th)'},
+  {id:'debt',      label:'Debt',      eyebrow:'Payoff planner', sub:'Project when the loan & credit card are clear'},
+];
+let currentView='dashboard';
+function buildNav(){
+  const dl=$('desktopLinks'), ml=$('mobileLinks'); dl.innerHTML=''; ml.innerHTML='';
+  VIEWS.forEach(v=>{
+    const a=el('a',{className:currentView===v.id?'active':'',onclick:()=>go(v.id)}, v.label);
+    const li=el('li'); li.appendChild(a); dl.appendChild(li);
+    const a2=el('a',{className:currentView===v.id?'active':'',onclick:()=>{go(v.id);closeMenu();}}, v.label);
+    const li2=el('li'); li2.appendChild(a2); ml.appendChild(li2);
+  });
+}
+function go(id){ currentView=id; buildNav(); render(); window.scrollTo({top:0,behavior:'instant'}); }
+function render(){
+  const v=VIEWS.find(x=>x.id===currentView);
+  $('viewEyebrow').textContent=v.eyebrow; $('viewTitle').textContent=v.label; $('viewSub').textContent=v.sub;
+  const host=$('view');
+  ({dashboard:renderDashboard, wallets:renderWallets, tracker:renderTracker, monthly:renderMonthly, debt:renderDebt}[currentView])(host);
+}
+
+/* ---------- totals ---------- */
+function totals(){
+  let assets=0, debt=0, liquid=0, invest=0;
+  state.wallets.forEach(w=>{
+    if(w.type==='points') return;
+    if(w.type==='asset'){ assets+=w.balance; if(w.group==='Investments'||w.group==='NMG Retirement') invest+=w.balance;
+      if(['sb','disc','discsav','cash','sbs1','sbs2'].includes(w.id)) liquid+=w.balance; }
+    else if(w.type==='debtNeg'){ debt+=Math.abs(w.balance); }
+    else if(w.type==='debtPos'){ debt+=w.balance; }
+  });
+  return {assets, debt, net:assets-debt, liquid, invest};
+}
+
+/* =====================================================================
+   DASHBOARD
+   ===================================================================== */
+function renderDashboard(host){
+  const t=totals();
+  const miles=walletById('discmiles');
+  // monthly budget summary
+  let mIncome=0, mExpense=0, mTransfer=0, entertainment=0;
+  const catSpend={};
+  state.monthly.filter(m=>m.active).forEach(m=>{
+    let amt=+m.amount||0; if(m.kind==='remainder') amt=remainderFor(m);
+    if(m.kind==='income') mIncome+=amt;
+    else if(m.kind==='expense'||m.kind==='remainder'){ mExpense+=amt; catSpend[m.category]=(catSpend[m.category]||0)+amt; if(m.kind==='remainder') entertainment=amt; }
+    else if(m.kind==='transfer') mTransfer+=amt;
+  });
+  // this month's tracker activity
+  const nowMk=ymKey(new Date());
+  let tIn=0,tOut=0; const tCat={};
+  state.transactions.forEach(x=>{ if((x.date||'').slice(0,7)!==nowMk) return;
+    if(x.kind==='income') tIn+=+x.amount||0;
+    else if(x.kind==='expense'){ tOut+=+x.amount||0; tCat[x.category]=(tCat[x.category]||0)+(+x.amount||0); } });
+
+  // combined category donut (monthly expenses + this month's tracker expenses)
+  const combined={}; Object.entries(catSpend).forEach(([k,v])=>combined[k]=(combined[k]||0)+v);
+  Object.entries(tCat).forEach(([k,v])=>combined[k]=(combined[k]||0)+v);
+  const segs=Object.entries(combined).map(([k,v])=>({label:catById(k).name,value:v,color:catById(k).color}))
+                   .sort((a,b)=>b.value-a.value);
+  const donutTotal=segs.reduce((a,s)=>a+s.value,0);
+  const legend=segs.slice(0,8).map(s=>`<li><span class="dot" style="background:${s.color}"></span>${escapeHtml(s.label)}<span class="lv">${fmtR(s.value,0)}</span></li>`).join('');
+
+  // debt payoff quick view
+  const debtRows=state.debts.map(d=>{ const p=projectDebt(d);
+    return `<div class="bar-row"><span>${escapeHtml(d.name)}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.min(100, p.start? (1-p.rows.slice(-1)[0]?.closing/ p.start)*100 :0)}%"></div></div>
+      <span class="bv">${p.payoff?prettyMonth(ymKey(p.payoff)):(p.stalls?'—':'now')}</span></div>`;
+  }).join('');
+
+  const nr=nextRunDate();
+  const groups=groupWallets();
+
+  host.innerHTML=`
+    <div class="kpis">
+      <div class="kpi accent"><div class="k-lbl">Net Worth</div><div class="k-val">${fmtR(t.net,0)}</div><div class="k-sub">assets minus debt</div></div>
+      <div class="kpi"><div class="k-lbl">Liquid Cash</div><div class="k-val">${fmtR(t.liquid,0)}</div><div class="k-sub">bank + savings + cash</div></div>
+      <div class="kpi"><div class="k-lbl">Total Debt</div><div class="k-val neg">${fmtR(t.debt,0)}</div><div class="k-sub">loan + credit owed</div></div>
+      <div class="kpi"><div class="k-lbl">Investments</div><div class="k-val">${fmtR(t.invest,0)}</div><div class="k-sub">RA · unit trust · NMG</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h2>Monthly Budget (recurring)</h2>
+        <div class="bars">
+          <div class="bar-row"><span>Income in</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--good)"></div></div><span class="bv">${fmtR(mIncome,0)}</span></div>
+          <div class="bar-row"><span>Expenses</span><div class="bar-track"><div class="bar-fill" style="width:${mIncome?Math.min(100,mExpense/mIncome*100):0}%;background:var(--bad)"></div></div><span class="bv">${fmtR(mExpense,0)}</span></div>
+          <div class="bar-row"><span>Transfers</span><div class="bar-track"><div class="bar-fill" style="width:${mIncome?Math.min(100,mTransfer/mIncome*100):0}%;background:var(--accent)"></div></div><span class="bv">${fmtR(mTransfer,0)}</span></div>
+        </div>
+        <p class="muted" style="font-size:13px;margin-top:14px;">Entertainment (leftover salary): <b class="tnum">${fmtR(entertainment,0)}</b></p>
+        ${nr?`<p class="muted" style="font-size:13px;margin-top:4px;">Next automatic run: <b>${prettyDate(nr.date)}</b> · ${nr.day===25?'salary in':'1st batch'}</p>`:''}
+      </div>
+      <div class="card">
+        <h2>Where the money goes</h2>
+        ${donutTotal>0?`<div class="donut-wrap">${donutSVG(segs,170,26,fmtR(donutTotal,0).replace('R','R '),'PER MONTH')}<ul class="legend">${legend}</ul></div>`
+          :`<p class="muted">Add monthly expenses or log purchases to see the breakdown.</p>`}
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h2>Debt payoff outlook</h2>
+        <div class="bars">${debtRows||'<p class="muted">No debts tracked.</p>'}</div>
+        <p class="muted" style="font-size:12px;margin-top:12px;">Projected at current repayments. Open the Debt planner to add extra payments.</p>
+      </div>
+      <div class="card">
+        <h2>This month so far (logged)</h2>
+        <div class="bars">
+          <div class="bar-row"><span>Income</span><div class="bar-track"><div class="bar-fill" style="width:${(tIn+tOut)?tIn/(tIn+tOut)*100:0}%;background:var(--good)"></div></div><span class="bv">${fmtR(tIn,0)}</span></div>
+          <div class="bar-row"><span>Spent</span><div class="bar-track"><div class="bar-fill" style="width:${(tIn+tOut)?tOut/(tIn+tOut)*100:0}%;background:var(--bad)"></div></div><span class="bv">${fmtR(tOut,0)}</span></div>
+        </div>
+        <p class="muted" style="font-size:13px;margin-top:14px;">Discovery Miles: <b class="tnum">${(miles?.balance||0).toLocaleString('en-ZA')} ${miles?.unit||''}</b></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Balances by group</h2>
+      <div class="bars">
+        ${groups.map(g=>`<div class="bar-row"><span>${escapeHtml(g.name)}</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${g.pct}%;background:${g.debt?'var(--bad)':'var(--accent)'}"></div></div>
+          <span class="bv ${g.total<0?'neg':''}">${fmtR(g.total,0)}</span></div>`).join('')}
+      </div>
+    </div>`;
+}
+function groupWallets(){
+  const map={};
+  state.wallets.forEach(w=>{ if(w.type==='points') return;
+    const signed = w.type==='debtPos' ? -w.balance : w.balance;
+    if(!map[w.group]) map[w.group]={name:w.group,total:0,debt:false};
+    map[w.group].total+=signed;
+    if(w.type!=='asset') map[w.group].debt=true;
+  });
+  const arr=Object.values(map);
+  const max=Math.max(1,...arr.map(g=>Math.abs(g.total)));
+  arr.forEach(g=>g.pct=Math.min(100,Math.abs(g.total)/max*100));
+  return arr.sort((a,b)=>b.total-a.total);
+}
+
+/* =====================================================================
+   WALLETS
+   ===================================================================== */
+function renderWallets(host){
+  const order=['Standard Bank','Discovery','Investments','NMG Retirement','Cash'];
+  const groups={}; state.wallets.forEach(w=>{ (groups[w.group]=groups[w.group]||[]).push(w); });
+  const names=Object.keys(groups).sort((a,b)=>{ const ia=order.indexOf(a),ib=order.indexOf(b); return (ia<0?99:ia)-(ib<0?99:ib); });
+  let out=`<div class="head-actions" style="margin-bottom:16px;"><button class="btn sm" onclick="addWalletModal()">+ Add wallet</button></div>`;
+  names.forEach(gn=>{
+    const ws=groups[gn];
+    const gtotal=ws.reduce((a,w)=> a + (w.type==='points'?0 : (w.type==='debtPos'?-w.balance:w.balance)),0);
+    out+=`<div class="wgroup"><div class="wgroup-head"><h3>${escapeHtml(gn)}</h3><span class="wg-total ${gtotal<0?'neg':''}">${fmtR(gtotal,2)}</span></div><div class="wcards">`;
+    ws.forEach(w=>{
+      const isDebt = w.type==='debtNeg'||w.type==='debtPos';
+      let bal, meta='';
+      if(w.type==='points'){ bal=(w.balance||0).toLocaleString('en-ZA')+' '+(w.unit||''); }
+      else bal=fmtR(w.balance,2);
+      if(w.id==='disccredit'){
+        const avail=(w.limit||0)-w.balance; const pct=w.limit?Math.min(100,w.balance/w.limit*100):0;
+        meta=`Available ${fmtR(avail,2)} of ${fmtR(w.limit,0)}<div class="credit-bar"><span style="width:${pct}%"></span></div>`;
+      }
+      if(w.id==='nmgsav'||w.id==='nmgret'){ meta='part of NMG '+fmtR((walletById('nmgsav').balance)+(walletById('nmgret').balance),0); }
+      out+=`<div class="wcard ${isDebt?'debt':''}">
+        <div class="w-actions">
+          <button class="icon-btn" title="Edit" onclick="editWalletModal('${w.id}')">✎</button>
+          ${w.custom?`<button class="icon-btn del" title="Delete" onclick="deleteWallet('${w.id}')">✕</button>`:''}
+        </div>
+        <div class="w-name">${escapeHtml(w.name)}</div>
+        <div class="w-bal ${w.type==='points'?'':(w.balance<0?'neg':'')}">${bal}</div>
+        ${meta?`<div class="w-meta">${meta}</div>`:''}
+      </div>`;
+    });
+    out+='</div></div>';
+  });
+  host.innerHTML=out;
+}
+function editWalletModal(id){
+  const w=walletById(id);
+  openModal(`<h3>Edit ${escapeHtml(w.name)}</h3><p class="m-sub">Update the name or set the balance directly.</p>
+    <div class="stack">
+      <div class="field"><label>Name</label><input type="text" id="wName" value="${escapeHtml(w.name)}"></div>
+      <div class="field"><label>${w.type==='points'?'Points':'Balance (R)'}</label><input type="number" step="0.01" id="wBal" value="${w.balance}"></div>
+      ${w.id==='disccredit'?`<div class="field"><label>Credit limit (R)</label><input type="number" step="0.01" id="wLimit" value="${w.limit||0}"></div>`:''}
+    </div>
+    <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn" onclick="saveWallet('${id}')">Save</button></div>`);
+}
+function saveWallet(id){
+  const w=walletById(id);
+  w.name=$('wName').value.trim()||w.name;
+  w.balance=clampNum($('wBal').value);
+  if($('wLimit')) w.limit=clampNum($('wLimit').value);
+  closeModal(); markChanged(); render(); toast('Wallet updated');
+}
+function addWalletModal(){
+  openModal(`<h3>Add a wallet</h3><p class="m-sub">A custom account or savings pot.</p>
+    <div class="stack">
+      <div class="field"><label>Name</label><input type="text" id="nwName" placeholder="e.g. TymeBank"></div>
+      <div class="form-grid">
+        <div class="field"><label>Group</label><input type="text" id="nwGroup" placeholder="e.g. Cash" value="Cash"></div>
+        <div class="field"><label>Type</label><select id="nwType">
+          <option value="asset">Asset (money you have)</option>
+          <option value="debtPos">Debt (amount owed)</option>
+        </select></div>
+      </div>
+      <div class="field"><label>Starting balance (R)</label><input type="number" step="0.01" id="nwBal" value="0"></div>
+    </div>
+    <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn" onclick="createWallet()">Add wallet</button></div>`);
+}
+function createWallet(){
+  const name=$('nwName').value.trim(); if(!name){ toast('Give it a name',true); return; }
+  state.wallets.push({id:'w_'+uid(), name, group:$('nwGroup').value.trim()||'Other', type:$('nwType').value, balance:clampNum($('nwBal').value), custom:true});
+  closeModal(); markChanged(); render(); toast('Wallet added');
+}
+function deleteWallet(id){
+  confirmModal('Delete wallet?','This removes the wallet. Transactions that referenced it stay in history.',()=>{
+    state.wallets=state.wallets.filter(w=>w.id!==id); markChanged(); render(); toast('Wallet deleted');
+  });
+}
+
+/* =====================================================================
+   TRACKER
+   ===================================================================== */
+function walletOptions(sel, filterPoints=true){
+  return state.wallets.filter(w=>!(filterPoints&&w.type==='points'))
+    .map(w=>`<option value="${w.id}" ${sel===w.id?'selected':''}>${escapeHtml(w.name)}</option>`).join('');
+}
+function catOptions(sel){
+  return state.categories.map(c=>`<option value="${c.id}" ${sel===c.id?'selected':''}>${escapeHtml(c.name)}</option>`).join('');
+}
+function renderTracker(host){
+  const recent=[...state.transactions].reverse().slice(0,40);
+  host.innerHTML=`
+    <div class="grid2" style="align-items:start;">
+      <div class="card">
+        <h2>Add income or expense</h2>
+        <div class="stack">
+          <div class="field"><label>Name</label><input type="text" id="txName" placeholder="e.g. Woolworths, Client deposit"></div>
+          <div class="form-grid">
+            <div class="field"><label>Amount (R)</label><input type="number" step="0.01" id="txAmt" placeholder="0.00"></div>
+            <div class="field"><label>Type</label><select id="txKind" onchange="txKindChange()">
+              <option value="expense">Expense</option><option value="income">Income</option><option value="transfer">Transfer</option>
+            </select></div>
+          </div>
+          <div class="field"><label id="txWalletLbl">Wallet</label><select id="txWallet">${walletOptions('sb')}</select></div>
+          <div class="field" id="txToWrap" style="display:none;"><label>To wallet</label><select id="txTo">${walletOptions('sbs2')}</select></div>
+          <div class="field"><label>Category</label>
+            <div class="cat-select-row"><span class="cat-swatch" id="txSwatch"></span>
+              <select id="txCat" onchange="txCatSwatch()">${catOptions('food')}</select></div>
+          </div>
+          <button class="btn block" onclick="addTx()">Add — update wallets</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Recent activity</h2>
+        <div class="tbl-scroll">
+          ${recent.length?`<table class="data"><thead><tr><th>Name</th><th>Category</th><th></th><th class="r">Amount</th><th></th></tr></thead>
+          <tbody>${recent.map(txRow).join('')}</tbody></table>`
+          :`<div class="empty"><img src="assets/mascot.png" onerror="this.style.display='none'"><p>Nothing logged yet. Add your first purchase on the left.</p></div>`}
+        </div>
+      </div>
+    </div>`;
+  txCatSwatch();
+}
+function txRow(t){
+  const c=catById(t.category);
+  const sign=t.kind==='income'?'+':t.kind==='expense'?'−':'→';
+  const cls=t.kind==='income'?'pos':t.kind==='expense'?'neg':'';
+  const w=walletById(t.wallet)?.name||'—';
+  const to=t.kind==='transfer'?(' → '+(walletById(t.toWallet)?.name||'—')):'';
+  return `<tr>
+    <td>${escapeHtml(t.name)}<div class="muted" style="font-size:11px;">${escapeHtml(w)}${escapeHtml(to)} · ${t.date||''}</div></td>
+    <td><span class="chip dot-only" style="background:${c.color}">${escapeHtml(c.name)}</span></td>
+    <td><span class="type-tag ${t.kind}">${t.kind}</span></td>
+    <td class="r ${cls}">${sign}${fmtR(t.amount,2).replace('R','R')}</td>
+    <td class="r"><button class="icon-btn del" title="Remove & reverse" onclick="delTx('${t.id}')">✕</button></td>
+  </tr>`;
+}
+function txKindChange(){
+  const k=$('txKind').value;
+  $('txToWrap').style.display = k==='transfer'?'flex':'none';
+  $('txWalletLbl').textContent = k==='income'?'Into wallet':k==='transfer'?'From wallet':'From wallet';
+}
+function txCatSwatch(){ const c=catById($('txCat').value); $('txSwatch').style.background=c.color; }
+function addTx(){
+  const name=$('txName').value.trim(); const amt=clampNum($('txAmt').value);
+  if(!name){ toast('Give it a name',true); return; }
+  if(amt<=0){ toast('Enter an amount',true); return; }
+  const kind=$('txKind').value;
+  const t={id:uid(), name, amount:amt, kind, wallet:$('txWallet').value, category:$('txCat').value, date:new Date().toISOString().slice(0,10)};
+  if(kind==='transfer'){ t.toWallet=$('txTo').value; if(t.toWallet===t.wallet){ toast('Pick two different wallets',true); return; } }
+  applyTransaction(t); state.transactions.push(t); markChanged(); render(); toast('Added · wallets updated');
+}
+function delTx(id){
+  const t=state.transactions.find(x=>x.id===id); if(!t) return;
+  reverseTransaction(t); state.transactions=state.transactions.filter(x=>x.id!==id);
+  markChanged(); render(); toast('Removed · wallets reversed');
+}
+
+/* =====================================================================
+   MONTHLY
+   ===================================================================== */
+function renderMonthly(host){
+  const nr=nextRunDate();
+  const day1=state.monthly.filter(m=>m.day===1);
+  const day25=state.monthly.filter(m=>m.day===25);
+  const runs=[...state.schedule.runs].reverse().slice(0,10);
+  host.innerHTML=`
+    <div class="hint">These run automatically on the 1st (and salary on the 25th) whenever you open the app after that date. Editing amounts here changes future runs, not past ones. “Entertainment (balance)” auto-fills with whatever salary is left after everything else.</div>
+    <div class="head-actions" style="margin-bottom:16px;">
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;">
+        <input type="checkbox" id="autoRun" ${state.schedule.autoRun?'checked':''} onchange="toggleAuto()" style="width:auto;"> Auto-run on schedule</label>
+      <span class="muted" style="font-size:13px;">${nr?('Next: '+prettyDate(nr.date)+' · '+(nr.day===25?'salary':'1st batch')):'All caught up'}</span>
+      <button class="btn ghost sm" onclick="runNow(1)">Run 1st batch now</button>
+      <button class="btn ghost sm" onclick="runNow(25)">Run salary now</button>
+      <button class="btn sm" onclick="addMonthlyModal()">+ Add item</button>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <h2>1st of the month</h2>
+      <div class="tbl-scroll">${monthlyTable(day1)}</div>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <h2>25th (payday)</h2>
+      <div class="tbl-scroll">${monthlyTable(day25)}</div>
+    </div>
+    <div class="card">
+      <h2>Run history</h2>
+      ${runs.length?`<div class="tbl-scroll"><table class="data"><thead><tr><th>When</th><th>Run</th><th class="r">Net to wallets</th><th></th></tr></thead>
+        <tbody>${runs.map(r=>{ const net=Object.values(r.deltas).reduce((a,b)=>a+b,0);
+          return `<tr><td>${new Date(r.at).toLocaleDateString('en-ZA')}</td><td>${escapeHtml(r.label)}${r.manual?' <span class="type-tag">manual</span>':''}</td>
+          <td class="r ${net<0?'neg':'pos'}">${fmtR(net,2)}</td>
+          <td class="r"><button class="icon-btn del" title="Reverse this run" onclick="undoRun('${r.id}')">↺</button></td></tr>`;}).join('')}</tbody></table></div>`
+        :`<p class="muted">No runs yet. They’ll appear here automatically after the next 1st or 25th.</p>`}
+    </div>`;
+}
+function monthlyTable(items){
+  if(!items.length) return '<p class="muted">Nothing here.</p>';
+  return `<table class="data"><thead><tr><th>Name</th><th>Category</th><th></th><th>Wallet</th><th class="r">Amount</th><th></th></tr></thead><tbody>
+    ${items.map(m=>{ const c=catById(m.category);
+      let amt = m.kind==='remainder'? remainderFor(m) : (+m.amount||0);
+      const w=walletById(m.wallet)?.name||'—';
+      const to=m.toWallet?(' → '+(walletById(m.toWallet)?.name||'—')):(m.fundFrom?(' · funded from '+(walletById(m.fundFrom)?.name||'')):'');
+      return `<tr style="${m.active?'':'opacity:.45;'}">
+        <td>${escapeHtml(m.name)}${m.note?`<div class="muted" style="font-size:11px;">${escapeHtml(m.note)}</div>`:''}</td>
+        <td><span class="chip dot-only" style="background:${c.color}">${escapeHtml(c.name)}</span></td>
+        <td><span class="type-tag ${m.kind}">${m.kind}</span></td>
+        <td class="muted" style="font-size:13px;">${escapeHtml(w)}${escapeHtml(to)}</td>
+        <td class="r">${m.kind==='remainder'?'<span class="muted">auto </span>':''}${fmtR(amt,2)}</td>
+        <td class="r"><button class="icon-btn" onclick="editMonthlyModal('${m.id}')">✎</button>
+          <button class="icon-btn del" onclick="delMonthly('${m.id}')">✕</button></td>
+      </tr>`;}).join('')}
+  </tbody></table>`;
+}
+function monthlyForm(m){
+  const kinds=['income','expense','transfer','charge','remainder'];
+  return `<div class="stack">
+    <div class="field"><label>Name</label><input type="text" id="mName" value="${escapeHtml(m.name||'')}"></div>
+    <div class="form-grid">
+      <div class="field"><label>Type</label><select id="mKind" onchange="mFormKind()">${kinds.map(k=>`<option value="${k}" ${m.kind===k?'selected':''}>${k}</option>`).join('')}</select></div>
+      <div class="field" id="mAmtWrap"><label>Amount (R)</label><input type="number" step="0.01" id="mAmt" value="${m.amount||0}"></div>
+    </div>
+    <div class="field"><label id="mWalletLbl">Wallet</label><select id="mWallet">${walletOptions(m.wallet||'sb')}</select></div>
+    <div class="field" id="mToWrap"><label>To wallet</label><select id="mTo">${walletOptions(m.toWallet||'sbs2')}</select></div>
+    <div class="field" id="mFundWrap"><label>Fund from (optional)</label><select id="mFund"><option value="">— none —</option>${state.wallets.filter(w=>w.type==='asset').map(w=>`<option value="${w.id}" ${m.fundFrom===w.id?'selected':''}>${escapeHtml(w.name)}</option>`).join('')}</select></div>
+    <div class="form-grid">
+      <div class="field"><label>Category</label><select id="mCat">${catOptions(m.category||'other')}</select></div>
+      <div class="field"><label>Day</label><select id="mDay"><option value="1" ${m.day===1?'selected':''}>1st</option><option value="25" ${m.day===25?'selected':''}>25th</option></select></div>
+    </div>
+    <div class="field"><label>Note (optional)</label><input type="text" id="mNote" value="${escapeHtml(m.note||'')}"></div>
+    <label style="display:flex;align-items:center;gap:8px;font-size:13px;"><input type="checkbox" id="mActive" ${m.active!==false?'checked':''} style="width:auto;"> Active</label>
+  </div>`;
+}
+function mFormKind(){
+  const k=$('mKind').value;
+  $('mToWrap').style.display = k==='transfer'?'flex':'none';
+  $('mFundWrap').style.display = k==='expense'?'flex':'none';
+  $('mAmtWrap').style.display = k==='remainder'?'none':'flex';
+  $('mWalletLbl').textContent = k==='income'?'Into wallet':k==='charge'?'Debt wallet':k==='remainder'?'Wallet':'From wallet';
+}
+function addMonthlyModal(){
+  openModal(`<h3>Add monthly item</h3><p class="m-sub">Recurring income, expense, transfer or debt charge.</p>${monthlyForm({kind:'expense',day:1,active:true})}
+    <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveMonthly()">Add</button></div>`);
+  mFormKind();
+}
+function editMonthlyModal(id){
+  const m=state.monthly.find(x=>x.id===id);
+  openModal(`<h3>Edit item</h3><p class="m-sub">Changes apply to future runs.</p>${monthlyForm(m)}
+    <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveMonthly('${id}')">Save</button></div>`);
+  mFormKind();
+}
+function saveMonthly(id){
+  const k=$('mKind').value;
+  const obj={ name:$('mName').value.trim()||'Untitled', kind:k, amount:k==='remainder'?0:clampNum($('mAmt').value),
+    wallet:$('mWallet').value, category:$('mCat').value, day:+$('mDay').value, note:$('mNote').value.trim(), active:$('mActive').checked };
+  if(k==='transfer') obj.toWallet=$('mTo').value;
+  if(k==='expense'&&$('mFund').value) obj.fundFrom=$('mFund').value;
+  if(id){ const m=state.monthly.find(x=>x.id===id); Object.keys(m).forEach(kk=>{ if(!(kk in obj)&&kk!=='id') delete m[kk]; }); Object.assign(m,obj); }
+  else state.monthly.push({id:uid(),...obj});
+  closeModal(); markChanged(); render(); toast('Saved');
+}
+function delMonthly(id){ confirmModal('Delete monthly item?','This stops it from running in future months.',()=>{ state.monthly=state.monthly.filter(m=>m.id!==id); markChanged(); render(); toast('Deleted'); }); }
+function toggleAuto(){ state.schedule.autoRun=$('autoRun').checked; markChanged(); }
+function runNow(day){
+  const mk=ymKey(new Date());
+  if(state.schedule.applied.includes(mk+':'+day)){
+    confirmModal('Already ran this month','The '+(day===25?'salary':'1st batch')+' for '+prettyMonth(mk)+' was already applied. Run it again anyway?',()=>{ applyRun(day,mk,{manual:true}); markChanged(); render(); toast('Applied again'); });
+  } else { applyRun(day,mk,{manual:true}); markChanged(); render(); toast('Applied to wallets'); }
+}
+function undoRun(id){ confirmModal('Reverse this run?','Wallet balances will be rolled back and this month becomes eligible to run again.',()=>{ reverseRun(id); markChanged(); render(); toast('Run reversed'); }); }
+
+/* =====================================================================
+   DEBT PLANNER
+   ===================================================================== */
+let debtTab=null;
+function renderDebt(host){
+  if(!debtTab || !state.debts.find(d=>d.id===debtTab)) debtTab=state.debts[0]?.id;
+  const tabs=state.debts.map(d=>`<button class="subtab ${debtTab===d.id?'active':''}" onclick="debtTab='${d.id}';render()">${escapeHtml(d.name)}</button>`).join('');
+  const d=state.debts.find(x=>x.id===debtTab);
+  host.innerHTML=`<div class="subtabs">${tabs}<button class="subtab" onclick="addDebtModal()">+ Add debt</button></div><div id="debtBody"></div>`;
+  if(d) renderDebtBody(d);
+}
+function renderDebtBody(d){
+  const body=$('debtBody');
+  const p=projectDebt(d);
+  const feesFixed=d.charges.reduce((a,c)=>a+(+c.amount||0),0);
+  const netMove = (+d.payment||0) - feesFixed - (d.interestMode==='percent'?(debtStart(d)*(+d.interestRate||0)/100/12):0);
+  const warn = netMove<=0;
+  const chargeRows=d.charges.map((c,i)=>`<tr>
+      <td><input type="text" value="${escapeHtml(c.name)}" onchange="editCharge('${d.id}',${i},'name',this.value)"></td>
+      <td class="r" style="max-width:130px"><input type="number" step="0.01" value="${c.amount}" onchange="editCharge('${d.id}',${i},'amount',this.value)"></td>
+      <td class="r"><button class="icon-btn del" onclick="delCharge('${d.id}',${i})">✕</button></td></tr>`).join('');
+  const extras=Object.entries(d.extra).sort();
+  body.innerHTML=`
+    <div class="grid2" style="align-items:start;">
+      <div class="card">
+        <h2>Setup — ${escapeHtml(d.name)}</h2>
+        <div class="stack">
+          <div class="form-grid">
+            <div class="field"><label>Current balance owed</label><input type="number" step="0.01" value="${debtStart(d).toFixed(2)}" onchange="setDebtStart('${d.id}',this.value)"></div>
+            <div class="field"><label>Monthly repayment</label><input type="number" step="0.01" value="${d.payment}" onchange="setDebt('${d.id}','payment',this.value)"></div>
+          </div>
+          <div class="field"><label>Interest</label>
+            <select onchange="setDebt('${d.id}','interestMode',this.value)">
+              <option value="fixed" ${d.interestMode==='fixed'?'selected':''}>Fixed rand amount (in charges below)</option>
+              <option value="percent" ${d.interestMode==='percent'?'selected':''}>% of balance / year (added on top)</option>
+            </select></div>
+          ${d.interestMode==='percent'?`<div class="field"><label>Annual interest rate (%)</label><input type="number" step="0.01" value="${d.interestRate}" onchange="setDebt('${d.id}','interestRate',this.value)"></div>`:''}
+          <div>
+            <label style="font-size:12px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;">Monthly charges</label>
+            <table class="data" style="min-width:0;margin-top:6px;"><tbody>${chargeRows}</tbody></table>
+            <button class="btn ghost sm" style="margin-top:8px;" onclick="addCharge('${d.id}')">+ Add charge</button>
+          </div>
+          <button class="btn ghost sm" onclick="syncDebtFromWallet('${d.id}')">↻ Reset balance to current wallet</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Outlook</h2>
+        ${warn?`<div class="hint" style="background:#fdecea;border-color:#f5c6c0;color:var(--bad);">At this repayment the balance never clears — charges (${fmtR(feesFixed,2)}${d.interestMode==='percent'?' + interest':''}) meet or exceed the payment. Increase the repayment or add extra payments.</div>`:''}
+        <div class="kpis" style="grid-template-columns:1fr 1fr;margin-bottom:0;">
+          <div class="kpi"><div class="k-lbl">Paid off</div><div class="k-val" style="font-size:20px;">${p.payoff?prettyMonth(ymKey(p.payoff)):'—'}</div><div class="k-sub">${p.payoff?p.months+' months':(p.stalls?'not at this rate':'')}</div></div>
+          <div class="kpi"><div class="k-lbl">Charges paid</div><div class="k-val neg" style="font-size:20px;">${fmtR(p.totalInterest,0)}</div><div class="k-sub">over the payoff period</div></div>
+        </div>
+        <div style="margin-top:16px;">
+          <label style="font-size:12px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;">Extra payments</label>
+          <div class="form-grid" style="margin-top:6px;">
+            <div class="field"><input type="month" id="exMonth_${d.id}"></div>
+            <div class="field"><input type="number" step="0.01" id="exAmt_${d.id}" placeholder="Extra R this month"></div>
+          </div>
+          <button class="btn sm" onclick="addExtra('${d.id}')">Add extra payment</button>
+          ${extras.length?`<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;">${extras.map(([mk,v])=>`<span class="chip" style="background:var(--accent)">${prettyMonth(mk)}: ${fmtR(v,0)} <button onclick="delExtra('${d.id}','${mk}')" style="background:none;border:none;color:#fff;cursor:pointer;font-weight:800;">×</button></span>`).join('')}</div>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <h2>Month-by-month projection</h2>
+      <div class="tbl-scroll">
+        <table class="data"><thead><tr><th>Month</th><th class="r">Opening</th><th class="r">Charges</th><th class="r">Payment</th><th class="r">Extra</th><th class="r">Closing</th></tr></thead>
+        <tbody>${p.rows.slice(0,120).map(r=>`<tr>
+          <td>${prettyMonth(r.mk)}</td><td class="r">${fmtR(r.opening,2)}</td><td class="r neg">${fmtR(r.charge,2)}</td>
+          <td class="r pos">${fmtR(r.pay-r.extra,2)}</td><td class="r ${r.extra?'pos':''}">${r.extra?fmtR(r.extra,2):'—'}</td>
+          <td class="r"><b>${fmtR(r.closing,2)}</b></td></tr>`).join('')||'<tr><td colspan="6" class="muted">Nothing owed 🎉</td></tr>'}</tbody></table>
+      </div>
+      ${p.rows.length>120?`<p class="muted" style="font-size:12px;margin-top:8px;">Showing first 120 months.</p>`:''}
+    </div>`;
+}
+function setDebt(id,k,v){ const d=state.debts.find(x=>x.id===id); d[k]=(k==='interestMode')?v:clampNum(v); markChanged(); render(); }
+function setDebtStart(id,v){ const d=state.debts.find(x=>x.id===id); d.startOverride=clampNum(v); markChanged(); render(); }
+function syncDebtFromWallet(id){ const d=state.debts.find(x=>x.id===id); d.startOverride=null; markChanged(); render(); toast('Reset to wallet balance'); }
+function editCharge(id,i,k,v){ const d=state.debts.find(x=>x.id===id); d.charges[i][k]= k==='amount'?clampNum(v):v; markChanged(); render(); }
+function addCharge(id){ const d=state.debts.find(x=>x.id===id); d.charges.push({name:'New charge',amount:0}); markChanged(); render(); }
+function delCharge(id,i){ const d=state.debts.find(x=>x.id===id); d.charges.splice(i,1); markChanged(); render(); }
+function addExtra(id){ const d=state.debts.find(x=>x.id===id); const mk=$('exMonth_'+id).value; const amt=clampNum($('exAmt_'+id).value);
+  if(!mk||amt<=0){ toast('Pick a month and amount',true); return; } d.extra[mk]=amt; markChanged(); render(); toast('Extra payment added'); }
+function delExtra(id,mk){ const d=state.debts.find(x=>x.id===id); delete d.extra[mk]; markChanged(); render(); }
+function addDebtModal(){
+  openModal(`<h3>Add a debt</h3><p class="m-sub">Track any loan or credit line.</p>
+    <div class="stack">
+      <div class="field"><label>Name</label><input type="text" id="ndName" placeholder="e.g. Car finance"></div>
+      <div class="form-grid">
+        <div class="field"><label>Balance owed (R)</label><input type="number" step="0.01" id="ndBal" value="0"></div>
+        <div class="field"><label>Monthly repayment (R)</label><input type="number" step="0.01" id="ndPay" value="0"></div>
+      </div>
+      <div class="field"><label>Link to wallet (optional)</label><select id="ndWallet"><option value="">— none —</option>${state.wallets.filter(w=>w.type!=='points').map(w=>`<option value="${w.id}">${escapeHtml(w.name)}</option>`).join('')}</select></div>
+    </div>
+    <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn" onclick="createDebt()">Add debt</button></div>`);
+}
+function createDebt(){
+  const name=$('ndName').value.trim(); if(!name){ toast('Name it',true); return; }
+  const id='d_'+uid();
+  state.debts.push({id, name, walletId:$('ndWallet').value||null, sign:'pos', payment:clampNum($('ndPay').value),
+    interestMode:'fixed', interestRate:0, charges:[], extra:{}, startOverride:clampNum($('ndBal').value)});
+  debtTab=id; closeModal(); markChanged(); render(); toast('Debt added');
+}
+
+/* =====================================================================
+   MODAL / CONFIRM
+   ===================================================================== */
+function openModal(html){ $('modal').innerHTML=html; $('modalScrim').classList.add('show'); }
+function closeModal(){ $('modalScrim').classList.remove('show'); }
+$('modalScrim').addEventListener('click',e=>{ if(e.target===$('modalScrim')) closeModal(); });
+function confirmModal(title,msg,onYes){
+  openModal(`<h3>${escapeHtml(title)}</h3><p class="m-sub">${escapeHtml(msg)}</p>
+    <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn danger" id="cfmYes">Yes, continue</button></div>`);
+  $('cfmYes').onclick=()=>{ closeModal(); onYes(); };
+}
+
+/* =====================================================================
+   HAMBURGER
+   ===================================================================== */
+const mm=$('mobileMenu'), sc=$('scrim');
+function closeMenu(){ mm.classList.remove('open'); sc.classList.remove('show'); }
+$('navToggle').onclick=()=>{ mm.classList.add('open'); sc.classList.add('show'); };
+$('closeMenu').onclick=closeMenu; sc.onclick=closeMenu;
+
+/* =====================================================================
+   UNLOCK FLOW
+   ===================================================================== */
+let creating=false;
+async function unlock(){
+  const pass=$('passInput').value;
+  const err=$('gateErr'); err.textContent='';
+  if(pass.length<6){ err.textContent='Use at least 6 characters.'; return; }
+  $('unlockBtn').disabled=true; $('unlockBtn').textContent='Unlocking…';
+  try{
+    PASS=pass; LOCATOR=await deriveLocator(pass);
+    const blob=await cloudGet();
+    if(blob){
+      try{ state=await decryptData(pass, blob); }
+      catch{ err.textContent='Wrong passphrase for this vault.'; PASS=null; resetBtn(); return; }
+      enterApp();
+    } else {
+      if(!creating){ // ask to create
+        creating=true; $('passConfirm').classList.remove('hidden'); $('passConfirm').value='';
+        err.textContent='No vault found. Re-enter to create a new one.';
+        $('gateNote').textContent='This makes a brand-new encrypted vault tied to this passphrase. Write the passphrase down somewhere safe — it cannot be recovered.';
+        $('unlockBtn').textContent='Create vault'; resetBtn(); $('passConfirm').focus(); return;
+      }
+      if($('passConfirm').value!==pass){ err.textContent='Passphrases don’t match.'; resetBtn(); return; }
+      state=defaultData(); await save(); enterApp();
+    }
+  }catch(e){ console.error(e); err.textContent='Couldn’t reach the cloud. Check the Worker URL / connection.'; PASS=null; resetBtn(); }
+}
+function resetBtn(){ $('unlockBtn').disabled=false; $('unlockBtn').textContent = creating? 'Create vault':'Unlock'; }
+function enterApp(){
+  catchUp();
+  $('gate').classList.add('hidden');
+  document.querySelectorAll('.app-only').forEach(n=>n.classList.remove('hidden'));
+  buildNav(); render(); setBadge(dirty?'saving':'synced');
+  if(dirty) save();
+}
+function lock(){
+  if(dirty){ confirmModal('Lock now?','You have unsynced changes. Lock anyway? (They’ll be lost.)',()=>doLock()); }
+  else doLock();
+}
+function doLock(){
+  state=null; PASS=null; LOCATOR=null; dirty=false;
+  document.querySelectorAll('.app-only').forEach(n=>n.classList.add('hidden'));
+  $('gate').classList.remove('hidden');
+  creating=false; $('passConfirm').classList.add('hidden'); $('passInput').value=''; $('passConfirm').value='';
+  $('gateErr').textContent=''; $('unlockBtn').textContent='Unlock';
+}
+$('unlockBtn').onclick=unlock;
+$('passInput').addEventListener('keydown',e=>{ if(e.key==='Enter'){ if(creating) $('passConfirm').focus(); else unlock(); } });
+$('passConfirm').addEventListener('keydown',e=>{ if(e.key==='Enter') unlock(); });
+$('lockBtn').onclick=lock;
+$('refreshBtn').onclick=()=>refreshFromCloud(false);
+
+/* pull latest when tab regains focus (2-device sync) */
+let lastFocus=0;
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden && state && Date.now()-lastFocus>4000){ lastFocus=Date.now(); refreshFromCloud(true); } });
+
+/* warn on unload if unsynced */
+window.addEventListener('beforeunload',e=>{ if(dirty){ e.preventDefault(); e.returnValue=''; } });
+
+/* config sanity */
+if(!CONFIG.workerUrl || CONFIG.workerUrl.includes('PASTE')){
+  $('gateErr').textContent='Set your Worker URL in the file first (CONFIG.workerUrl).';
+}
+</script>
+</body>
+</html>
