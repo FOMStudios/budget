@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FOM Studios | Budget</title>
-<link rel="icon" type="image/png" href="assets/mascot.png">
-<link rel="apple-touch-icon" href="assets/mascot.png">
+<title>Ishaaq Adam · Budget</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%2302367B'/%3E%3Ctext%20x='32'%20y='44'%20font-family='Arial,Helvetica,sans-serif'%20font-size='30'%20font-weight='700'%20text-anchor='middle'%20fill='white'%3EIA%3C/text%3E%3C/svg%3E">
 <style>
 :root{
   --bg:#f1f0ec; --bg-pill:#fafaf9; --bg-dark:#2a2b2c; --ink:#2a2b2c; --ink-soft:#6f6f6d;
@@ -43,8 +42,6 @@ nav.pill .nav-links a:hover,nav.pill .nav-links a.active{color:var(--accent);}
 .mobile-menu ul li{border-bottom:1px solid var(--line);}
 .mobile-menu ul li a{display:block;padding:16px 4px;font-size:18px;font-weight:600;color:var(--ink);cursor:pointer;}
 .mobile-menu ul li a.active{color:var(--accent);}
-.mobile-menu .menu-media{margin-top:24px;display:flex;align-items:center;justify-content:center;}
-.mobile-menu .menu-media img{width:100%;max-width:130px;height:auto;object-fit:contain;}
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:1050;opacity:0;pointer-events:none;transition:opacity .3s;}
 .scrim.show{opacity:1;pointer-events:auto;}
 
@@ -152,11 +149,11 @@ table.data .r{text-align:right;}
 .type-tag.income{color:var(--good);border-color:#bfe0c0;background:#eef7ef;}
 .type-tag.expense{color:var(--bad);border-color:#f2cdc7;background:#fdf0ee;}
 .type-tag.transfer{color:var(--accent);border-color:#bcd4f5;background:#eef4fd;}
+.type-tag.budget{color:#8a6d1f;border-color:#e7d6a0;background:#fbf4df;}
 .type-tag.charge{color:var(--warn);border-color:#f0d9a8;background:#fff6e5;}
 .type-tag.remainder{color:#6f6f6d;}
 
 .empty{text-align:center;padding:36px 20px;color:var(--ink-soft);}
-.empty img{max-width:120px;margin:0 auto 12px;opacity:.9;}
 
 /* toast */
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-dark);color:var(--ink-on-dark);padding:12px 20px;border-radius:99px;font-size:14px;font-weight:600;z-index:4000;opacity:0;pointer-events:none;transition:.25s;box-shadow:0 8px 24px rgba(0,0,0,.2);}
@@ -175,12 +172,11 @@ table.data .r{text-align:right;}
 .subtab{border:1px solid var(--line);background:var(--bg-pill);border-radius:99px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-soft);}
 .subtab.active{background:var(--ink);color:var(--bg-pill);border-color:var(--ink);}
 
-.mascot-corner{position:fixed;right:16px;bottom:12px;width:70px;opacity:.9;z-index:1;pointer-events:none;}
 .hint{font-size:12px;color:var(--ink-soft);background:#eef4fd;border:1px solid #d5e3f7;border-radius:12px;padding:10px 14px;margin-bottom:16px;}
 
 @media(max-width:980px){.kpis{grid-template-columns:1fr 1fr;}.grid3{grid-template-columns:1fr;}}
 @media(max-width:860px){nav.pill .nav-links{display:none;}.nav-shell{padding:12px var(--gutter) 0;}}
-@media(max-width:720px){.grid2{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr;}.mascot-corner{display:none;}.bar-row{grid-template-columns:100px 1fr 84px;}}
+@media(max-width:720px){.grid2{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr;}.bar-row{grid-template-columns:100px 1fr 84px;}}
 @media(max-width:520px){.kpis{grid-template-columns:1fr;}}
 </style>
 </head>
@@ -190,7 +186,7 @@ table.data .r{text-align:right;}
 <div class="gate" id="gate">
   <div class="gate-card">
     <svg class="lock-ico" viewBox="0 0 24 24" fill="none" stroke="#02367B" stroke-width="1.7"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4" fill="#02367B" stroke="none"/></svg>
-    <span class="brand-mark">FOM STUDIOS</span>
+    <span class="brand-mark">ISHAAQ ADAM</span>
     <p class="g-sub">Private budget · enter your passphrase</p>
     <input type="password" id="passInput" placeholder="Passphrase" autocomplete="current-password">
     <input type="password" id="passConfirm" placeholder="Confirm new passphrase" autocomplete="new-password" class="hidden">
@@ -205,12 +201,11 @@ table.data .r{text-align:right;}
 <div class="mobile-menu" id="mobileMenu">
   <button class="close-menu" id="closeMenu" aria-label="Close menu">&times;</button>
   <ul id="mobileLinks"></ul>
-  <div class="menu-media"><img src="assets/mascot.png" alt="FOM Studios mascot" onerror="this.style.display='none'"></div>
 </div>
 <div class="nav-shell app-only hidden" id="navShell">
   <nav class="pill">
     <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span></button>
-    <span class="brand-mark">FOM · BUDGET</span>
+    <span class="brand-mark">IA · BUDGET</span>
     <div class="nav-right">
       <ul class="nav-links" id="desktopLinks"></ul>
     </div>
@@ -234,14 +229,12 @@ table.data .r{text-align:right;}
   <div id="view"></div>
 </div>
 
-<div class="mascot-corner app-only hidden"><img src="assets/mascot.png" alt="" onerror="this.parentElement.style.display='none'"></div>
-
 <div class="modal-scrim" id="modalScrim"><div class="modal" id="modal"></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
 /* =====================================================================
-   FOM STUDIOS BUDGET — everything below runs in your browser only.
+   ISHAAQ ADAM BUDGET — everything below runs in your browser only.
    The cloud worker stores ciphertext; it never sees these numbers.
    ===================================================================== */
 
@@ -327,15 +320,8 @@ async function cloudPut(blob){
    DEFAULT DATA
    ===================================================================== */
 function defaultData(){
-  const now = new Date();
-  // Seed every scheduled run whose date has already passed as "applied",
-  // so past 1st/25th dates never retroactively fire — only future ones do.
-  const applied = [];
-  const mk = ymKey(now);
-  [1,25].forEach(day=>{ if(new Date(now.getFullYear(),now.getMonth(),day) <= now) applied.push(mk+':'+day); });
-
-  return {
-    meta:{ schema:1, createdAt:Date.now(), updatedAt:Date.now() },
+  const data = {
+    meta:{ schema:2, createdAt:Date.now(), updatedAt:Date.now() },
     wallets:[
       {id:'sb',        name:'Standard Bank',        group:'Standard Bank', type:'asset',   balance:248},
       {id:'sbs1',      name:'SB Savings (1)',       group:'Standard Bank', type:'asset',   balance:9.33},
@@ -388,8 +374,8 @@ function defaultData(){
       {id:uid(), name:'Credit payment',        amount:2000,    kind:'transfer', wallet:'sb', toWallet:'disccredit',category:'debt',       day:1,  active:true},
       {id:uid(), name:'Discovery Credit · charges',amount:686.62,kind:'charge', wallet:'disccredit',             category:'debt',         day:1,  active:true, note:'115 + 66 + 69 + 436.62 interest'},
       {id:uid(), name:'Savings → SB Savings 2',amount:2000,    kind:'transfer', wallet:'sb', toWallet:'sbs2',    category:'savings',      day:1,  active:true},
-      {id:uid(), name:'Fuel',                  amount:2000,    kind:'expense',  wallet:'sb',                     category:'fuel',         day:1,  active:true},
-      {id:uid(), name:'Entertainment (balance)',amount:0,      kind:'remainder',wallet:'sb',                     category:'entertainment',day:1,  active:true},
+      {id:uid(), name:'Fuel',                  amount:2000,    kind:'budget',   wallet:'sb',                     category:'fuel',         day:1,  active:true},
+      {id:uid(), name:'Entertainment (balance)',amount:0,      kind:'budget',   wallet:'sb', remainder:true,     category:'entertainment',day:1,  active:true},
     ],
     debts:[
       { id:'d_loan', name:'Standard Bank Loan', walletId:'sbloan', sign:'neg',
@@ -401,8 +387,40 @@ function defaultData(){
         charges:[{name:'Monthly fee',amount:115},{name:'Vitality premium',amount:66},{name:'Facility fee',amount:69},{name:'Interest (21%)',amount:436.62}],
         extra:{}, startOverride:null },
     ],
-    schedule:{ autoRun:true, applied, runs:[] },
+    schedule:{ autoRun:true, applied:[], log:[] },
   };
+  seedApplied(data);
+  return data;
+}
+/* Seed every auto item whose scheduled date has already passed as "applied",
+   so past 1st/25th dates never fire retroactively — only future ones do. */
+function seedApplied(data){
+  const now=new Date(); const start=new Date(data.meta.createdAt); start.setDate(1);
+  const items=(data.monthly||[]).filter(m=>m.active!==false && m.kind!=='budget');
+  const seen=new Set(data.schedule.applied);
+  let d=new Date(start.getFullYear(), start.getMonth(), 1);
+  while(d<=now){ const mk=ymKey(d);
+    items.forEach(m=>{ const rd=new Date(d.getFullYear(),d.getMonth(),m.day); const key=m.id+':'+mk;
+      if(rd<=now && !seen.has(key)){ data.schedule.applied.push(key); seen.add(key); } });
+    d.setMonth(d.getMonth()+1);
+  }
+}
+/* Upgrade an older vault (schema 1) to the current model, preserving user data. */
+function migrate(data){
+  data.meta = data.meta || {};
+  if((data.meta.schema||1) < 2){
+    (data.monthly||[]).forEach(m=>{
+      if(m.kind==='remainder'){ m.kind='budget'; m.remainder=true; }
+      else if(m.category==='fuel' && m.kind==='expense'){ m.kind='budget'; }
+      else if(m.category==='entertainment' && m.kind!=='budget'){ m.kind='budget'; m.remainder=true; }
+    });
+    data.schedule = data.schedule || {};
+    if(data.schedule.autoRun===undefined) data.schedule.autoRun=true;
+    data.schedule.applied=[]; data.schedule.log=[];   // rebuild to item-level tracking
+    seedApplied(data);
+    data.meta.schema=2;
+  }
+  return data;
 }
 
 /* =====================================================================
@@ -434,6 +452,7 @@ async function refreshFromCloud(silent){
     if(!blob) return;
     if(dirty){ if(!silent) toast('Local edits pending — saving first'); return; }
     const remote = await decryptData(PASS, blob);
+    migrate(remote);
     if((remote.meta?.updatedAt||0) > (state.meta?.updatedAt||0)){
       state = remote; catchUp(); render(); if(!silent) toast('Updated from your other device');
     } else if(!silent){ toast('Already up to date'); }
@@ -482,99 +501,96 @@ function reverseTransaction(t){
   }
 }
 
-/* ---- remainder (entertainment = leftover of income after outflows on a wallet) ---- */
-function remainderFor(item){
-  const W=item.wallet;
-  let income=0, outflow=0;
-  state.monthly.forEach(m=>{
-    if(!m.active || m.kind==='remainder') return;
-    if(m.kind==='income' && m.wallet===W) income+=(+m.amount||0);
-    if(m.kind==='expense'){ if(m.fundFrom===W || (!m.fundFrom && m.wallet===W)) outflow+=(+m.amount||0); }
-    if(m.kind==='transfer' && m.wallet===W) outflow+=(+m.amount||0);
+/* ---- budget envelopes: target size & this-month drawdown ---- */
+// A budget's target. Fixed amount, unless it's the "remainder" (entertainment):
+// leftover income after all auto outflows and other budget envelopes on that wallet.
+function budgetTarget(item){
+  if(!item.remainder) return +item.amount||0;
+  const W=item.wallet; let income=0, out=0, otherBudgets=0;
+  state.monthly.forEach(x=>{
+    if(x.active===false) return;
+    if(x.kind==='budget'){
+      if(x.id!==item.id && !x.remainder && x.wallet===W) otherBudgets+=(+x.amount||0);
+      return;
+    }
+    if(x.kind==='income' && x.wallet===W) income+=(+x.amount||0);
+    else if(x.kind==='expense'){ if(x.fundFrom===W || (!x.fundFrom && x.wallet===W)) out+=(+x.amount||0); }
+    else if(x.kind==='transfer' && x.wallet===W) out+=(+x.amount||0);
   });
-  return Math.max(0, +(income-outflow).toFixed(2));
+  return Math.max(0, +(income-out-otherBudgets).toFixed(2));
+}
+// How much you've actually logged against a category this month (drawdown).
+function spentInCat(catId, mk){
+  return state.transactions.reduce((s,t)=>
+    (t.kind==='expense' && t.category===catId && (t.date||'').slice(0,7)===mk) ? s+(+t.amount||0) : s, 0);
 }
 
-/* ---- monthly batch: compute deltas for a given day (1 or 25) without mutating ---- */
-function computeBatch(day){
-  const deltas={}; // walletId -> delta
-  const bump=(id,d)=>{ if(!id) return; deltas[id]=+((deltas[id]||0)+d).toFixed(2); };
-  const items = state.monthly.filter(m=>m.active && m.day===day);
-  const lines=[];
-  items.forEach(m=>{
-    const w=walletById(m.wallet); if(!w && m.kind!=='remainder') return;
-    let amt=+m.amount||0;
-    if(m.kind==='remainder') amt=remainderFor(m);
-    const disp={name:m.name, kind:m.kind, amount:amt, category:m.category};
-    if(m.kind==='income'){ bump(m.wallet, w.type==='debtPos'?-amt:amt); }
-    else if(m.kind==='expense' || m.kind==='remainder'){
-      if(m.fundFrom){ bump(m.fundFrom, -amt); /* fund source */ } // net: source down, target unchanged
-      else { bump(m.wallet, w.type==='debtPos'?amt:-amt); }
-    }
-    else if(m.kind==='transfer'){
-      bump(m.wallet, w.type==='debtPos'?amt:-amt);              // out of source
-      const tw=walletById(m.toWallet);
-      if(tw) bump(m.toWallet, tw.type==='debtNeg'?amt : tw.type==='debtPos'?-amt : amt); // into dest
-      disp.to=m.toWallet;
-    }
-    else if(m.kind==='charge'){ bump(m.wallet, w.type==='debtPos'?amt : -amt); }
-    lines.push(disp);
-  });
-  return {deltas, lines};
+/* ---- monthly AUTOMATION — tracked per item, per month ---- */
+// Deltas for applying ONE auto item to wallets. Budgets return nothing (never auto-deducted).
+function itemDeltas(m){
+  const deltas={}; const bump=(id,d)=>{ if(!id) return; deltas[id]=+((deltas[id]||0)+d).toFixed(2); };
+  if(m.kind==='budget') return deltas;
+  const w=walletById(m.wallet); if(!w) return deltas;
+  const amt=+m.amount||0;
+  if(m.kind==='income') bump(m.wallet, w.type==='debtPos'?-amt:amt);
+  else if(m.kind==='expense'){ if(m.fundFrom) bump(m.fundFrom,-amt); else bump(m.wallet, w.type==='debtPos'?amt:-amt); }
+  else if(m.kind==='transfer'){ bump(m.wallet, w.type==='debtPos'?amt:-amt);
+    const tw=walletById(m.toWallet); if(tw) bump(m.toWallet, tw.type==='debtNeg'?amt : tw.type==='debtPos'?-amt : amt); }
+  else if(m.kind==='charge') bump(m.wallet, w.type==='debtPos'?amt:-amt);
+  return deltas;
 }
 
-/* ---- apply a run (mutates wallets, records reversible run) ---- */
-function applyRun(day, monthKey, opts={}){
-  const {deltas, lines} = computeBatch(day);
+const isApplied = (itemId, mk) => state.schedule.applied.includes(itemId+':'+mk);
+// Apply one auto item for a given month (mutates wallets, records a reversible occurrence).
+function applyItem(m, mk, manual){
+  const deltas=itemDeltas(m);
   Object.entries(deltas).forEach(([id,d])=>{ const w=walletById(id); if(w) w.balance=+(w.balance+d).toFixed(2); });
-  const run={ id:uid(), key:monthKey+':'+day, monthKey, day, at:Date.now(),
-              label:prettyMonth(monthKey)+' · '+(day===25?'Salary':'1st batch'),
-              deltas, lines, manual:!!opts.manual };
-  state.schedule.runs.push(run);
-  if(!state.schedule.applied.includes(run.key)) state.schedule.applied.push(run.key);
-  return run;
+  if(!isApplied(m.id, mk)) state.schedule.applied.push(m.id+':'+mk);
+  state.schedule.log.push({id:uid(), itemId:m.id, name:m.name, mk, day:m.day, at:Date.now(), deltas, manual:!!manual});
 }
-function reverseRun(runId){
-  const idx=state.schedule.runs.findIndex(r=>r.id===runId);
-  if(idx<0) return;
-  const run=state.schedule.runs[idx];
-  Object.entries(run.deltas).forEach(([id,d])=>{ const w=walletById(id); if(w) w.balance=+(w.balance-d).toFixed(2); });
-  state.schedule.applied = state.schedule.applied.filter(k=>k!==run.key);
-  state.schedule.runs.splice(idx,1);
+function reverseOccurrence(logId){
+  const i=state.schedule.log.findIndex(l=>l.id===logId); if(i<0) return;
+  const L=state.schedule.log[i];
+  Object.entries(L.deltas).forEach(([id,d])=>{ const w=walletById(id); if(w) w.balance=+(w.balance-d).toFixed(2); });
+  state.schedule.applied=state.schedule.applied.filter(k=>k!==L.itemId+':'+L.mk);
+  state.schedule.log.splice(i,1);
+}
+// The next month for which this item hasn't been applied — i.e. its next due occurrence.
+function nextDueMonth(m){
+  const now=new Date(); let d=new Date(now.getFullYear(), now.getMonth(), 1);
+  for(let i=0;i<26;i++){ const mk=ymKey(d); if(!isApplied(m.id, mk)) return mk; d.setMonth(d.getMonth()+1); }
+  return null;
+}
+// Pay one auto item early. Applies its next due occurrence, so the 1st batch then skips it.
+function payItemNow(itemId){
+  const m=state.monthly.find(x=>x.id===itemId); if(!m) return;
+  const mk=nextDueMonth(m); if(!mk){ toast('Nothing due',true); return; }
+  applyItem(m, mk, true); markChanged(); render(); toast(m.name+' paid for '+prettyMonth(mk)+' · wallets updated');
 }
 
-/* ---- catch up: auto-apply any due future runs (idempotent) ---- */
+/* ---- catch up: auto-apply any due occurrences that have passed (idempotent) ---- */
 function catchUp(){
   if(!state.schedule.autoRun) return 0;
-  const now=new Date();
-  const start=new Date(state.meta.createdAt); start.setDate(1);
+  const now=new Date(); const start=new Date(state.meta.createdAt); start.setDate(1);
   const applied=new Set(state.schedule.applied);
-  const due=[];
-  let d=new Date(start.getFullYear(), start.getMonth(), 1);
-  while(d<=now){
-    const mk=ymKey(d);
-    [1,25].forEach(day=>{
-      const runDate=new Date(d.getFullYear(), d.getMonth(), day);
-      const key=mk+':'+day;
-      if(runDate<=now && !applied.has(key)) due.push({mk,day,runDate,key});
-    });
+  const items=state.monthly.filter(m=>m.active!==false && m.kind!=='budget');
+  let d=new Date(start.getFullYear(), start.getMonth(), 1), n=0;
+  while(d<=now){ const mk=ymKey(d);
+    items.forEach(m=>{ const rd=new Date(d.getFullYear(),d.getMonth(),m.day);
+      if(rd<=now && !applied.has(m.id+':'+mk)){ applyItem(m,mk,false); applied.add(m.id+':'+mk); n++; } });
     d.setMonth(d.getMonth()+1);
   }
-  due.sort((a,b)=>a.runDate-b.runDate);
-  due.forEach(x=>applyRun(x.day, x.mk));
-  if(due.length){ markChanged(); }
-  return due.length;
+  if(n) markChanged();
+  return n;
 }
 function nextRunDate(){
-  const now=new Date(); const applied=new Set(state.schedule.applied);
-  for(let i=0;i<26;i++){
-    const dm=new Date(now.getFullYear(), now.getMonth()+i, 1);
-    for(const day of [1,25]){
-      const rd=new Date(dm.getFullYear(), dm.getMonth(), day);
-      if(rd>now && !applied.has(ymKey(dm)+':'+day)) return {date:rd, day};
-    }
-  }
-  return null;
+  const now=new Date(); const items=state.monthly.filter(m=>m.active!==false && m.kind!=='budget');
+  let best=null;
+  items.forEach(m=>{ let d=new Date(now.getFullYear(), now.getMonth(), 1);
+    for(let i=0;i<26;i++){ const rd=new Date(d.getFullYear(),d.getMonth(),m.day);
+      if(rd>now && !isApplied(m.id, ymKey(d))){ if(!best||rd<best.date) best={date:rd, day:m.day}; break; }
+      d.setMonth(d.getMonth()+1); } });
+  return best;
 }
 
 /* =====================================================================
@@ -677,6 +693,8 @@ function totals(){
     else if(w.type==='debtNeg'){ debt+=Math.abs(w.balance); }
     else if(w.type==='debtPos'){ debt+=w.balance; }
   });
+  // Debts added in the planner that aren't tied to a wallet count toward total debt too.
+  (state.debts||[]).forEach(d=>{ if(!(d.walletId && walletById(d.walletId))) debt+=debtStart(d); });
   return {assets, debt, net:assets-debt, liquid, invest};
 }
 
@@ -686,15 +704,16 @@ function totals(){
 function renderDashboard(host){
   const t=totals();
   const miles=walletById('discmiles');
-  // monthly budget summary
-  let mIncome=0, mExpense=0, mTransfer=0, entertainment=0;
+  // monthly plan summary
+  let mIncome=0, mCommitted=0, mBudgets=0, entertainment=0;
   const catSpend={};
-  state.monthly.filter(m=>m.active).forEach(m=>{
-    let amt=+m.amount||0; if(m.kind==='remainder') amt=remainderFor(m);
-    if(m.kind==='income') mIncome+=amt;
-    else if(m.kind==='expense'||m.kind==='remainder'){ mExpense+=amt; catSpend[m.category]=(catSpend[m.category]||0)+amt; if(m.kind==='remainder') entertainment=amt; }
-    else if(m.kind==='transfer') mTransfer+=amt;
+  state.monthly.filter(m=>m.active!==false).forEach(m=>{
+    if(m.kind==='income'){ mIncome+=(+m.amount||0); return; }
+    if(m.kind==='charge') return;
+    if(m.kind==='budget'){ const t=budgetTarget(m); mBudgets+=t; catSpend[m.category]=(catSpend[m.category]||0)+t; if(m.remainder) entertainment=t; return; }
+    const amt=+m.amount||0; mCommitted+=amt; catSpend[m.category]=(catSpend[m.category]||0)+amt;  // expense or transfer
   });
+  const budgetsList = state.monthly.filter(m=>m.active!==false && m.kind==='budget');
   // this month's tracker activity
   const nowMk=ymKey(new Date());
   let tIn=0,tOut=0; const tCat={};
@@ -730,27 +749,29 @@ function renderDashboard(host){
 
     <div class="grid2">
       <div class="card">
-        <h2>Monthly Budget (recurring)</h2>
+        <h2>Monthly plan</h2>
         <div class="bars">
           <div class="bar-row"><span>Income in</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--good)"></div></div><span class="bv">${fmtR(mIncome,0)}</span></div>
-          <div class="bar-row"><span>Expenses</span><div class="bar-track"><div class="bar-fill" style="width:${mIncome?Math.min(100,mExpense/mIncome*100):0}%;background:var(--bad)"></div></div><span class="bv">${fmtR(mExpense,0)}</span></div>
-          <div class="bar-row"><span>Transfers</span><div class="bar-track"><div class="bar-fill" style="width:${mIncome?Math.min(100,mTransfer/mIncome*100):0}%;background:var(--accent)"></div></div><span class="bv">${fmtR(mTransfer,0)}</span></div>
+          <div class="bar-row"><span>Debit orders</span><div class="bar-track"><div class="bar-fill" style="width:${mIncome?Math.min(100,mCommitted/mIncome*100):0}%;background:var(--bad)"></div></div><span class="bv">${fmtR(mCommitted,0)}</span></div>
+          <div class="bar-row"><span>Budgets</span><div class="bar-track"><div class="bar-fill" style="width:${mIncome?Math.min(100,mBudgets/mIncome*100):0}%;background:var(--warn)"></div></div><span class="bv">${fmtR(mBudgets,0)}</span></div>
         </div>
         <p class="muted" style="font-size:13px;margin-top:14px;">Entertainment (leftover salary): <b class="tnum">${fmtR(entertainment,0)}</b></p>
-        ${nr?`<p class="muted" style="font-size:13px;margin-top:4px;">Next automatic run: <b>${prettyDate(nr.date)}</b> · ${nr.day===25?'salary in':'1st batch'}</p>`:''}
+        ${nr?`<p class="muted" style="font-size:13px;margin-top:4px;">Next auto debit: <b>${prettyDate(nr.date)}</b></p>`:''}
       </div>
       <div class="card">
         <h2>Where the money goes</h2>
         ${donutTotal>0?`<div class="donut-wrap">${donutSVG(segs,170,26,fmtR(donutTotal,0).replace('R','R '),'PER MONTH')}<ul class="legend">${legend}</ul></div>`
-          :`<p class="muted">Add monthly expenses or log purchases to see the breakdown.</p>`}
+          :`<p class="muted">Add monthly items or log purchases to see the breakdown.</p>`}
       </div>
     </div>
 
     <div class="grid2">
       <div class="card">
-        <h2>Debt payoff outlook</h2>
-        <div class="bars">${debtRows||'<p class="muted">No debts tracked.</p>'}</div>
-        <p class="muted" style="font-size:12px;margin-top:12px;">Projected at current repayments. Open the Debt planner to add extra payments.</p>
+        <h2>Budgets this month</h2>
+        ${budgetsList.length?`<div class="bars">${budgetsList.map(m=>{ const target=budgetTarget(m), spent=spentInCat(m.category,nowMk), rem=target-spent, pct=target?Math.min(100,Math.max(0,spent)/target*100):0, c=catById(m.category);
+          return `<div class="bar-row"><span>${escapeHtml(m.name.replace(' (balance)',''))}</span><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${c.color}"></div></div><span class="bv ${rem<0?'neg':''}">${fmtR(rem,0)} left</span></div>`; }).join('')}</div>
+          <p class="muted" style="font-size:12px;margin-top:12px;">These aren't auto-deducted — they draw down as you log spend in the Tracker.</p>`
+          :`<p class="muted">No budget envelopes set.</p>`}
       </div>
       <div class="card">
         <h2>This month so far (logged)</h2>
@@ -760,6 +781,12 @@ function renderDashboard(host){
         </div>
         <p class="muted" style="font-size:13px;margin-top:14px;">Discovery Miles: <b class="tnum">${(miles?.balance||0).toLocaleString('en-ZA')} ${miles?.unit||''}</b></p>
       </div>
+    </div>
+
+    <div class="card">
+      <h2>Debt payoff outlook</h2>
+      <div class="bars">${debtRows||'<p class="muted">No debts tracked.</p>'}</div>
+      <p class="muted" style="font-size:12px;margin-top:12px;">Projected at current repayments. Open the Debt planner to add extra payments.</p>
     </div>
 
     <div class="card">
@@ -904,7 +931,7 @@ function renderTracker(host){
         <div class="tbl-scroll">
           ${recent.length?`<table class="data"><thead><tr><th>Name</th><th>Category</th><th></th><th class="r">Amount</th><th></th></tr></thead>
           <tbody>${recent.map(txRow).join('')}</tbody></table>`
-          :`<div class="empty"><img src="assets/mascot.png" onerror="this.style.display='none'"><p>Nothing logged yet. Add your first purchase on the left.</p></div>`}
+          :`<div class="empty"><p>Nothing logged yet. Add your first purchase on the left.</p></div>`}
         </div>
       </div>
     </div>`;
@@ -949,70 +976,112 @@ function delTx(id){
    MONTHLY
    ===================================================================== */
 function renderMonthly(host){
-  const nr=nextRunDate();
-  const day1=state.monthly.filter(m=>m.day===1);
-  const day25=state.monthly.filter(m=>m.day===25);
-  const runs=[...state.schedule.runs].reverse().slice(0,10);
+  const nr=nextRunDate(); const nowMk=ymKey(new Date());
+  const autos=state.monthly.filter(m=>m.kind!=='budget');
+  const day1=autos.filter(m=>m.day===1), day25=autos.filter(m=>m.day===25);
+  const budgets=state.monthly.filter(m=>m.kind==='budget');
+  const log=[...state.schedule.log].sort((a,b)=>b.at-a.at).slice(0,14);
   host.innerHTML=`
-    <div class="hint">These run automatically on the 1st (and salary on the 25th) whenever you open the app after that date. Editing amounts here changes future runs, not past ones. “Entertainment (balance)” auto-fills with whatever salary is left after everything else.</div>
+    <div class="hint">Debit orders run automatically on their day (salary on the 25th, the rest on the 1st) whenever you open the app after that date. <b>Budgets</b> (fuel, entertainment) are <b>not</b> deducted — they're spending targets that draw down as you log purchases, so your wallets always match your real bank balance. Paying something early? Hit <b>Pay now</b> and the 1st won't charge it again.</div>
     <div class="head-actions" style="margin-bottom:16px;">
       <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;">
-        <input type="checkbox" id="autoRun" ${state.schedule.autoRun?'checked':''} onchange="toggleAuto()" style="width:auto;"> Auto-run on schedule</label>
-      <span class="muted" style="font-size:13px;">${nr?('Next: '+prettyDate(nr.date)+' · '+(nr.day===25?'salary':'1st batch')):'All caught up'}</span>
-      <button class="btn ghost sm" onclick="runNow(1)">Run 1st batch now</button>
-      <button class="btn ghost sm" onclick="runNow(25)">Run salary now</button>
+        <input type="checkbox" id="autoRun" ${state.schedule.autoRun?'checked':''} onchange="toggleAuto()" style="width:auto;"> Auto-run debit orders</label>
+      <span class="muted" style="font-size:13px;">${nr?('Next debit: '+prettyDate(nr.date)):'All caught up'}</span>
       <button class="btn sm" onclick="addMonthlyModal()">+ Add item</button>
     </div>
     <div class="card" style="margin-bottom:16px;">
-      <h2>1st of the month</h2>
-      <div class="tbl-scroll">${monthlyTable(day1)}</div>
+      <h2>Debit orders — 1st of the month</h2>
+      <div class="tbl-scroll">${autoTable(day1)}</div>
     </div>
     <div class="card" style="margin-bottom:16px;">
-      <h2>25th (payday)</h2>
-      <div class="tbl-scroll">${monthlyTable(day25)}</div>
+      <h2>Income — 25th (payday)</h2>
+      <div class="tbl-scroll">${autoTable(day25)}</div>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <h2>Budgets — envelopes, not deducted</h2>
+      <div class="tbl-scroll">${budgetTable(budgets, nowMk)}</div>
     </div>
     <div class="card">
-      <h2>Run history</h2>
-      ${runs.length?`<div class="tbl-scroll"><table class="data"><thead><tr><th>When</th><th>Run</th><th class="r">Net to wallets</th><th></th></tr></thead>
-        <tbody>${runs.map(r=>{ const net=Object.values(r.deltas).reduce((a,b)=>a+b,0);
-          return `<tr><td>${new Date(r.at).toLocaleDateString('en-ZA')}</td><td>${escapeHtml(r.label)}${r.manual?' <span class="type-tag">manual</span>':''}</td>
+      <h2>Recent activity (reversible)</h2>
+      ${log.length?`<div class="tbl-scroll"><table class="data"><thead><tr><th>When</th><th>Item</th><th>Month</th><th class="r">Net to wallets</th><th></th></tr></thead>
+        <tbody>${log.map(l=>{ const net=Object.values(l.deltas).reduce((a,b)=>a+b,0);
+          return `<tr><td>${new Date(l.at).toLocaleDateString('en-ZA')}</td><td>${escapeHtml(l.name)}${l.manual?' <span class="type-tag">early</span>':''}</td><td>${prettyMonth(l.mk)}</td>
           <td class="r ${net<0?'neg':'pos'}">${fmtR(net,2)}</td>
-          <td class="r"><button class="icon-btn del" title="Reverse this run" onclick="undoRun('${r.id}')">↺</button></td></tr>`;}).join('')}</tbody></table></div>`
-        :`<p class="muted">No runs yet. They’ll appear here automatically after the next 1st or 25th.</p>`}
+          <td class="r"><button class="icon-btn del" title="Reverse" onclick="undoOcc('${l.id}')">↺</button></td></tr>`;}).join('')}</tbody></table></div>`
+        :`<p class="muted">No debit orders have run yet. They'll appear here automatically after the next 1st or 25th — or when you tap Pay now.</p>`}
     </div>`;
 }
-function monthlyTable(items){
+function autoTable(items){
   if(!items.length) return '<p class="muted">Nothing here.</p>';
-  return `<table class="data"><thead><tr><th>Name</th><th>Category</th><th></th><th>Wallet</th><th class="r">Amount</th><th></th></tr></thead><tbody>
-    ${items.map(m=>{ const c=catById(m.category);
-      let amt = m.kind==='remainder'? remainderFor(m) : (+m.amount||0);
+  return `<table class="data"><thead><tr><th>Name</th><th>Category</th><th></th><th>Wallet</th><th class="r">Amount</th><th class="r">Early</th><th></th></tr></thead><tbody>
+    ${items.map(m=>{ const c=catById(m.category); const amt=+m.amount||0;
       const w=walletById(m.wallet)?.name||'—';
-      const to=m.toWallet?(' → '+(walletById(m.toWallet)?.name||'—')):(m.fundFrom?(' · funded from '+(walletById(m.fundFrom)?.name||'')):'');
-      return `<tr style="${m.active?'':'opacity:.45;'}">
+      const to=m.toWallet?(' → '+(walletById(m.toWallet)?.name||'—')):(m.fundFrom?(' · from '+(walletById(m.fundFrom)?.name||'')):'');
+      const due=m.active!==false?nextDueMonth(m):null;
+      return `<tr style="${m.active!==false?'':'opacity:.45;'}">
         <td>${escapeHtml(m.name)}${m.note?`<div class="muted" style="font-size:11px;">${escapeHtml(m.note)}</div>`:''}</td>
         <td><span class="chip dot-only" style="background:${c.color}">${escapeHtml(c.name)}</span></td>
         <td><span class="type-tag ${m.kind}">${m.kind}</span></td>
         <td class="muted" style="font-size:13px;">${escapeHtml(w)}${escapeHtml(to)}</td>
-        <td class="r">${m.kind==='remainder'?'<span class="muted">auto </span>':''}${fmtR(amt,2)}</td>
+        <td class="r">${fmtR(amt,2)}</td>
+        <td class="r">${due?`<button class="btn ghost sm" onclick="payItemNow('${m.id}')" title="Apply ${prettyMonth(due)} now">Pay ${prettyMonth(due).split(' ')[0]}</button>`:'<span class="muted">—</span>'}</td>
         <td class="r"><button class="icon-btn" onclick="editMonthlyModal('${m.id}')">✎</button>
           <button class="icon-btn del" onclick="delMonthly('${m.id}')">✕</button></td>
       </tr>`;}).join('')}
   </tbody></table>`;
 }
+function budgetTable(items, mk){
+  if(!items.length) return '<p class="muted">No budgets yet. Add an item with type “budget”.</p>';
+  return `<table class="data"><thead><tr><th>Budget</th><th>Category</th><th class="r">Target</th><th class="r">Spent</th><th class="r">Left</th><th></th><th></th></tr></thead><tbody>
+    ${items.map(m=>{ const c=catById(m.category); const target=budgetTarget(m), spent=spentInCat(m.category,mk), rem=target-spent;
+      return `<tr>
+        <td>${escapeHtml(m.name.replace(' (balance)',''))}${m.remainder?'<div class="muted" style="font-size:11px;">auto · leftover salary</div>':''}</td>
+        <td><span class="chip dot-only" style="background:${c.color}">${escapeHtml(c.name)}</span></td>
+        <td class="r">${fmtR(target,2)}</td>
+        <td class="r">${fmtR(spent,2)}</td>
+        <td class="r ${rem<0?'neg':'pos'}"><b>${fmtR(rem,2)}</b></td>
+        <td class="r"><button class="btn ghost sm" onclick="quickLogModal('${m.id}')">Log spend</button></td>
+        <td class="r"><button class="icon-btn" onclick="editMonthlyModal('${m.id}')">✎</button>
+          <button class="icon-btn del" onclick="delMonthly('${m.id}')">✕</button></td>
+      </tr>`;}).join('')}
+  </tbody></table>`;
+}
+function quickLogModal(monthlyId){
+  const m=state.monthly.find(x=>x.id===monthlyId); if(!m) return;
+  const c=catById(m.category);
+  openModal(`<h3>Log ${escapeHtml(m.name.replace(' (balance)',''))} spend</h3><p class="m-sub">Reduces your wallet and draws down this budget for the month.</p>
+    <div class="stack">
+      <div class="field"><label>What was it? (optional)</label><input type="text" id="qlName" placeholder="${escapeHtml(c.name)}"></div>
+      <div class="form-grid">
+        <div class="field"><label>Amount (R)</label><input type="number" step="0.01" id="qlAmt" placeholder="0.00"></div>
+        <div class="field"><label>From wallet</label><select id="qlWallet">${walletOptions(m.wallet||'sb')}</select></div>
+      </div>
+    </div>
+    <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn" onclick="quickLog('${monthlyId}')">Log spend</button></div>`);
+  setTimeout(()=>$('qlAmt')&&$('qlAmt').focus(),50);
+}
+function quickLog(monthlyId){
+  const m=state.monthly.find(x=>x.id===monthlyId); if(!m) return;
+  const amt=clampNum($('qlAmt').value); if(amt<=0){ toast('Enter an amount',true); return; }
+  const c=catById(m.category);
+  const t={id:uid(), name:$('qlName').value.trim()||c.name, amount:amt, kind:'expense', wallet:$('qlWallet').value, category:m.category, date:new Date().toISOString().slice(0,10)};
+  applyTransaction(t); state.transactions.push(t); closeModal(); markChanged(); render(); toast('Logged · '+fmtR(amt,2)+' off '+c.name);
+}
 function monthlyForm(m){
-  const kinds=['income','expense','transfer','charge','remainder'];
+  const kinds=['income','expense','transfer','charge','budget'];
   return `<div class="stack">
     <div class="field"><label>Name</label><input type="text" id="mName" value="${escapeHtml(m.name||'')}"></div>
     <div class="form-grid">
-      <div class="field"><label>Type</label><select id="mKind" onchange="mFormKind()">${kinds.map(k=>`<option value="${k}" ${m.kind===k?'selected':''}>${k}</option>`).join('')}</select></div>
-      <div class="field" id="mAmtWrap"><label>Amount (R)</label><input type="number" step="0.01" id="mAmt" value="${m.amount||0}"></div>
+      <div class="field"><label>Type</label><select id="mKind" onchange="mFormKind()">${kinds.map(k=>`<option value="${k}" ${m.kind===k?'selected':''}>${k==='budget'?'budget (envelope)':k}</option>`).join('')}</select></div>
+      <div class="field" id="mAmtWrap"><label id="mAmtLbl">Amount (R)</label><input type="number" step="0.01" id="mAmt" value="${m.amount||0}"></div>
     </div>
+    <div class="field" id="mRemWrap" style="display:none;"><label style="display:flex;align-items:center;gap:8px;font-size:13px;text-transform:none;letter-spacing:0;color:var(--ink);"><input type="checkbox" id="mRem" ${m.remainder?'checked':''} onchange="mFormKind()" style="width:auto;"> Auto amount — whatever salary is left after everything else</label></div>
     <div class="field"><label id="mWalletLbl">Wallet</label><select id="mWallet">${walletOptions(m.wallet||'sb')}</select></div>
     <div class="field" id="mToWrap"><label>To wallet</label><select id="mTo">${walletOptions(m.toWallet||'sbs2')}</select></div>
     <div class="field" id="mFundWrap"><label>Fund from (optional)</label><select id="mFund"><option value="">— none —</option>${state.wallets.filter(w=>w.type==='asset').map(w=>`<option value="${w.id}" ${m.fundFrom===w.id?'selected':''}>${escapeHtml(w.name)}</option>`).join('')}</select></div>
     <div class="form-grid">
       <div class="field"><label>Category</label><select id="mCat">${catOptions(m.category||'other')}</select></div>
-      <div class="field"><label>Day</label><select id="mDay"><option value="1" ${m.day===1?'selected':''}>1st</option><option value="25" ${m.day===25?'selected':''}>25th</option></select></div>
+      <div class="field" id="mDayWrap"><label>Day</label><select id="mDay"><option value="1" ${m.day===1?'selected':''}>1st</option><option value="25" ${m.day===25?'selected':''}>25th</option></select></div>
     </div>
     <div class="field"><label>Note (optional)</label><input type="text" id="mNote" value="${escapeHtml(m.note||'')}"></div>
     <label style="display:flex;align-items:center;gap:8px;font-size:13px;"><input type="checkbox" id="mActive" ${m.active!==false?'checked':''} style="width:auto;"> Active</label>
@@ -1020,10 +1089,14 @@ function monthlyForm(m){
 }
 function mFormKind(){
   const k=$('mKind').value;
+  const isBudget = k==='budget';
+  const rem = isBudget && $('mRem') && $('mRem').checked;
   $('mToWrap').style.display = k==='transfer'?'flex':'none';
   $('mFundWrap').style.display = k==='expense'?'flex':'none';
-  $('mAmtWrap').style.display = k==='remainder'?'none':'flex';
-  $('mWalletLbl').textContent = k==='income'?'Into wallet':k==='charge'?'Debt wallet':k==='remainder'?'Wallet':'From wallet';
+  $('mRemWrap').style.display = isBudget?'block':'none';
+  $('mAmtWrap').style.display = rem?'none':'flex';
+  $('mAmtLbl').textContent = isBudget?'Monthly budget (R)':'Amount (R)';
+  $('mWalletLbl').textContent = k==='income'?'Into wallet':k==='charge'?'Debt wallet':isBudget?'Spend comes from':'From wallet';
 }
 function addMonthlyModal(){
   openModal(`<h3>Add monthly item</h3><p class="m-sub">Recurring income, expense, transfer or debt charge.</p>${monthlyForm({kind:'expense',day:1,active:true})}
@@ -1038,23 +1111,20 @@ function editMonthlyModal(id){
 }
 function saveMonthly(id){
   const k=$('mKind').value;
-  const obj={ name:$('mName').value.trim()||'Untitled', kind:k, amount:k==='remainder'?0:clampNum($('mAmt').value),
+  const isBudget = k==='budget';
+  const rem = isBudget && $('mRem') && $('mRem').checked;
+  const obj={ name:$('mName').value.trim()||'Untitled', kind:k, amount:rem?0:clampNum($('mAmt').value),
     wallet:$('mWallet').value, category:$('mCat').value, day:+$('mDay').value, note:$('mNote').value.trim(), active:$('mActive').checked };
   if(k==='transfer') obj.toWallet=$('mTo').value;
   if(k==='expense'&&$('mFund').value) obj.fundFrom=$('mFund').value;
+  if(isBudget && rem) obj.remainder=true;
   if(id){ const m=state.monthly.find(x=>x.id===id); Object.keys(m).forEach(kk=>{ if(!(kk in obj)&&kk!=='id') delete m[kk]; }); Object.assign(m,obj); }
   else state.monthly.push({id:uid(),...obj});
   closeModal(); markChanged(); render(); toast('Saved');
 }
 function delMonthly(id){ confirmModal('Delete monthly item?','This stops it from running in future months.',()=>{ state.monthly=state.monthly.filter(m=>m.id!==id); markChanged(); render(); toast('Deleted'); }); }
-function toggleAuto(){ state.schedule.autoRun=$('autoRun').checked; markChanged(); }
-function runNow(day){
-  const mk=ymKey(new Date());
-  if(state.schedule.applied.includes(mk+':'+day)){
-    confirmModal('Already ran this month','The '+(day===25?'salary':'1st batch')+' for '+prettyMonth(mk)+' was already applied. Run it again anyway?',()=>{ applyRun(day,mk,{manual:true}); markChanged(); render(); toast('Applied again'); });
-  } else { applyRun(day,mk,{manual:true}); markChanged(); render(); toast('Applied to wallets'); }
-}
-function undoRun(id){ confirmModal('Reverse this run?','Wallet balances will be rolled back and this month becomes eligible to run again.',()=>{ reverseRun(id); markChanged(); render(); toast('Run reversed'); }); }
+function toggleAuto(){ state.schedule.autoRun=$('autoRun').checked; markChanged(); if(state.schedule.autoRun){ catchUp(); render(); } }
+function undoOcc(id){ confirmModal('Reverse this?','Wallet balances roll back and this item becomes due again for that month.',()=>{ reverseOccurrence(id); markChanged(); render(); toast('Reversed'); }); }
 
 /* =====================================================================
    DEBT PLANNER
@@ -1099,6 +1169,7 @@ function renderDebtBody(d){
             <button class="btn ghost sm" style="margin-top:8px;" onclick="addCharge('${d.id}')">+ Add charge</button>
           </div>
           <button class="btn ghost sm" onclick="syncDebtFromWallet('${d.id}')">↻ Reset balance to current wallet</button>
+          <button class="btn ghost sm" style="color:var(--bad);border-color:#f0c8c2;" onclick="deleteDebt('${d.id}')">✕ Delete this debt</button>
         </div>
       </div>
       <div class="card">
@@ -1159,6 +1230,14 @@ function createDebt(){
     interestMode:'fixed', interestRate:0, charges:[], extra:{}, startOverride:clampNum($('ndBal').value)});
   debtTab=id; closeModal(); markChanged(); render(); toast('Debt added');
 }
+function deleteDebt(id){
+  const d=state.debts.find(x=>x.id===id); if(!d) return;
+  const linked = d.walletId && walletById(d.walletId);
+  confirmModal('Delete this debt?', linked
+      ? 'Removes it from the planner. The linked wallet balance stays as-is.'
+      : 'Removes it from the planner and from the dashboard total debt.',
+    ()=>{ state.debts=state.debts.filter(x=>x.id!==id); if(debtTab===id) debtTab=state.debts[0]?.id||null; markChanged(); render(); toast('Debt deleted'); });
+}
 
 /* =====================================================================
    MODAL / CONFIRM
@@ -1195,6 +1274,7 @@ async function unlock(){
     if(blob){
       try{ state=await decryptData(pass, blob); }
       catch{ err.textContent='Wrong passphrase for this vault.'; PASS=null; resetBtn(); return; }
+      migrate(state);
       enterApp();
     } else {
       if(!creating){ // ask to create
