@@ -321,7 +321,7 @@ async function cloudPut(blob){
    ===================================================================== */
 function defaultData(){
   const data = {
-    meta:{ schema:2, createdAt:Date.now(), updatedAt:Date.now() },
+    meta:{ schema:3, createdAt:Date.now(), updatedAt:Date.now() },
     wallets:[
       {id:'sb',        name:'Standard Bank',        group:'Standard Bank', type:'asset',   balance:248},
       {id:'sbs1',      name:'SB Savings (1)',       group:'Standard Bank', type:'asset',   balance:9.33},
@@ -375,7 +375,7 @@ function defaultData(){
       {id:uid(), name:'Discovery Credit · charges',amount:686.62,kind:'charge', wallet:'disccredit',             category:'debt',         day:1,  active:true, note:'115 + 66 + 69 + 436.62 interest'},
       {id:uid(), name:'Savings → SB Savings 2',amount:2000,    kind:'transfer', wallet:'sb', toWallet:'sbs2',    category:'savings',      day:1,  active:true},
       {id:uid(), name:'Fuel',                  amount:2000,    kind:'budget',   wallet:'sb',                     category:'fuel',         day:1,  active:true},
-      {id:uid(), name:'Entertainment (balance)',amount:0,      kind:'budget',   wallet:'sb', remainder:true,     category:'entertainment',day:1,  active:true},
+      {id:uid(), name:'Entertainment',         amount:1000,    kind:'budget',   wallet:'sb',                     category:'entertainment',day:1,  active:true},
     ],
     debts:[
       { id:'d_loan', name:'Standard Bank Loan', walletId:'sbloan', sign:'neg',
@@ -419,6 +419,17 @@ function migrate(data){
     data.schedule.applied=[]; data.schedule.log=[];   // rebuild to item-level tracking
     seedApplied(data);
     data.meta.schema=2;
+  }
+  if((data.meta.schema||1) < 3){
+    // Entertainment is now a fixed budget (like fuel); the month's leftover is computed separately.
+    (data.monthly||[]).forEach(m=>{
+      if(m.category==='entertainment' && m.kind==='budget'){
+        if(m.remainder) delete m.remainder;
+        if(!(+m.amount>0)) m.amount=1000;
+        if(m.name==='Entertainment (balance)') m.name='Entertainment';
+      }
+    });
+    data.meta.schema=3;
   }
   return data;
 }
@@ -523,6 +534,27 @@ function budgetTarget(item){
 function spentInCat(catId, mk){
   return state.transactions.reduce((s,t)=>
     (t.kind==='expense' && t.category===catId && (t.date||'').slice(0,7)===mk) ? s+(+t.amount||0) : s, 0);
+}
+// Leftover / unallocated for the month on the main account: planned salary + any extra income
+// you log, minus debit orders, minus all budgets, minus any UNBUDGETED spending you log
+// (food, misc — anything not in a budget category draws this catch-all pool down).
+function leftoverThisMonth(){
+  const W='sb'; const mk=ymKey(new Date());
+  let income=0, out=0, budgets=0; const budgetCats=new Set();
+  state.monthly.forEach(x=>{
+    if(x.active===false) return;
+    if(x.kind==='income'){ if(x.wallet===W) income+=(+x.amount||0); }
+    else if(x.kind==='budget'){ budgetCats.add(x.category); if(x.wallet===W) budgets+=budgetTarget(x); }
+    else if(x.kind==='expense'){ if(x.fundFrom===W || (!x.fundFrom && x.wallet===W)) out+=(+x.amount||0); }
+    else if(x.kind==='transfer'){ if(x.wallet===W) out+=(+x.amount||0); }
+  });
+  let extraIncome=0, unbudgetedSpend=0;
+  state.transactions.forEach(t=>{ if((t.date||'').slice(0,7)!==mk) return;
+    if(t.kind==='income') extraIncome+=(+t.amount||0);
+    else if(t.kind==='expense' && !budgetCats.has(t.category)) unbudgetedSpend+=(+t.amount||0);
+  });
+  const value=+(income+extraIncome-out-budgets-unbudgetedSpend).toFixed(2);
+  return { value, income, extraIncome, out, budgets, unbudgetedSpend };
 }
 
 /* ---- monthly AUTOMATION — tracked per item, per month ---- */
@@ -705,15 +737,16 @@ function renderDashboard(host){
   const t=totals();
   const miles=walletById('discmiles');
   // monthly plan summary
-  let mIncome=0, mCommitted=0, mBudgets=0, entertainment=0;
+  let mIncome=0, mCommitted=0, mBudgets=0;
   const catSpend={};
   state.monthly.filter(m=>m.active!==false).forEach(m=>{
     if(m.kind==='income'){ mIncome+=(+m.amount||0); return; }
     if(m.kind==='charge') return;
-    if(m.kind==='budget'){ const t=budgetTarget(m); mBudgets+=t; catSpend[m.category]=(catSpend[m.category]||0)+t; if(m.remainder) entertainment=t; return; }
+    if(m.kind==='budget'){ const t=budgetTarget(m); mBudgets+=t; catSpend[m.category]=(catSpend[m.category]||0)+t; return; }
     const amt=+m.amount||0; mCommitted+=amt; catSpend[m.category]=(catSpend[m.category]||0)+amt;  // expense or transfer
   });
   const budgetsList = state.monthly.filter(m=>m.active!==false && m.kind==='budget');
+  const leftover = leftoverThisMonth();
   // this month's tracker activity
   const nowMk=ymKey(new Date());
   let tIn=0,tOut=0; const tCat={};
@@ -755,7 +788,7 @@ function renderDashboard(host){
           <div class="bar-row"><span>Debit orders</span><div class="bar-track"><div class="bar-fill" style="width:${mIncome?Math.min(100,mCommitted/mIncome*100):0}%;background:var(--bad)"></div></div><span class="bv">${fmtR(mCommitted,0)}</span></div>
           <div class="bar-row"><span>Budgets</span><div class="bar-track"><div class="bar-fill" style="width:${mIncome?Math.min(100,mBudgets/mIncome*100):0}%;background:var(--warn)"></div></div><span class="bv">${fmtR(mBudgets,0)}</span></div>
         </div>
-        <p class="muted" style="font-size:13px;margin-top:14px;">Entertainment (leftover salary): <b class="tnum">${fmtR(entertainment,0)}</b></p>
+        <p class="muted" style="font-size:13px;margin-top:14px;">Leftover (unallocated): <b class="tnum ${leftover.value<0?'neg':''}">${fmtR(leftover.value,0)}</b></p>
         ${nr?`<p class="muted" style="font-size:13px;margin-top:4px;">Next auto debit: <b>${prettyDate(nr.date)}</b></p>`:''}
       </div>
       <div class="card">
@@ -768,10 +801,14 @@ function renderDashboard(host){
     <div class="grid2">
       <div class="card">
         <h2>Budgets this month</h2>
-        ${budgetsList.length?`<div class="bars">${budgetsList.map(m=>{ const target=budgetTarget(m), spent=spentInCat(m.category,nowMk), rem=target-spent, pct=target?Math.min(100,Math.max(0,spent)/target*100):0, c=catById(m.category);
-          return `<div class="bar-row"><span>${escapeHtml(m.name.replace(' (balance)',''))}</span><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${c.color}"></div></div><span class="bv ${rem<0?'neg':''}">${fmtR(rem,0)} left</span></div>`; }).join('')}</div>
-          <p class="muted" style="font-size:12px;margin-top:12px;">These aren't auto-deducted — they draw down as you log spend in the Tracker.</p>`
-          :`<p class="muted">No budget envelopes set.</p>`}
+        <div class="bars">${budgetsList.map(m=>{ const target=budgetTarget(m), spent=spentInCat(m.category,nowMk), rem=target-spent, pct=target?Math.min(100,Math.max(0,spent)/target*100):0, c=catById(m.category);
+          return `<div class="bar-row"><span>${escapeHtml(m.name.replace(' (balance)',''))}</span><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${c.color}"></div></div><span class="bv ${rem<0?'neg':''}">${fmtR(rem,0)} left</span></div>`; }).join('')}
+          <div class="bar-row" style="margin-top:6px;padding-top:12px;border-top:1px dashed var(--line);">
+            <span>Leftover<div class="muted" style="font-size:11px;">unallocated · income raises it, unbudgeted spend lowers it</div></span>
+            <div class="bar-track"><div class="bar-fill" style="width:${mIncome?Math.min(100,Math.max(0,leftover.value)/mIncome*100):0}%;background:var(--good)"></div></div>
+            <span class="bv ${leftover.value<0?'neg':'pos'}"><b>${fmtR(leftover.value,0)}</b></span></div>
+        </div>
+        <p class="muted" style="font-size:12px;margin-top:12px;">Fuel &amp; entertainment draw their own envelopes. Leftover = income ${leftover.extraIncome?`(incl. ${fmtR(leftover.extraIncome,0)} extra)`:''} − debit orders − budgets${leftover.unbudgetedSpend?` − ${fmtR(leftover.unbudgetedSpend,0)} spent`:''}.</p>
       </div>
       <div class="card">
         <h2>This month so far (logged)</h2>
@@ -1000,6 +1037,7 @@ function renderMonthly(host){
     <div class="card" style="margin-bottom:16px;">
       <h2>Budgets — envelopes, not deducted</h2>
       <div class="tbl-scroll">${budgetTable(budgets, nowMk)}</div>
+      <p class="muted" style="font-size:13px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);">Leftover this month (unallocated · income raises it, unbudgeted spending like food lowers it): <b class="tnum ${leftoverThisMonth().value<0?'neg':'pos'}">${fmtR(leftoverThisMonth().value,0)}</b></p>
     </div>
     <div class="card">
       <h2>Recent activity (reversible)</h2>
