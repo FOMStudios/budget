@@ -321,7 +321,7 @@ async function cloudPut(blob){
    ===================================================================== */
 function defaultData(){
   const data = {
-    meta:{ schema:3, createdAt:Date.now(), updatedAt:Date.now() },
+    meta:{ schema:4, createdAt:Date.now(), updatedAt:Date.now() },
     wallets:[
       {id:'sb',        name:'Standard Bank',        group:'Standard Bank', type:'asset',   balance:248},
       {id:'sbs1',      name:'SB Savings (1)',       group:'Standard Bank', type:'asset',   balance:9.33},
@@ -366,9 +366,10 @@ function defaultData(){
       {id:uid(), name:'Adobe',                 amount:263.35,  kind:'expense',  wallet:'sb',                     category:'subs',         day:1,  active:true},
       {id:uid(), name:'Shopify (+charges)',    amount:183.67,  kind:'expense',  wallet:'sb',                     category:'subs',         day:1,  active:true, note:'167.93 + 8.50 + 7.24'},
       {id:uid(), name:'Cartrack',              amount:108.90,  kind:'expense',  wallet:'sb',                     category:'subs',         day:1,  active:true},
-      {id:uid(), name:'Apple Storage',         amount:60,      kind:'expense',  wallet:'disc', fundFrom:'sb',    category:'subs',         day:1,  active:true},
-      {id:uid(), name:'Apple Music',           amount:60,      kind:'expense',  wallet:'disc', fundFrom:'sb',    category:'subs',         day:1,  active:true},
-      {id:uid(), name:'Gym',                   amount:420,     kind:'expense',  wallet:'disc', fundFrom:'sb',    category:'health',       day:1,  active:true},
+      {id:uid(), name:'Transfer to Discovery', amount:540,     kind:'transfer', wallet:'sb', toWallet:'disc',    category:'transfer',     day:1,  active:true, note:'Covers Apple, Music & Gym'},
+      {id:uid(), name:'Apple Storage',         amount:60,      kind:'expense',  wallet:'disc',                   category:'subs',         day:1,  active:true},
+      {id:uid(), name:'Apple Music',           amount:60,      kind:'expense',  wallet:'disc',                   category:'subs',         day:1,  active:true},
+      {id:uid(), name:'Gym',                   amount:420,     kind:'expense',  wallet:'disc',                   category:'health',       day:1,  active:true},
       {id:uid(), name:'Retirement annuity',    amount:1500,    kind:'transfer', wallet:'sb', toWallet:'retire',  category:'investments',  day:1,  active:true},
       {id:uid(), name:'Unit trust',            amount:500,     kind:'transfer', wallet:'sb', toWallet:'unit',    category:'investments',  day:1,  active:true},
       {id:uid(), name:'Credit payment',        amount:2000,    kind:'transfer', wallet:'sb', toWallet:'disccredit',category:'debt',       day:1,  active:true},
@@ -430,6 +431,20 @@ function migrate(data){
       }
     });
     data.meta.schema=3;
+  }
+  if((data.meta.schema||1) < 4){
+    // Route Discovery debit orders (Apple, Music, Gym) through the Discovery account instead of
+    // paying them straight from SB, and add an explicit SB→Discovery transfer to cover them, so
+    // the Discovery bank balance is meaningful. Net effect on SB is unchanged.
+    const discExp=(data.monthly||[]).filter(m=>m.kind==='expense' && m.fundFrom==='sb' && m.wallet==='disc' && m.active!==false);
+    let sum=0; discExp.forEach(m=>{ sum+=(+m.amount||0); delete m.fundFrom; });
+    const already=(data.monthly||[]).some(m=>m.kind==='transfer' && m.wallet==='sb' && m.toWallet==='disc');
+    if(sum>0 && !already){
+      data.monthly.push({id:uid(), name:'Transfer to Discovery', amount:+sum.toFixed(2), kind:'transfer',
+        wallet:'sb', toWallet:'disc', category:'transfer', day:1, active:true, note:'Covers Discovery debit orders'});
+      seedApplied(data);   // mark the new transfer's past/current months as done so it doesn't retro-fire
+    }
+    data.meta.schema=4;
   }
   return data;
 }
@@ -496,6 +511,7 @@ function affectCharge(wallet, amount){
 
 /* ---- immediate manual transaction (Tracker) ---- */
 function applyTransaction(t){
+  if(t.kind==='calibration'){ const w=walletById(t.wallet); if(w) w.balance=+(w.balance+(t.delta||0)).toFixed(2); return; }
   if(t.kind==='transfer'){
     affect(walletById(t.wallet),'expense',t.amount);
     affect(walletById(t.toWallet),'income',t.amount);
@@ -504,6 +520,7 @@ function applyTransaction(t){
   }
 }
 function reverseTransaction(t){
+  if(t.kind==='calibration'){ const w=walletById(t.wallet); if(w) w.balance=+(w.balance-(t.delta||0)).toFixed(2); return; }
   if(t.kind==='transfer'){
     affect(walletById(t.wallet),'income',t.amount);
     affect(walletById(t.toWallet),'expense',t.amount);
@@ -535,10 +552,9 @@ function spentInCat(catId, mk){
   return state.transactions.reduce((s,t)=>
     (t.kind==='expense' && t.category===catId && (t.date||'').slice(0,7)===mk) ? s+(+t.amount||0) : s, 0);
 }
-// Leftover / unallocated for the month on the main account: planned salary + any extra income
-// you log, minus debit orders, minus all budgets, minus any UNBUDGETED spending you log
-// (food, misc — anything not in a budget category draws this catch-all pool down).
-function leftoverThisMonth(){
+// The unallocated pool BEFORE discretionary spending: planned salary + extra income logged,
+// minus debit orders, minus all budget targets.
+function leftoverPool(){
   const W='sb'; const mk=ymKey(new Date());
   let income=0, out=0, budgets=0; const budgetCats=new Set();
   state.monthly.forEach(x=>{
@@ -548,13 +564,35 @@ function leftoverThisMonth(){
     else if(x.kind==='expense'){ if(x.fundFrom===W || (!x.fundFrom && x.wallet===W)) out+=(+x.amount||0); }
     else if(x.kind==='transfer'){ if(x.wallet===W) out+=(+x.amount||0); }
   });
-  let extraIncome=0, unbudgetedSpend=0;
+  let extraIncome=0, unbudget=0;
   state.transactions.forEach(t=>{ if((t.date||'').slice(0,7)!==mk) return;
     if(t.kind==='income') extraIncome+=(+t.amount||0);
-    else if(t.kind==='expense' && !budgetCats.has(t.category)) unbudgetedSpend+=(+t.amount||0);
+    else if(t.kind==='expense' && !budgetCats.has(t.category)) unbudget+=(+t.amount||0);
   });
-  const value=+(income+extraIncome-out-budgets-unbudgetedSpend).toFixed(2);
-  return { value, income, extraIncome, out, budgets, unbudgetedSpend };
+  return { base:+(income+extraIncome-out-budgets).toFixed(2), income, extraIncome, out, budgets, unbudget };
+}
+// Discretionary spend cascade. Unbudgeted spending draws down Leftover first; once Leftover is
+// gone the overflow eats into Entertainment, then Fuel. Direct fuel/entertainment logs still
+// draw their own envelope. Returns remaining balances for each, in priority order.
+function spendWaterfall(){
+  const mk=ymKey(new Date());
+  const pool=leftoverPool();
+  const base=pool.base, unbudget=pool.unbudget;
+  const entItem=state.monthly.find(m=>m.active!==false && m.kind==='budget' && m.category==='entertainment');
+  const fuelItem=state.monthly.find(m=>m.active!==false && m.kind==='budget' && m.category==='fuel');
+  const entTarget=entItem?budgetTarget(entItem):0, fuelTarget=fuelItem?budgetTarget(fuelItem):0;
+  const entDirect=spentInCat('entertainment',mk), fuelDirect=spentInCat('fuel',mk);
+  let overflow=Math.max(0, unbudget-base);
+  const leftoverRem=Math.max(0, +(base-unbudget).toFixed(2));
+  const entAvail=Math.max(0, entTarget-entDirect);
+  const entEaten=Math.min(overflow, entAvail); overflow=+(overflow-entEaten).toFixed(2);
+  const entRem=+(entTarget-entDirect-entEaten).toFixed(2);
+  const fuelAvail=Math.max(0, fuelTarget-fuelDirect);
+  const fuelEaten=Math.min(overflow, fuelAvail); overflow=+(overflow-fuelEaten).toFixed(2);
+  const fuelRem=+(fuelTarget-fuelDirect-fuelEaten).toFixed(2);
+  return { base, unbudget, extraIncome:pool.extraIncome, leftoverRem,
+    entTarget, entDirect, entEaten, entRem, fuelTarget, fuelDirect, fuelEaten, fuelRem,
+    overspill:overflow, remByCat:{ entertainment:entRem, fuel:fuelRem } };
 }
 
 /* ---- monthly AUTOMATION — tracked per item, per month ---- */
@@ -746,7 +784,7 @@ function renderDashboard(host){
     const amt=+m.amount||0; mCommitted+=amt; catSpend[m.category]=(catSpend[m.category]||0)+amt;  // expense or transfer
   });
   const budgetsList = state.monthly.filter(m=>m.active!==false && m.kind==='budget');
-  const leftover = leftoverThisMonth();
+  const leftover = spendWaterfall();
   // this month's tracker activity
   const nowMk=ymKey(new Date());
   let tIn=0,tOut=0; const tCat={};
@@ -788,7 +826,7 @@ function renderDashboard(host){
           <div class="bar-row"><span>Debit orders</span><div class="bar-track"><div class="bar-fill" style="width:${mIncome?Math.min(100,mCommitted/mIncome*100):0}%;background:var(--bad)"></div></div><span class="bv">${fmtR(mCommitted,0)}</span></div>
           <div class="bar-row"><span>Budgets</span><div class="bar-track"><div class="bar-fill" style="width:${mIncome?Math.min(100,mBudgets/mIncome*100):0}%;background:var(--warn)"></div></div><span class="bv">${fmtR(mBudgets,0)}</span></div>
         </div>
-        <p class="muted" style="font-size:13px;margin-top:14px;">Leftover (unallocated): <b class="tnum ${leftover.value<0?'neg':''}">${fmtR(leftover.value,0)}</b></p>
+        <p class="muted" style="font-size:13px;margin-top:14px;">Leftover (unallocated): <b class="tnum ${leftover.leftoverRem<=0?'neg':''}">${fmtR(leftover.leftoverRem,0)}</b></p>
         ${nr?`<p class="muted" style="font-size:13px;margin-top:4px;">Next auto debit: <b>${prettyDate(nr.date)}</b></p>`:''}
       </div>
       <div class="card">
@@ -801,14 +839,19 @@ function renderDashboard(host){
     <div class="grid2">
       <div class="card">
         <h2>Budgets this month</h2>
-        <div class="bars">${budgetsList.map(m=>{ const target=budgetTarget(m), spent=spentInCat(m.category,nowMk), rem=target-spent, pct=target?Math.min(100,Math.max(0,spent)/target*100):0, c=catById(m.category);
-          return `<div class="bar-row"><span>${escapeHtml(m.name.replace(' (balance)',''))}</span><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${c.color}"></div></div><span class="bv ${rem<0?'neg':''}">${fmtR(rem,0)} left</span></div>`; }).join('')}
-          <div class="bar-row" style="margin-top:6px;padding-top:12px;border-top:1px dashed var(--line);">
-            <span>Leftover<div class="muted" style="font-size:11px;">unallocated · income raises it, unbudgeted spend lowers it</div></span>
-            <div class="bar-track"><div class="bar-fill" style="width:${mIncome?Math.min(100,Math.max(0,leftover.value)/mIncome*100):0}%;background:var(--good)"></div></div>
-            <span class="bv ${leftover.value<0?'neg':'pos'}"><b>${fmtR(leftover.value,0)}</b></span></div>
+        <div class="bars">
+          <div class="bar-row">
+            <span>Leftover<div class="muted" style="font-size:11px;">spent first · income raises it</div></span>
+            <div class="bar-track"><div class="bar-fill" style="width:${leftover.base>0?Math.min(100,Math.max(0,leftover.leftoverRem)/leftover.base*100):0}%;background:var(--good)"></div></div>
+            <span class="bv ${leftover.leftoverRem<=0?'neg':'pos'}"><b>${fmtR(leftover.leftoverRem,0)} left</b></span></div>
+          ${budgetsList.sort((a,b)=>(a.category==='fuel'?1:0)-(b.category==='fuel'?1:0)).map(m=>{
+            const target=budgetTarget(m);
+            const rem = (m.category in leftover.remByCat) ? leftover.remByCat[m.category] : (target-spentInCat(m.category,nowMk));
+            const eaten = m.category==='entertainment'?leftover.entEaten : m.category==='fuel'?leftover.fuelEaten : 0;
+            const pct=target?Math.min(100,Math.max(0,(target-rem)/target*100)):0; const c=catById(m.category);
+            return `<div class="bar-row"><span>${escapeHtml(m.name.replace(' (balance)',''))}${eaten>0?`<div class="muted" style="font-size:11px;">${fmtR(eaten,0)} used by overspend</div>`:''}</span><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${c.color}"></div></div><span class="bv ${rem<0?'neg':''}">${fmtR(rem,0)} left</span></div>`; }).join('')}
         </div>
-        <p class="muted" style="font-size:12px;margin-top:12px;">Fuel &amp; entertainment draw their own envelopes. Leftover = income ${leftover.extraIncome?`(incl. ${fmtR(leftover.extraIncome,0)} extra)`:''} − debit orders − budgets${leftover.unbudgetedSpend?` − ${fmtR(leftover.unbudgetedSpend,0)} spent`:''}.</p>
+        <p class="muted" style="font-size:12px;margin-top:12px;">Spending draws down <b>Leftover</b> first, then <b>Entertainment</b>, then <b>Fuel</b>. Fuel &amp; entertainment logs still draw their own envelope directly.${leftover.overspill>0?` <b class="neg">${fmtR(leftover.overspill,0)} over all budgets.</b>`:''}</p>
       </div>
       <div class="card">
         <h2>This month so far (logged)</h2>
@@ -873,6 +916,7 @@ function renderWallets(host){
       if(w.id==='nmgsav'||w.id==='nmgret'){ meta='part of NMG '+fmtR((walletById('nmgsav').balance)+(walletById('nmgret').balance),0); }
       out+=`<div class="wcard ${isDebt?'debt':''}">
         <div class="w-actions">
+          <button class="icon-btn" title="Calibrate balance" onclick="calibrateModal('${w.id}')">±</button>
           <button class="icon-btn" title="Edit" onclick="editWalletModal('${w.id}')">✎</button>
           ${w.custom?`<button class="icon-btn del" title="Delete" onclick="deleteWallet('${w.id}')">✕</button>`:''}
         </div>
@@ -899,9 +943,41 @@ function editWalletModal(id){
 function saveWallet(id){
   const w=walletById(id);
   w.name=$('wName').value.trim()||w.name;
-  w.balance=clampNum($('wBal').value);
+  logCalibration(id, clampNum($('wBal').value), 'Balance edit');
   if($('wLimit')) w.limit=clampNum($('wLimit').value);
   closeModal(); markChanged(); render(); toast('Wallet updated');
+}
+// Set a wallet to an actual balance and log the difference as a reversible calibration entry.
+function logCalibration(walletId, actual, note){
+  const w=walletById(walletId); if(!w) return 0;
+  const delta=+(actual - w.balance).toFixed(2);
+  if(delta===0) return 0;
+  const t={id:uid(), name:note||'Calibration', amount:Math.abs(delta), delta, kind:'calibration',
+           wallet:walletId, category:'other', date:new Date().toISOString().slice(0,10)};
+  applyTransaction(t); state.transactions.push(t);
+  return delta;
+}
+function calibrateModal(id){
+  const w=walletById(id); const pts=w.type==='points';
+  const cur = pts ? (w.balance||0).toLocaleString('en-ZA')+' '+(w.unit||'') : fmtR(w.balance,2);
+  openModal(`<h3>Calibrate ${escapeHtml(w.name)}</h3><p class="m-sub">Enter the real balance from your bank. The difference is logged as a calibration — handy for small bank &amp; transfer charges — and doesn't count as spending against your budgets.</p>
+    <div class="stack">
+      <div class="field"><label>Current in app</label><input type="text" value="${cur}" disabled></div>
+      <div class="field"><label>Actual ${pts?'points':'balance (R)'}</label><input type="number" step="0.01" id="calActual" value="${w.balance}"></div>
+      <div class="field"><label>Reason (optional)</label><input type="text" id="calNote" placeholder="Bank &amp; transfer charges"></div>
+      <div class="hint" id="calPreview" style="margin:0;">No change yet.</div>
+    </div>
+    <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn" onclick="applyCalibration('${id}')">Save calibration</button></div>`);
+  const upd=()=>{ const a=clampNum($('calActual').value); const d=+(a-w.balance).toFixed(2);
+    $('calPreview').textContent = d===0?'No change.':(d>0?('Adjust up by '+(pts?d.toLocaleString('en-ZA'):fmtR(d,2))):('Adjust down by '+(pts?Math.abs(d).toLocaleString('en-ZA'):fmtR(Math.abs(d),2)))); };
+  const el=$('calActual'); if(el){ el.addEventListener('input',upd); upd(); setTimeout(()=>el.focus(),50); }
+}
+function applyCalibration(id){
+  const w=walletById(id); if(!w) return;
+  const delta=logCalibration(id, clampNum($('calActual').value), $('calNote').value.trim());
+  closeModal(); markChanged(); render();
+  toast(delta===0?'No change': ('Calibrated · '+w.name+' set to '+(w.type==='points'?(w.balance||0).toLocaleString('en-ZA'):fmtR(w.balance,2))));
 }
 function addWalletModal(){
   openModal(`<h3>Add a wallet</h3><p class="m-sub">A custom account or savings pot.</p>
@@ -976,15 +1052,17 @@ function renderTracker(host){
 }
 function txRow(t){
   const c=catById(t.category);
-  const sign=t.kind==='income'?'+':t.kind==='expense'?'−':'→';
-  const cls=t.kind==='income'?'pos':t.kind==='expense'?'neg':'';
+  const isCal=t.kind==='calibration';
+  const sign=isCal?(t.delta>=0?'+':'−'):(t.kind==='income'?'+':t.kind==='expense'?'−':'→');
+  const cls=isCal?(t.delta>=0?'pos':'neg'):(t.kind==='income'?'pos':t.kind==='expense'?'neg':'');
+  const amt=isCal?Math.abs(t.delta||0):t.amount;
   const w=walletById(t.wallet)?.name||'—';
   const to=t.kind==='transfer'?(' → '+(walletById(t.toWallet)?.name||'—')):'';
   return `<tr>
     <td>${escapeHtml(t.name)}<div class="muted" style="font-size:11px;">${escapeHtml(w)}${escapeHtml(to)} · ${t.date||''}</div></td>
-    <td><span class="chip dot-only" style="background:${c.color}">${escapeHtml(c.name)}</span></td>
-    <td><span class="type-tag ${t.kind}">${t.kind}</span></td>
-    <td class="r ${cls}">${sign}${fmtR(t.amount,2).replace('R','R')}</td>
+    <td>${isCal?'<span class="type-tag" style="border-color:#cbd5e1;background:#eef2f7;color:#475569;">adjust</span>':`<span class="chip dot-only" style="background:${c.color}">${escapeHtml(c.name)}</span>`}</td>
+    <td><span class="type-tag ${isCal?'':t.kind}">${isCal?'calibration':t.kind}</span></td>
+    <td class="r ${cls}">${sign}${fmtR(amt,2)}</td>
     <td class="r"><button class="icon-btn del" title="Remove & reverse" onclick="delTx('${t.id}')">✕</button></td>
   </tr>`;
 }
@@ -1037,7 +1115,7 @@ function renderMonthly(host){
     <div class="card" style="margin-bottom:16px;">
       <h2>Budgets — envelopes, not deducted</h2>
       <div class="tbl-scroll">${budgetTable(budgets, nowMk)}</div>
-      <p class="muted" style="font-size:13px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);">Leftover this month (unallocated · income raises it, unbudgeted spending like food lowers it): <b class="tnum ${leftoverThisMonth().value<0?'neg':'pos'}">${fmtR(leftoverThisMonth().value,0)}</b></p>
+      <p class="muted" style="font-size:13px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);">Leftover this month (spent first, then Entertainment, then Fuel): <b class="tnum ${spendWaterfall().leftoverRem<=0?'neg':'pos'}">${fmtR(spendWaterfall().leftoverRem,0)}</b></p>
     </div>
     <div class="card">
       <h2>Recent activity (reversible)</h2>
@@ -1070,10 +1148,14 @@ function autoTable(items){
 }
 function budgetTable(items, mk){
   if(!items.length) return '<p class="muted">No budgets yet. Add an item with type “budget”.</p>';
+  const wf=spendWaterfall();
   return `<table class="data"><thead><tr><th>Budget</th><th>Category</th><th class="r">Target</th><th class="r">Spent</th><th class="r">Left</th><th></th><th></th></tr></thead><tbody>
-    ${items.map(m=>{ const c=catById(m.category); const target=budgetTarget(m), spent=spentInCat(m.category,mk), rem=target-spent;
+    ${items.map(m=>{ const c=catById(m.category); const target=budgetTarget(m);
+      const rem = (m.category in wf.remByCat) ? wf.remByCat[m.category] : (target-spentInCat(m.category,mk));
+      const spent = +(target-rem).toFixed(2);
+      const eaten = m.category==='entertainment'?wf.entEaten : m.category==='fuel'?wf.fuelEaten : 0;
       return `<tr>
-        <td>${escapeHtml(m.name.replace(' (balance)',''))}${m.remainder?'<div class="muted" style="font-size:11px;">auto · leftover salary</div>':''}</td>
+        <td>${escapeHtml(m.name.replace(' (balance)',''))}${eaten>0?`<div class="muted" style="font-size:11px;">incl. ${fmtR(eaten,2)} from overspend</div>`:''}</td>
         <td><span class="chip dot-only" style="background:${c.color}">${escapeHtml(c.name)}</span></td>
         <td class="r">${fmtR(target,2)}</td>
         <td class="r">${fmtR(spent,2)}</td>
