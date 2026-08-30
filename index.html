@@ -123,6 +123,7 @@ nav.pill .nav-links a:hover,nav.pill .nav-links a.active{color:var(--accent);}
 .wcard.debt .w-bal{color:var(--bad);}
 .wcard .w-actions{position:absolute;top:12px;right:12px;display:flex;gap:6px;opacity:0;transition:.15s;}
 .wcard:hover .w-actions{opacity:1;}
+@media (hover:none),(pointer:coarse),(max-width:720px){ .wcard .w-actions{opacity:1;} }
 .credit-bar{height:8px;background:#eadfdc;border-radius:99px;margin-top:10px;overflow:hidden;}
 .credit-bar>span{display:block;height:100%;background:var(--bad);border-radius:99px;}
 
