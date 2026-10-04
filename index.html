@@ -222,6 +222,64 @@ table.data .r{text-align:right;}
 .legend-row div{display:grid;grid-template-columns:12px 1fr auto;gap:4px 8px;align-items:center;}
 .legend-row i{width:12px;height:12px;border-radius:4px;display:block;}
 .legend-row em{grid-column:2/-1;font-style:normal;color:var(--ink-soft);font-size:12px;margin-top:-4px;}
+/* ---- planner ---- */
+.pl-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;} @media(max-width:760px){.pl-kpis{grid-template-columns:1fr 1fr;}}
+.pl-top{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;} @media(max-width:760px){.pl-top{grid-template-columns:1fr;}}
+.pl-big{font-size:22px!important;font-weight:800;}
+.pl-quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.pl-add{display:grid;grid-template-columns:1fr 90px 104px 44px;gap:8px;} @media(max-width:520px){.pl-add{grid-template-columns:1fr 1fr 44px;}.pl-add input[type=text]{grid-column:1/-1;}}
+#plInv{max-height:220px;overflow-y:auto;padding-right:4px;}
+.pl-group{margin-bottom:12px;} .pl-gtitle{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;}
+.pl-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.pl-chip{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:99px;border:1px solid var(--line);border-left:4px solid var(--ink-soft);background:#fff;font-size:13px;font-weight:700;cursor:grab;user-select:none;touch-action:manipulation;}
+.pl-chip:hover{border-color:var(--accent);} .pl-chip:active{cursor:grabbing;}
+.pl-chip em{font-style:normal;font-weight:600;color:var(--ink-soft);font-size:12px;}
+.pl-chip.k-debt{border-left-color:#c0392b;} .pl-chip.k-goal{border-left-color:#02367B;} .pl-chip.k-smart,.pl-chip.k-income{border-left-color:#2e7d32;} .pl-chip.k-custom{border-left-color:#cd7f32;}
+.pl-chipx{border:none;background:none;color:var(--ink-soft);cursor:pointer;font-size:12px;padding:0 0 0 2px;}
+.pl-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;} .pl-tools{display:flex;gap:8px;flex-wrap:wrap;}
+.pl-tree{position:relative;margin-top:14px;padding:14px 8px 8px;border:2px dashed transparent;border-radius:16px;min-height:120px;transition:.15s;}
+.pl-tree.over{border-color:var(--accent);background:#f3f8ff;}
+.pl-node{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-radius:14px;border:2px solid var(--ink);background:#fff;max-width:420px;margin:0 auto;font-weight:700;}
+.pl-node b{font-size:20px;font-variant-numeric:tabular-nums;}
+.pl-node.root{background:var(--bg-dark);color:var(--ink-on-dark);border-color:var(--bg-dark);}
+.pl-node.end.good{border-color:var(--good);background:#eef7ef;color:var(--good);} .pl-node.end.zero{border-color:#8a5a00;background:#fff6e5;color:#8a5a00;} .pl-node.end.bad{border-color:var(--bad);background:#fdf0ee;color:var(--bad);}
+.pl-start,.pl-end{position:relative;} .pl-start::after{content:'';display:block;width:2px;height:18px;background:var(--ink-soft);margin:0 auto;}
+.pl-end::before{content:'';display:block;width:2px;height:18px;background:var(--ink-soft);margin:0 auto;}
+.pl-rows{position:relative;display:flex;flex-direction:column;gap:12px;padding:0 0 0 0;}
+.pl-rows::before{content:'';position:absolute;left:19px;top:-4px;bottom:-4px;width:2px;background:var(--line);}
+.pl-row{position:relative;display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;transition:transform .12s;}
+.pl-row.dragging{z-index:5;opacity:.92;box-shadow:0 12px 30px rgba(0,0,0,.2);transition:none;}
+.pl-row.drop-before::before,.pl-row.drop-after::after{content:'';position:absolute;left:0;right:0;height:4px;border-radius:4px;background:var(--accent);}
+.pl-row.drop-before::before{top:-8px;} .pl-row.drop-after::after{bottom:-8px;}
+.pl-op{position:relative;z-index:1;width:40px;height:40px;border-radius:50%;border:2px solid var(--bad);background:#fff;color:var(--bad);font-size:22px;font-weight:800;line-height:1;cursor:pointer;}
+.pl-op.plus{border-color:var(--good);color:var(--good);}
+.pl-card{background:#fff;border:1px solid var(--line);border-left:5px solid var(--ink-soft);border-radius:14px;padding:10px 12px;min-width:0;}
+.pl-card.k-debt{border-left-color:#c0392b;} .pl-card.k-goal{border-left-color:#02367B;} .pl-card.k-smart,.pl-card.k-income{border-left-color:#2e7d32;} .pl-card.k-custom{border-left-color:#cd7f32;}
+.pl-line{display:flex;align-items:center;gap:8px;min-width:0;}
+.pl-handle{cursor:grab;touch-action:none;font-size:18px;color:var(--ink-soft);padding:4px 2px;user-select:none;}
+.pl-ico{font-size:18px;}
+.pl-name{flex:1;min-width:0;border:1px solid transparent;background:transparent;font:inherit;font-weight:700;font-size:14px;padding:6px 6px;border-radius:8px;} .pl-name:hover,.pl-name:focus{border-color:var(--line);background:#fafaf9;outline:none;}
+.pl-money{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:10px;padding:0 8px;background:#fafaf9;} .pl-money i{font-style:normal;color:var(--ink-soft);font-weight:700;}
+.pl-amt{width:96px;border:none;background:transparent;font:inherit;font-weight:800;font-size:15px;text-align:right;padding:7px 0;font-variant-numeric:tabular-nums;outline:none;}
+.pl-bar{height:6px;border-radius:99px;background:#ecebe6;margin-top:8px;overflow:hidden;} .pl-bar span{display:block;height:100%;border-radius:99px;transition:width .2s;}
+.pl-why{font-size:12px;color:var(--ink-soft);margin-top:6px;line-height:1.5;} .pl-why:empty{display:none;}
+.pl-eq{font-size:13px;color:var(--ink-soft);white-space:nowrap;text-align:right;min-width:96px;} .pl-eq b{display:block;font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums;} .pl-eq b.neg{color:var(--bad);}
+@media(max-width:620px){.pl-row{grid-template-columns:40px 1fr;}.pl-eq{grid-column:2;text-align:left;margin-top:-4px;padding-left:6px;}.pl-eq b{display:inline;margin-left:4px;}.pl-amt{width:78px;}}
+.pl-empty{padding:22px;text-align:center;color:var(--ink-soft);font-size:13px;border:2px dashed var(--line);border-radius:14px;}
+.pl-saved{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);}
+.pl-money .pl-amt,.pl-card .pl-name{border:none;box-shadow:none;margin:0;}
+.pl-money .pl-amt{background:transparent;width:104px;padding:7px 0;border-radius:0;}
+.pl-card .pl-name{border:1px solid transparent;width:auto;}
+.pl-node b{white-space:nowrap;} .pl-node span{min-width:0;}
+@media(max-width:620px){.pl-line{flex-wrap:wrap;row-gap:6px;}.pl-name{flex:1 1 130px;}.pl-money{margin-left:auto;}.pl-node{max-width:none;padding:10px 14px;}.pl-node b{font-size:18px;}}
+/* ---- finance ---- */
+.fin-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.fin-grid div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;}
+.fin-grid em{display:block;font-style:normal;font-size:11px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;}
+.fin-grid b{font-size:16px;font-variant-numeric:tabular-nums;}
+.fin-tbl{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums;}
+.fin-tbl th,.fin-tbl td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);} .fin-tbl th:first-child,.fin-tbl td:first-child{text-align:left;}
+.fin-tbl th{font-size:11px;color:var(--ink-soft);text-transform:uppercase;} .fin-tbl tr.cur td{background:#eef4fd;font-weight:800;}
 /* ---- ask the advisor ---- */
 .chat-log{display:flex;flex-direction:column;gap:10px;max-height:380px;overflow-y:auto;padding:4px 2px;margin:12px 0;}
 .msg{max-width:92%;padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.55;white-space:pre-wrap;word-wrap:break-word;}
@@ -386,8 +444,9 @@ async function cloudPut(blob){
    ===================================================================== */
 function defaultData(){
   const data = {
-    meta:{ schema:6, createdAt:Date.now(), updatedAt:Date.now() },
+    meta:{ schema:7, createdAt:Date.now(), updatedAt:Date.now() },
     settings:{ shariah:true, aiConsent:false },
+    planner:{ chips:[], saved:[], draft:{amount:'',rows:[]} },
     wallets:[
       {id:'sb',        name:'Standard Bank',        group:'Standard Bank', type:'asset',   balance:248},
       {id:'sbs1',      name:'SB Savings (1)',       group:'Standard Bank', type:'asset',   balance:9.33},
@@ -522,6 +581,13 @@ function migrate(data){
     if(data.settings.shariah===undefined) data.settings.shariah=true;
     if(data.settings.aiConsent===undefined) data.settings.aiConsent=false;
     data.meta.schema=6;
+  }
+  if((data.meta.schema||1) < 7){
+    if(!data.planner || typeof data.planner!=='object') data.planner={};
+    if(!Array.isArray(data.planner.chips)) data.planner.chips=[];
+    if(!Array.isArray(data.planner.saved)) data.planner.saved=[];
+    if(!data.planner.draft) data.planner.draft={amount:'',rows:[]};
+    data.meta.schema=7;
   }
   return data;
 }
@@ -817,6 +883,59 @@ function humanDays(d){ const a=Math.abs(d); if(d<=0) return a+' day'+(a===1?'':'
 function monthlyInto(walletId){
   return state.monthly.filter(m=>m.active!==false && m.kind==='transfer' && m.toWallet===walletId).reduce((s,m)=>s+(+m.amount||0),0);
 }
+/* Islamic finance planner (indicative: always replace with the bank's own quote) */
+const FIN_TYPES={
+  cash: {label:'Cash: save the full amount'},
+  car:  {label:'Islamic car finance (murabaha / ijarah)', price:300000, depPct:10, years:5,  rate:11.5, balloonPct:0, costs:0,  vehicle:true},
+  home: {label:'Islamic home finance (diminishing musharaka)', price:1200000, depPct:10, years:20, rate:11, balloonPct:0, costsPct:3},
+  other:{label:'Other Islamic finance (murabaha)', price:50000, depPct:10, years:3, rate:12, balloonPct:0, costs:0}
+};
+function finPmt(P, ratePct, n, balloon){
+  P=Math.max(0,+P||0); n=Math.max(1,Math.round(+n||1)); balloon=Math.min(Math.max(0,+balloon||0),P);
+  const r=(+ratePct||0)/1200;
+  if(P<=0) return 0;
+  if(r<=0) return (P-balloon)/n;
+  return (P-balloon/Math.pow(1+r,n))*r/(1-Math.pow(1+r,-n));
+}
+function finCalc(f){
+  const price=Math.max(0,+f.price||0), depPct=Math.min(100,Math.max(0,+f.depPct||0));
+  const dep=+(price*depPct/100).toFixed(2), costs=Math.max(0,+f.costs||0);
+  const financed=Math.max(0,+(price-dep).toFixed(2));
+  const n=Math.max(1,Math.round((+f.years||0)*12));
+  const balloon=Math.min(financed, +(price*(+f.balloonPct||0)/100).toFixed(2));
+  const pmt=+finPmt(financed,f.rate,n,balloon).toFixed(2);
+  const total=+(pmt*n+balloon).toFixed(2), profit=Math.max(0,+(total-financed).toFixed(2));
+  return {price,depPct,dep,costs,upfront:+(dep+costs).toFixed(2),financed,n,pmt,total,profit,balloon,paidAll:+(dep+costs+total).toFixed(2)};
+}
+function finAdvice(f, monthlySave, savedNow){
+  const c=finCalc(f), S=advSnapshot(), out=[]; const add=(l,t)=>out.push({level:l,text:t});
+  if(c.price<=0) return out;
+  const inc=S.income, ratio=inc>0?c.pmt/inc:0;
+  const limit=f.type==='home'?{warn:.30,bad:.35}:(f.type==='car'?{warn:.15,bad:.20}:{warn:.10,bad:.15});
+  if(inc>0 && c.pmt>0){
+    if(ratio>limit.bad) add('bad',`The instalment would be ${Math.round(ratio*100)}% of your take-home pay, which is heavy. A common guideline for this kind of finance is to stay under about ${Math.round(limit.warn*100)}%. A bigger deposit, a cheaper price or a longer term would lower it.`);
+    else if(ratio>limit.warn) add('warn',`The instalment would be ${Math.round(ratio*100)}% of your take-home pay, a little above the usual ${Math.round(limit.warn*100)}% guideline.`);
+    else add('good',`The instalment would be ${Math.round(ratio*100)}% of your take-home pay, inside the usual ${Math.round(limit.warn*100)}% guideline.`);
+    if(c.pmt>S.leftover) add('warn',`Your plan only has ${fmtR(Math.max(0,S.leftover),0)} unallocated each month, so about ${fmtR(c.pmt-Math.max(0,S.leftover),0)} a month would have to come from somewhere else (a raise, side income, or trimming other items).`);
+  }
+  const live=S.debts.filter(x=>x.bal>0.5&&x.interest>0.5);
+  if(live.length) add('warn',`You still owe ${fmtR(live.reduce((a,x)=>a+x.bal,0),0)} on interest-bearing debt (${live.map(x=>x.d.name).join(', ')}). ${shariahOn()?'Clearing it first keeps you out of riba and ':'Clearing it first '}makes this new commitment much easier to carry.`);
+  if(c.depPct<=40){
+    const hi=finCalc({...f,depPct:Math.min(100,c.depPct+10)});
+    if(hi.pmt<c.pmt-1) add('tip',`Raising the deposit from ${c.depPct}% to ${c.depPct+10}% costs ${fmtR(hi.dep-c.dep,0)} more upfront but lowers the instalment by about ${fmtR(c.pmt-hi.pmt,0)} a month and the total profit paid by about ${fmtR(c.profit-hi.profit,0)}.`);
+  }
+  if(c.n>=12){
+    const sh=finCalc({...f,years:Math.max(1,(+f.years||1)-1)});
+    if(sh.n<c.n) add('tip',`One year shorter would raise the instalment by about ${fmtR(sh.pmt-c.pmt,0)} but cut the total profit paid by about ${fmtR(c.profit-sh.profit,0)}. Longer terms feel cheaper monthly but cost more overall.`);
+  }
+  if(f.type==='car') add('tip','Budget for insurance, licence and maintenance on top of the instalment. Ask whether the bank requires comprehensive cover and a tracking device.');
+  if(f.type==='home' && c.costs<=0) add('warn','You have not allowed for upfront costs (transfer duty or costs, bond or registration fees, moving). Ask a conveyancer for a quote and add it above.');
+  add('tip','Under murabaha the price and profit are fixed in the contract; under diminishing musharaka the monthly payment is rent plus buying out the bank’s share. Ask each bank about its minimum deposit, whether the rate is fixed or variable, and how early settlement is treated.');
+  const need=Math.max(0,c.upfront-(+savedNow||0));
+  if(need>0 && monthlySave>0) add('tip',`At ${fmtR(monthlySave,0)} a month you would have the ${fmtR(c.upfront,0)} upfront in about ${humanMonths(Math.ceil(need/monthlySave))}.`);
+  else if(need>0) add('tip',`Set a monthly saving amount to see how long the ${fmtR(c.upfront,0)} upfront will take.`);
+  return out;
+}
 function goalSaved(g){
   if(g.walletId){ const w=walletById(g.walletId); return w?Math.max(0,+w.balance||0):0; }
   return Math.max(0,(+g.saved||0)+(g.contribs||[]).reduce((s,c)=>s+(+c.amt||0),0));
@@ -881,6 +1000,8 @@ function goalTemplates(){
     holiday:  {name:'Holiday',                   icon:'✈️', target:30000,  months:12, priority:3},
     gear:     {name:'New camera / laptop gear',  icon:'📷', target:25000,  months:8,  priority:3},
     study:    {name:'Study / course fund',       icon:'🎓', target:20000,  months:12, priority:2},
+    carFin:   {name:'Car (Islamic finance)',     icon:'🚗', target:0, months:36, priority:2, fin:{type:'car'}},
+    homeFin:  {name:'Home (Islamic finance)',    icon:'🏠', target:0, months:60, priority:2, fin:{type:'home'}},
   };
 }
 function sortGoals(list){
@@ -938,6 +1059,10 @@ function goalCard(x){
     if(s.status==='behind' && s.shortfallMonthly>0) facts.push(`Add about <b>${fmtR(s.shortfallMonthly,0)}/mo</b> to make the date`);
     if(s.nextMs && s.nextMs<100) facts.push(`Next milestone <b>${s.nextMs}%</b> · ${fmtR(s.nextAmt,0)} away`);
   }
+  if(g.fin){ const c=finCalc(g.fin);
+    facts.unshift(`${escapeHtml(FIN_TYPES[g.fin.type]?FIN_TYPES[g.fin.type].label.split(' (')[0]:'Islamic finance')}: price <b>${fmtR(c.price,0)}</b> · deposit ${c.depPct}% (${fmtR(c.dep,0)})${c.costs>0?` + ${fmtR(c.costs,0)} costs`:''}`);
+    facts.push(`After that: about <b>${fmtR(c.pmt,0)}/mo</b> for ${humanMonths(c.n)} at ~${(+g.fin.rate||0)}% (indicative), profit paid ≈ ${fmtR(c.profit,0)}`);
+    const inc=advSnapshot().income; if(inc>0) facts.push(`Instalment = <b>${Math.round(c.pmt/inc*100)}%</b> of take-home pay`); }
   const prio={1:'High',2:'Medium',3:'Low'}[g.priority||2];
   return `<div class="gcard ${s.done?'done':''}">
     <div class="g-head"><div class="g-ico">${escapeHtml(g.icon||'🎯')}</div>
@@ -963,6 +1088,11 @@ function goalModal(id, tplKey){
   let f;
   const tpl=tplKey?goalTemplates()[tplKey]:null;
   if(g) f={...g};
+  else if(tpl && tpl.fin){
+    const base=FIN_TYPES[tpl.fin.type]; const fin={type:tpl.fin.type, price:base.price, depPct:base.depPct, years:base.years, rate:base.rate, balloonPct:base.balloonPct||0, costs:base.costsPct?Math.round(base.price*base.costsPct/100):(base.costs||0)};
+    const up=finCalc(fin).upfront;
+    f={name:tpl.name,icon:tpl.icon,target:up,saved:0,walletId:'',deadline:toYMD(addMonths(new Date(),tpl.months)),monthly:Math.round(up/tpl.months),priority:tpl.priority,fin};
+  }
   else if(tpl) f={name:tpl.name,icon:tpl.icon,target:tpl.target,saved:0,walletId:'',deadline:toYMD(addMonths(new Date(),tpl.months)),monthly:Math.round(tpl.target/tpl.months),priority:tpl.priority};
   else f={name:'',icon:'🎯',target:'',saved:0,walletId:'',deadline:'',monthly:'',priority:2};
   const wopts=state.wallets.filter(w=>w.type==='asset').map(w=>`<option value="${w.id}" ${f.walletId===w.id?'selected':''}>${escapeHtml(w.name)}</option>`).join('');
@@ -973,8 +1103,26 @@ function goalModal(id, tplKey){
         <div class="field"><label>Icon</label><select id="gIcon">${GOAL_ICONS.map(i=>`<option value="${i}" ${f.icon===i?'selected':''}>${i}</option>`).join('')}</select></div>
         <div class="field"><label>Priority</label><select id="gPrio">${[[1,'High'],[2,'Medium'],[3,'Low']].map(([v,l])=>`<option value="${v}" ${(f.priority||2)===v?'selected':''}>${l}</option>`).join('')}</select></div>
       </div>
+      <div class="field"><label>How will you pay?</label>
+        <select id="gPay" onchange="goalFinType(this.value)">${Object.entries(FIN_TYPES).map(([k,t])=>`<option value="${k}" ${((f.fin&&f.fin.type)||'cash')===k?'selected':''}>${escapeHtml(t.label)}</option>`).join('')}</select></div>
+      <div id="gFinBox" style="display:none;">
+        <div class="hint" style="margin-bottom:10px;">Plan the deposit before you apply. Figures are <b>indicative</b>: the profit rate is whatever you type, so replace it with a real quote from the bank. Your target below becomes the <b>deposit plus upfront costs</b>.</div>
+        <div class="form-grid">
+          <div class="field"><label>Price (R)</label><input type="number" step="1000" id="gfPrice" oninput="goalFinRun()"></div>
+          <div class="field"><label>Deposit (%)</label><input type="number" step="1" min="0" max="100" id="gfDep" oninput="goalFinRun()"></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>Upfront costs (R)</label><input type="number" step="100" id="gfCosts" oninput="goalFinRun()"></div>
+          <div class="field"><label>Term (years)</label><input type="number" step="1" min="1" max="30" id="gfYears" oninput="goalFinRun()"></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>Profit rate (% a year)</label><input type="number" step="0.1" id="gfRate" oninput="goalFinRun()"></div>
+          <div class="field" id="gfBalWrap"><label>Final payment / balloon (% of price)</label><input type="number" step="1" min="0" max="60" id="gfBal" oninput="goalFinRun()"></div>
+        </div>
+        <div id="gFinOut" style="margin-top:12px;"></div>
+      </div>
       <div class="form-grid">
-        <div class="field"><label>Target (R)</label><input type="number" step="0.01" id="gTarget" value="${f.target||''}" placeholder="0.00"></div>
+        <div class="field"><label id="gTargetLbl">Target (R)</label><input type="number" step="0.01" id="gTarget" value="${f.target||''}" placeholder="0.00"></div>
         <div class="field"><label>Deadline (optional)</label><input type="date" id="gDeadline" value="${escapeHtml(f.deadline||'')}"></div>
       </div>
       <div class="form-grid">
@@ -987,20 +1135,54 @@ function goalModal(id, tplKey){
     </div>
     <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Cancel</button>
       <button class="btn" onclick="saveGoal('${g?g.id:''}')">${g?'Save changes':'Add goal'}</button></div>`);
-  goalWalletToggle();
+  window.__goalFinInit=f.fin||null; goalWalletToggle(); goalFinType((f.fin&&f.fin.type)||'cash', true);
+}
+function goalFinType(type, initial){
+  const box=$('gFinBox'); if(!box) return;
+  const on=type!=='cash'; box.style.display=on?'block':'none';
+  $('gTarget').readOnly=on; $('gTargetLbl').textContent=on?'Target = deposit + upfront costs (R)':'Target (R)';
+  if(!on) return;
+  const base=FIN_TYPES[type]; const cur=window.__goalFinInit;
+  const v=(cur&&cur.type===type)?cur:{price:base.price, depPct:base.depPct, years:base.years, rate:base.rate, balloonPct:base.balloonPct||0, costs:base.costsPct?Math.round(base.price*base.costsPct/100):(base.costs||0)};
+  $('gfPrice').value=v.price; $('gfDep').value=v.depPct; $('gfCosts').value=v.costs; $('gfYears').value=v.years; $('gfRate').value=v.rate; $('gfBal').value=v.balloonPct||0;
+  $('gfBalWrap').style.display=(type==='car')?'flex':'none';
+  if(type!=='car') $('gfBal').value=0;
+  goalFinRun();
+}
+function goalFinRead(){
+  return {type:$('gPay').value, price:clampNum($('gfPrice').value), depPct:clampNum($('gfDep').value), costs:clampNum($('gfCosts').value),
+    years:clampNum($('gfYears').value), rate:clampNum($('gfRate').value), balloonPct:clampNum($('gfBal').value)};
+}
+function goalFinRun(){
+  const out=$('gFinOut'); if(!out||$('gPay').value==='cash') return;
+  const f=goalFinRead(), c=finCalc(f);
+  $('gTarget').value=c.upfront>0?c.upfront.toFixed(2):'';
+  const saved=clampNum($('gSaved')?$('gSaved').value:0)||0, mo=clampNum($('gMonthly').value);
+  const pcts=[...new Set([10,20,30,40,Math.round(c.depPct)])].filter(x=>x>=0&&x<=100).sort((a,b)=>a-b);
+  const rows=pcts.map(pc=>{ const x=finCalc({...f,depPct:pc}); return `<tr class="${pc===Math.round(c.depPct)?'cur':''}"><td>${pc}%</td><td>${fmtR(x.dep+x.costs,0)}</td><td>${fmtR(x.pmt,0)}</td><td>${fmtR(x.profit,0)}</td></tr>`; }).join('');
+  const adv=finAdvice(f, mo, saved).map(a=>`<div class="note ${a.level}" style="margin-bottom:8px;"><div><span>${escapeHtml(a.text)}</span></div></div>`).join('');
+  out.innerHTML=`<div class="fin-grid">
+      <div><em>Deposit</em><b>${fmtR(c.dep,0)}</b></div><div><em>Upfront total</em><b>${fmtR(c.upfront,0)}</b></div>
+      <div><em>Amount financed</em><b>${fmtR(c.financed,0)}</b></div><div><em>Monthly instalment</em><b>${fmtR(c.pmt,0)}</b></div>
+      <div><em>Profit paid (total)</em><b>${fmtR(c.profit,0)}</b></div><div><em>Everything you pay</em><b>${fmtR(c.paidAll,0)}</b></div></div>
+    <div class="muted" style="font-size:12px;font-weight:700;margin:12px 0 4px;">TRY DIFFERENT DEPOSITS</div>
+    <table class="fin-tbl"><thead><tr><th>Deposit</th><th>Upfront</th><th>Per month</th><th>Total profit</th></tr></thead><tbody>${rows}</tbody></table>
+    <div style="margin-top:12px;">${adv}</div>`;
 }
 function goalWalletToggle(){
   const on=!!$('gWallet').value;
   $('gSavedWrap').style.display=on?'none':'flex'; $('gWalletHint').style.display=on?'block':'none';
 }
 function saveGoal(id){
-  const name=$('gName').value.trim(), target=clampNum($('gTarget').value);
+  const name=$('gName').value.trim(); let target=clampNum($('gTarget').value);
   if(!name){ toast('Give it a name',true); return; }
-  if(target<=0){ toast('Set a target amount',true); return; }
+  if(target<=0 && $('gPay').value==='cash'){ toast('Set a target amount',true); return; }
   const dl=$('gDeadline').value;
   const obj={name, icon:$('gIcon').value, target, deadline:parseYMD(dl)?dl:'', monthly:Math.max(0,clampNum($('gMonthly').value)), priority:+$('gPrio').value||2, walletId:$('gWallet').value||''};
   if(!obj.walletId) obj.saved=Math.max(0,clampNum($('gSaved').value));
-  if(id){ Object.assign(state.goals.find(x=>x.id===id), obj); }
+  const payType=$('gPay').value;
+  if(payType!=='cash'){ const fr=goalFinRead(); if(fr.price<=0){ toast('Enter the price',true); return; } obj.fin=fr; obj.target=finCalc(fr).upfront; if(obj.target<=0){ toast('Deposit comes to zero: set a deposit or costs',true); return; } }
+  if(id){ const gg=state.goals.find(x=>x.id===id); Object.assign(gg, obj); if(payType==='cash') delete gg.fin; }
   else state.goals.push({id:uid(), createdAt:Date.now(), contribs:[], saved:0, ...obj});
   closeModal(); markChanged(); render(); toast(id?'Goal updated':'Goal added');
 }
@@ -1287,12 +1469,12 @@ function advAllocate(X, funPct){
   let left=+(X-fun).toFixed(2);
   const take=(label,whyFn,cap,extra)=>{ const a=Math.min(left,Math.max(0,cap)); if(a>0.004){ const amt=+a.toFixed(2); rows.push({label,amt,why:whyFn(amt),...(extra||{})}); left=+(left-amt).toFixed(2); return amt; } return 0; };
   const up=upcomingSb();
-  take('Standard Bank float', a=>`Your account would otherwise dip about ${fmtR(up.shortfall,0)} below zero before payday.`, up.shortfall);
-  const ef1=take('Emergency fund (first month)', a=>`Builds your safety net toward one month of essentials (${fmtR(S.essentials,0)}).`, Math.max(0,S.essentials-S.efBal));
+  take('Standard Bank float', a=>`Your account would otherwise dip about ${fmtR(up.shortfall,0)} below zero before payday.`, up.shortfall, {kind:'smart',ref:'float',icon:'🏦'});
+  const ef1=take('Emergency fund (first month)', a=>`Builds your safety net toward one month of essentials (${fmtR(S.essentials,0)}).`, Math.max(0,S.essentials-S.efBal), {kind:'smart',ref:'ef',icon:'🛡️'});
   S.debts.filter(x=>x.bal>0.5).sort((a,b)=>(b.apr-a.apr)||(a.bal-b.bal)).forEach(x=>{
-    take('Extra on '+x.d.name, a=>{ const e=advDebtEffect(x.d,a); return e.monthsSaved>0 ? `Costs you about ${fmtR(x.interest,0)}/month in interest. This clears it ${humanMonths(e.monthsSaved)} sooner and saves about ${fmtR(e.saved,0)} in charges.` : `Costs you about ${fmtR(x.interest,0)}/month in interest, so every rand off the balance counts.`; }, x.bal);
+    take('Extra on '+x.d.name, a=>{ const e=advDebtEffect(x.d,a); return e.monthsSaved>0 ? `Costs you about ${fmtR(x.interest,0)}/month in interest. This clears it ${humanMonths(e.monthsSaved)} sooner and saves about ${fmtR(e.saved,0)} in charges.` : `Costs you about ${fmtR(x.interest,0)}/month in interest, so every rand off the balance counts.`; }, x.bal, {kind:'debt',ref:x.d.id,icon:'💳',name:x.d.name});
   });
-  take('Emergency fund (up to 3 months)', a=>`Takes your safety net toward 3 months of essentials (${fmtR(S.essentials*3,0)}).`, Math.max(0,S.essentials*3-S.efBal-ef1));
+  take('Emergency fund (up to 3 months)', a=>`Takes your safety net toward 3 months of essentials (${fmtR(S.essentials*3,0)}).`, Math.max(0,S.essentials*3-S.efBal-ef1), {kind:'smart',ref:'ef',icon:'🛡️',name:'Emergency fund (to 3 months)'});
   // goals: catch-up first, then by priority/deadline up to what's left to save
   const gl=(state.goals||[]).map(g=>({g,s:goalStats(g)})).filter(x=>!x.s.done);
   const dlv=x=>x.s.dl?x.s.dl.getTime():Infinity;
@@ -1302,9 +1484,9 @@ function advAllocate(X, funPct){
   gl.forEach(x=>{ const a=Math.min(left,Math.max(0,x.s.remaining-gAlloc.get(x.g.id).catch)); if(a>0.004){ gAlloc.get(x.g.id).more=a; left=+(left-a).toFixed(2); } });
   gl.forEach(x=>{ const v=gAlloc.get(x.g.id), amt=+(v.catch+v.more).toFixed(2); if(amt>0.004){
     const w=x.g.walletId?walletById(x.g.walletId):null;
-    rows.push({label:(x.g.icon||'🎯')+' '+x.g.name, amt, why:(v.catch>0?`${fmtR(v.catch,0)} brings you back on schedule. `:'')+`Would leave ${fmtR(Math.max(0,x.s.remaining-amt),0)} to go.`+(w?` Move it into ${w.name}.`:'')}); } });
-  take('Long-term investing', a=>shariahOn()?'Everything above is covered, so put the rest into a Shariah-screened fund, ideally inside a tax-free savings account. Check the fund’s current certification first.':'Everything above is covered, so put the rest to work (unit trust or retirement annuity).', left);
-  if(fun>0.004) rows.push({label:'Guilt-free spending', amt:fun, why:`The ${Math.round(fun/X*100)}% you keep for yourself, no strings attached.`});
+    rows.push({label:(x.g.icon||'🎯')+' '+x.g.name, amt, why:(v.catch>0?`${fmtR(v.catch,0)} brings you back on schedule. `:'')+`Would leave ${fmtR(Math.max(0,x.s.remaining-amt),0)} to go.`+(w?` Move it into ${w.name}.`:''), kind:'goal', ref:x.g.id, icon:x.g.icon||'🎯', name:x.g.name}); } });
+  take('Long-term investing', a=>shariahOn()?'Everything above is covered, so put the rest into a Shariah-screened fund, ideally inside a tax-free savings account. Check the fund’s current certification first.':'Everything above is covered, so put the rest to work (unit trust or retirement annuity).', left, {kind:'smart',ref:'invest',icon:'🌱',name:shariahOn()?'Tax-free savings (halal fund)':'Long-term investing'});
+  if(fun>0.004) rows.push({label:'Guilt-free spending', kind:'smart', ref:'fun', icon:'🎉', amt:fun, why:`The ${Math.round(fun/X*100)}% you keep for yourself, no strings attached.`});
   return {rows, fun, total:X};
 }
 // Can I afford it? Simulates the purchase against Leftover → Entertainment → Fuel and your bank balance.
@@ -1338,22 +1520,7 @@ function renderAdvisor(host){
       <div class="kpi"><div class="k-lbl">Leftover now</div><div class="k-val ${wf.leftoverRem<=0?'neg':''}">${fmtR(wf.leftoverRem,0)}</div><div class="k-sub">this month, after spending</div></div>
     </div>
     ${advChatCard()}
-    <div class="grid2" style="align-items:start;">
-      <div class="card">
-        <h2>Where should this money go?</h2>
-        <div class="form-grid">
-          <div class="field"><label>Amount (R)</label><input type="number" step="0.01" id="advAmt" placeholder="e.g. 5000" oninput="advAllocRun()"></div>
-          <div class="field"><label>Keep for fun (%)</label><input type="number" step="1" min="0" max="50" id="advFun" value="10" oninput="advAllocRun()"></div>
-        </div>
-        <div style="margin:10px 0 4px;"><button class="btn ghost sm" onclick="$('advAmt').value=${Math.max(0,Math.round(wf.leftoverRem))};advAllocRun()">Use my leftover (${fmtR(wf.leftoverRem,0)})</button></div>
-        <div id="advAllocOut" style="margin-top:8px;"></div>
-      </div>
-      <div class="card">
-        <h2>Can I afford it?</h2>
-        <div class="field"><label>Purchase (R)</label><input type="number" step="0.01" id="advAfAmt" placeholder="e.g. 2500" oninput="advAffordRun()"></div>
-        <div id="advAffordOut" style="margin-top:8px;"></div>
-      </div>
-    </div>
+    <div class="card" style="margin-bottom:16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;"><div style="flex:1;min-width:220px;"><h2 style="margin-bottom:4px;">Got an amount to place?</h2><p class="muted" style="font-size:13px;">Use the Planner to drag loans, goals and purchases into a tree and see what is left, or what you can reach first.</p></div><button class="btn" onclick="go('planner')">Open the Planner</button></div>
     <div class="grid2" style="align-items:start;">
       <div class="card"><h2>Your priority ladder</h2><div class="ladder">
         ${ladder.map((r,i)=>`<div class="rung ${r.done?'done':''} ${r.next?'next':''}"><div class="n">${r.done?'✓':i+1}</div>
@@ -1370,7 +1537,7 @@ function renderAdvisor(host){
       <div class="legend-row">${seg.map(([l,v,c])=>`<div><i style="background:${c}"></i><span>${l}</span><b>${Math.round(pc(v))}%</b><em>${fmtR(v,0)}</em></div>`).join('')}</div>
       <p class="muted" style="font-size:12px;margin-top:12px;">A common starting point is roughly 50% needs, 30% wants and 20% savings and debt repayment. South African rent and debt costs often push needs higher, so treat it as a compass rather than a rule.</p>
     </div>`;
-  advAllocRun(); advAffordRun(); advSideRun(); advChatPaint();
+  advSideRun(); advChatPaint();
 }
 /* ---- Ask the advisor (opt-in, goes through your Worker /advise) ---- */
 let advChat=[], advBusy=false;
@@ -1478,6 +1645,227 @@ function advAffordRun(){
 }
 
 /* =====================================================================
+   PLANNER — drag & drop money tree (what-if calculator)
+   ===================================================================== */
+function plState(){
+  if(!state.planner) state.planner={chips:[],saved:[],draft:{amount:'',rows:[]}};
+  const P=state.planner; if(!Array.isArray(P.chips)) P.chips=[]; if(!Array.isArray(P.saved)) P.saved=[];
+  if(!P.draft||typeof P.draft!=='object') P.draft={amount:'',rows:[]}; if(!Array.isArray(P.draft.rows)) P.draft.rows=[];
+  return P;
+}
+const PL_KIND={debt:{lbl:'Debt',color:'#c0392b'},goal:{lbl:'Goal',color:'#02367B'},bill:{lbl:'Bill',color:'#6f6f6d'},smart:{lbl:'Smart',color:'#2e7d32'},custom:{lbl:'Mine',color:'#cd7f32'},income:{lbl:'In',color:'#2e7d32'}};
+function plRound(v){ return Math.round((+v||0)*100)/100; }
+function plCalc(){
+  const D=plState().draft, root=Math.max(0,+D.amount||0); let run=root, out=0, inn=0;
+  const steps=D.rows.map(r=>{ const a=Math.max(0,+r.amt||0), sgn=r.op==='+'?1:-1; run=plRound(run+sgn*a); if(sgn<0) out+=a; else inn+=a; return {r,a,sgn,after:run}; });
+  return {root, steps, out:plRound(out), inn:plRound(inn), final:plRound(root+inn-out), rows:D.rows};
+}
+// everything you can drag into the tree
+function plInventory(){
+  const S=advSnapshot(), P=plState(), root=Math.max(0,+P.draft.amount||0), groups=[];
+  const debts=S.debts.filter(x=>x.bal>0.5).map(x=>({key:'debt:'+x.d.id,kind:'debt',ref:x.d.id,name:x.d.name,icon:'💳',val:x.bal,cap:true}));
+  const goals=(state.goals||[]).map(g=>({g,s:goalStats(g)})).filter(x=>!x.s.done).map(x=>({key:'goal:'+x.g.id,kind:'goal',ref:x.g.id,name:x.g.name,icon:x.g.icon||'🎯',val:x.s.remaining,cap:true}));
+  const bills=state.monthly.filter(m=>m.active!==false&&(m.kind==='expense'||m.kind==='budget')&&!isPassThrough(m)).map(m=>({key:'bill:'+m.id,kind:'bill',ref:m.id,name:m.name,icon:'🧾',val:m.kind==='budget'?budgetTarget(m):(+m.amount||0)}));
+  const smart=[
+    {key:'smart:ef',kind:'smart',ref:'ef',name:'Emergency fund',icon:'🛡️',val:Math.max(0,S.essentials-S.efBal)||S.essentials,cap:true},
+    {key:'smart:invest',kind:'smart',ref:'invest',name:shariahOn()?'Tax-free savings (halal fund)':'Tax-free savings',icon:'🌱',val:46000,cap:true},
+    {key:'smart:fun',kind:'smart',ref:'fun',name:'Fun money',icon:'🎉',val:Math.round(root*0.1)},
+    {key:'smart:in',kind:'income',ref:'in',name:'Extra income',icon:'➕',val:0,op:'+'}];
+  const mine=P.chips.map(c=>({key:'custom:'+c.id,kind:c.op==='+'?'income':'custom',ref:c.id,name:c.name,icon:c.op==='+'?'➕':'🛍️',val:+c.amt||0,op:c.op==='+'?'+':'-',custom:true}));
+  if(mine.length) groups.push({title:'My items',items:mine});
+  if(debts.length) groups.push({title:'Debts',items:debts});
+  if(goals.length) groups.push({title:'Goals',items:goals});
+  groups.push({title:'Smart picks',items:smart});
+  if(bills.length) groups.push({title:'Bills & budgets',items:bills});
+  return groups;
+}
+function plFindChip(key){ for(const g of plInventory()) for(const c of g.items) if(c.key===key) return c; return null; }
+function plAddChip(key, idx){
+  const c=plFindChip(key); if(!c) return; const P=plState(), calc=plCalc();
+  let amt=c.val; if(c.cap && calc.final>0.004) amt=Math.min(c.val, calc.final);
+  const row={id:uid(),kind:c.kind,ref:c.ref,name:c.name,icon:c.icon,amt:plRound(amt),op:c.op||'-'};
+  const i=(idx==null||idx<0||idx>P.draft.rows.length)?P.draft.rows.length:idx;
+  P.draft.rows.splice(i,0,row); plSave(); plPaintTree(); plPaintAll();
+  setTimeout(()=>{ const inp=document.querySelector('#plTree .pl-row[data-id="'+row.id+'"] .pl-amt'); if(inp&&!(+row.amt>0)){ inp.focus(); } },30);
+}
+function plSave(){ markChanged(); }
+function plDel(id){ const P=plState(); P.draft.rows=P.draft.rows.filter(r=>r.id!==id); plSave(); plPaintTree(); plPaintAll(); }
+function plToggleOp(id){ const r=plState().draft.rows.find(x=>x.id===id); if(!r) return; r.op=r.op==='+'?'-':'+'; plSave(); plPaintTree(); plPaintAll(); }
+function plSetAmt(id,v){ const r=plState().draft.rows.find(x=>x.id===id); if(!r) return; r.amt=Math.max(0,clampNum(v)); plSave(); plPaintAll(); }
+function plSetName(id,v){ const r=plState().draft.rows.find(x=>x.id===id); if(!r) return; r.name=String(v).slice(0,40)||r.name; plSave(); plPaintAll(); }
+function plSetRoot(v){ plState().draft.amount=v; plSave(); plPaintAll(); }
+function plQuick(v){ plState().draft.amount=String(Math.max(0,Math.round(+v||0))); plSave(); const i=$('plAmt'); if(i) i.value=plState().draft.amount; plPaintAll(); }
+function plClear(){ confirmModal('Clear the tree?','All items in the tree will be removed. Your inventory and saved plans stay.',()=>{ plState().draft.rows=[]; plSave(); plPaintTree(); plPaintAll(); }); }
+function plAutoFill(){
+  const root=Math.max(0,+plState().draft.amount||0); if(root<=0){ toast('Enter an amount first',true); return; }
+  const r=advAllocate(root,10);
+  plState().draft.rows=r.rows.map(x=>({id:uid(),kind:x.kind||'smart',ref:x.ref||'',name:x.name||x.label,icon:x.icon||'•',amt:x.amt,op:'-',why:x.why}));
+  plSave(); plPaintTree(); plPaintAll(); toast('Filled in the advisor’s order. Change anything you like.');
+}
+function plAddCustom(){
+  const name=($('plNewName').value||'').trim(); if(!name){ toast('Give the item a name',true); return; }
+  const amt=Math.max(0,clampNum($('plNewAmt').value)), op=$('plNewOp').value==='+'?'+':'-';
+  plState().chips.push({id:uid(),name:name.slice(0,40),amt,op}); plSave();
+  $('plNewName').value=''; $('plNewAmt').value=''; plPaintInventory(); toast('Added to your items. Drag it into the tree, or tap it.');
+}
+function plDelChip(id){ const P=plState(); P.chips=P.chips.filter(c=>c.id!==id); plSave(); plPaintInventory(); }
+function plSavePlanModal(){
+  if(!plState().draft.rows.length){ toast('Add something to the tree first',true); return; }
+  openModal(`<h3>Save this plan</h3><p class="m-sub">Keep it to compare later. Saved plans are stored encrypted with the rest of your data.</p>
+    <div class="field"><label>Name</label><input type="text" id="plSaveName" placeholder="e.g. Bonus: phone vs loan" maxlength="40"></div>
+    <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn" onclick="plSavePlan()">Save</button></div>`);
+  setTimeout(()=>$('plSaveName')&&$('plSaveName').focus(),50);
+}
+function plSavePlan(){
+  const name=($('plSaveName').value||'').trim()||('Plan '+(plState().saved.length+1)); const P=plState(), D=P.draft;
+  P.saved.unshift({id:uid(),name:name.slice(0,40),amount:D.amount,rows:JSON.parse(JSON.stringify(D.rows)),at:Date.now()}); P.saved=P.saved.slice(0,10);
+  closeModal(); plSave(); plPaintSaved(); toast('Plan saved');
+}
+function plLoadPlan(id){ const P=plState(), sp=P.saved.find(x=>x.id===id); if(!sp) return;
+  P.draft={amount:sp.amount,rows:JSON.parse(JSON.stringify(sp.rows)).map(r=>({...r,id:uid()}))}; plSave(); render(); toast('Loaded “'+sp.name+'”'); }
+function plDelPlan(id){ const P=plState(); P.saved=P.saved.filter(x=>x.id!==id); plSave(); plPaintSaved(); }
+
+/* ---- insights: what the advisor says about this exact plan ---- */
+function plInsights(c){
+  const S=advSnapshot(), out=[], add=(level,title,text)=>out.push({level,title,text});
+  if(c.root<=0 && !c.rows.length){ add('tip','Start with an amount','Type what you have (a bonus, a refund, this month’s leftover), then drag items from your inventory into the tree. Each step subtracts, or adds if you flip it to +.'); return out; }
+  if(c.root<=0) add('warn','No starting amount','Enter an amount at the top so the tree can work out what is left.');
+  if(c.final<-0.004) add('bad','You’re '+fmtR(-c.final,0)+' over',`This plan spends more than you have. Lower an amount or remove the last item${c.steps.length?' (“'+c.steps[c.steps.length-1].r.name+'”)':''}, or flip something to + if extra money is coming in.`);
+  const live=S.debts.filter(x=>x.bal>0.5).sort((a,b)=>(b.apr-a.apr)||(a.bal-b.bal)), top=live[0];
+  let coveredTop=0;
+  c.steps.forEach(st=>{ const r=st.r; if(st.sgn<0 && st.a>0){
+    if(r.kind==='debt'){
+      const x=S.debts.find(d=>d.d.id===r.ref);
+      if(!x){ return; }
+      if(top&&x.d.id===top.d.id) coveredTop+=st.a;
+      if(st.a>x.bal+0.5) add('warn',r.name+': more than you owe',`Only ${fmtR(x.bal,0)} is owed, so ${fmtR(st.a-x.bal,0)} of this amount is not needed here. Move it to the next item.`);
+      else if(st.a>=x.bal-0.5) add('good',r.name+' cleared',`This pays it off completely and ends about ${fmtR(x.interest,0)} a month in interest and charges.`);
+      else { const e=advDebtEffect(x.d,st.a); add(e.monthsSaved>0?'good':'tip',r.name+': '+fmtR(st.a,0)+' off', e.monthsSaved>0?`Clears it ${humanMonths(e.monthsSaved)} sooner and saves about ${fmtR(e.saved,0)} in charges. ${fmtR(x.bal-st.a,0)} would remain.`:`Brings the balance down to ${fmtR(x.bal-st.a,0)}, which cuts the interest you pay each month.`); }
+    } else if(r.kind==='goal'){
+      const g=(state.goals||[]).find(y=>y.id===r.ref); if(!g) return; const gs=goalStats(g);
+      if(st.a>=gs.remaining-0.5) add('good',g.name+' reached',`This fully funds it (${fmtR(gs.remaining,0)} was still to go).${st.a>gs.remaining+0.5?' The extra '+fmtR(st.a-gs.remaining,0)+' could go elsewhere.':''}`);
+      else { const w=goalWhatIf(g,gs.monthly,st.a); let t=`${Math.round((gs.saved+st.a)/gs.target*100)}% funded, ${fmtR(gs.remaining-st.a,0)} to go.`;
+        if(w.date&&gs.dl) t+=w.diff>0?` At your current monthly saving you would still finish ${humanMonths(w.diff)} after the deadline.`:` At your current saving you would finish by ${fmtMonthYear(w.date)}, in time for the deadline.`;
+        else if(w.date) t+=` At your current monthly saving that is about ${fmtMonthYear(w.date)}.`;
+        add('tip',g.name+': '+fmtR(st.a,0),t); }
+    } else if(r.kind==='custom' || r.kind==='bill'){
+      let t=`Leaves ${fmtR(Math.max(0,c.final),0)} of ${fmtR(c.root,0)} once everything in the tree is paid.`;
+      if(top && top.apr>0){ const mv=Math.min(st.a,top.bal), mo=Math.min(mv*top.apr/100/12, top.interest); t+=` Best to clear costly debt first: putting ${fmtR(mv,0)} of this on ${top.d.name} instead would save roughly ${fmtR(mo,0)} a month in interest.`; }
+      if(r.kind==='custom') add(S.efMonths<1&&st.a>0?'warn':'tip','Buying '+r.name+': '+fmtR(st.a,0), t+(S.efMonths<1?' Your safety net is under one month, so a non-essential purchase is better after it is built.':''));
+    }
+  }});
+  const inc=c.steps.filter(s=>s.sgn>0&&s.a>0);
+  if(inc.length && c.root>0) add('good','Extra money in: '+fmtR(c.inn,0),`That lifts your pool by ${Math.round(c.inn/c.root*100)}%. The most useful place for it is the next rung on your ladder.`);
+  const fun=c.steps.filter(s=>s.sgn<0&&(s.r.kind==='custom'||(s.r.kind==='smart'&&s.r.ref==='fun'))).reduce((a,s)=>a+s.a,0);
+  if(live.length&&c.root>0&&fun/c.root>0.3) add('warn','Over 30% goes to wants',`${Math.round(fun/c.root*100)}% of this money is for non-essentials while you still carry costly debt. Moving some onto ${top.d.name} clears it sooner.`);
+  if(c.final>0.004){
+    const lad=advLadder(S).find(r=>r.next);
+    if(top && coveredTop<top.bal-0.5) add('tip','Best next move for the '+fmtR(c.final,0)+' left',`Put it on ${top.d.name}. It is your most expensive debt (about ${fmtR(top.interest,0)} a month) and ${shariahOn()?'interest-based, so it comes before investing':'paying it down is a guaranteed return'}.`);
+    else if(lad) add('tip','Best next move for the '+fmtR(c.final,0)+' left',`Your ladder says “${lad.title}”. ${lad.text}`);
+    if(!live.length && shariahOn()) add('tip','Halal growth','A tax-free savings account takes up to R46 000 a year; Shariah-screened unit trusts exist inside it. See the guide on the Advisor page.');
+    const gl=(state.goals||[]).map(g=>({g,s:goalStats(g)})).filter(x=>!x.s.done).sort((a,b)=>((a.g.priority||2)-(b.g.priority||2))||((a.s.dl?+a.s.dl:Infinity)-(b.s.dl?+b.s.dl:Infinity)));
+    const fund=gl.filter(x=>x.s.remaining<=c.final+0.5 && !c.steps.some(s=>s.r.ref===x.g.id));
+    if(fund.length) add('good','Goals the leftover could fully fund',fund.map(x=>x.g.name+' ('+fmtR(x.s.remaining,0)+')').join(', ')+'.');
+  } else if(Math.abs(c.final)<=0.004 && c.steps.length) add('good','Every rand has a job','Nothing is left over. If something unexpected comes up, there is no cushion in this plan.');
+  return out;
+}
+
+/* ---- painting ---- */
+function renderPlanner(host){
+  const P=plState(), wf=spendWaterfall(), S=advSnapshot();
+  host.innerHTML=`
+    <div class="hint"><b>How this works:</b> type an amount, then drag items from your inventory into the tree (or just tap them). Each step takes money out, or tap the <b>−</b> to flip it to <b>+</b> when money comes in. Edit any amount, drag the ⠿ handle to reorder, and watch what is left. It runs entirely on this device.</div>
+    <div class="pl-kpis" id="plKpis"></div>
+    <div class="card">
+      <div class="pl-top">
+        <div class="field"><label>Amount to plan (R)</label><input type="number" step="0.01" id="plAmt" class="pl-big" value="${escapeHtml(String(P.draft.amount||''))}" placeholder="e.g. 5000" oninput="plSetRoot(this.value)">
+          <div class="pl-quick"><button class="btn ghost sm" onclick="plQuick(${Math.max(0,wf.leftoverRem)})">Leftover ${fmtR(wf.leftoverRem,0)}</button><button class="btn ghost sm" onclick="plQuick(${S.income})">Salary ${fmtR(S.income,0)}</button></div></div>
+        <div class="field"><label>Add your own item</label>
+          <div class="pl-add"><input type="text" id="plNewName" placeholder="e.g. New phone" maxlength="40" onkeydown="if(event.key==='Enter')plAddCustom()"><input type="number" step="0.01" id="plNewAmt" placeholder="R"><select id="plNewOp"><option value="-">takes out</option><option value="+">brings in</option></select><button class="btn sm" onclick="plAddCustom()" title="Add to inventory">+</button></div></div>
+      </div>
+    </div>
+    <div class="card"><h2>Inventory <span class="muted" style="font-size:12px;font-weight:600;text-transform:none;letter-spacing:0;">tap or drag into the tree</span></h2><div id="plInv"></div></div>
+    <div class="card"><div class="pl-head"><h2 style="margin:0;">Your money tree</h2>
+      <div class="pl-tools"><button class="btn sm" onclick="plAutoFill()">Auto-fill in advisor’s order</button><button class="btn ghost sm" onclick="plSavePlanModal()">Save plan</button><button class="btn ghost sm" onclick="plClear()">Clear</button></div></div>
+      <div id="plStack" class="split" style="margin:14px 0 4px;"></div><div id="plStackLegend" class="muted" style="font-size:12px;"></div>
+      <div class="pl-tree" id="plTree"></div></div>
+    <div class="grid2" style="align-items:start;">
+      <div class="card"><h2>What the advisor says</h2><div id="plNotes"></div></div>
+      <div class="card"><h2>Saved plans</h2><div id="plSaved"></div>
+        <h2 style="margin-top:20px;">Quick check: can I afford it this month?</h2>
+        <div class="field"><label>Purchase (R)</label><input type="number" step="0.01" id="advAfAmt" placeholder="e.g. 2500" oninput="advAffordRun()"></div><div id="advAffordOut" style="margin-top:8px;"></div></div>
+    </div>`;
+  plPaintInventory(); plPaintTree(); plPaintAll(); plPaintSaved(); advAffordRun();
+  const tree=$('plTree');
+  tree.addEventListener('dragover',e=>{ e.preventDefault(); tree.classList.add('over'); });
+  tree.addEventListener('dragleave',e=>{ if(!tree.contains(e.relatedTarget)) tree.classList.remove('over'); });
+  tree.addEventListener('drop',e=>{ e.preventDefault(); tree.classList.remove('over'); const key=e.dataTransfer.getData('text/plain'); if(!key) return;
+    const rows=[...tree.querySelectorAll('.pl-row')]; let idx=rows.length; for(let i=0;i<rows.length;i++){ const b=rows[i].getBoundingClientRect(); if(e.clientY<b.top+b.height/2){ idx=i; break; } }
+    plAddChip(key, idx); });
+}
+function plPaintInventory(){
+  const host=$('plInv'); if(!host) return;
+  host.innerHTML=plInventory().map(g=>`<div class="pl-group"><div class="pl-gtitle">${escapeHtml(g.title)}</div><div class="pl-chips">${g.items.map(c=>
+    `<span class="pl-chip k-${c.kind}" draggable="true" data-key="${escapeHtml(c.key)}" ondragstart="event.dataTransfer.setData('text/plain',this.dataset.key);event.dataTransfer.effectAllowed='copy'" onclick="plAddChip(this.dataset.key)" title="Tap to add, or drag into the tree">${escapeHtml(c.icon)} ${escapeHtml(c.name)}${c.val>0?` <em>${fmtR(c.val,0)}</em>`:''}${c.custom?`<button class="pl-chipx" onclick="event.stopPropagation();plDelChip('${c.ref}')" title="Remove from my items">✕</button>`:''}</span>`).join('')}</div></div>`).join('');
+}
+function plPaintTree(){
+  const tree=$('plTree'); if(!tree) return; const c=plCalc();
+  const rootRow=`<div class="pl-start"><div class="pl-node root"><span>Starting amount</span><b id="plRootVal"></b></div></div>`;
+  const rows=c.steps.map(st=>{ const r=st.r, plus=r.op==='+';
+    return `<div class="pl-row ${plus?'plus':''}" data-id="${r.id}">
+      <button class="pl-op ${plus?'plus':''}" onclick="plToggleOp('${r.id}')" title="Tap to switch between taking money out (−) and bringing it in (+)">${plus?'+':'−'}</button>
+      <div class="pl-card k-${plus&&r.kind!=='custom'?'income':r.kind}">
+        <div class="pl-line"><span class="pl-handle" onpointerdown="plDragStart(event,'${r.id}')" title="Drag to reorder">⠿</span>
+          <span class="pl-ico">${escapeHtml(r.icon||'•')}</span>
+          <input class="pl-name" value="${escapeHtml(r.name)}" maxlength="40" onchange="plSetName('${r.id}',this.value)">
+          <span class="pl-money"><i>R</i><input class="pl-amt" type="number" step="0.01" value="${r.amt}" oninput="plSetAmt('${r.id}',this.value)"></span>
+          <button class="icon-btn del" onclick="plDel('${r.id}')" title="Remove">✕</button></div>
+        <div class="pl-bar"><span data-bar="${r.id}"></span></div>
+        <div class="pl-why" data-why="${r.id}">${r.why?escapeHtml(r.why):''}</div></div>
+      <div class="pl-eq" data-eq="${r.id}"></div></div>`; }).join('');
+  const empty=c.steps.length?'':`<div class="pl-empty">Drag an item here, or tap one in the inventory.</div>`;
+  tree.innerHTML=rootRow+`<div class="pl-rows">${rows}${empty}</div><div class="pl-end"><div class="pl-node end" id="plEnd"><span>Left over</span><b id="plEndVal"></b></div></div>`;
+}
+function plPaintAll(){
+  const c=plCalc(), neg=c.final<-0.004;
+  const rv=$('plRootVal'); if(rv) rv.textContent=fmtR(c.root,2);
+  const ev=$('plEndVal'); if(ev){ ev.textContent=fmtR(c.final,2); $('plEnd').className='pl-node end '+(neg?'bad':(Math.abs(c.final)<=0.004?'zero':'good')); }
+  c.steps.forEach(st=>{ const q=document.querySelector('[data-eq="'+st.r.id+'"]'); if(q){ q.innerHTML=`= <b class="${st.after<-0.004?'neg':''}">${fmtR(st.after,2)}</b>`; }
+    const b=document.querySelector('[data-bar="'+st.r.id+'"]'); if(b){ const base=Math.max(c.root+c.inn,1); b.style.width=Math.min(100,st.a/base*100)+'%'; b.style.background=st.sgn>0?'var(--good)':(PL_KIND[st.r.kind]||PL_KIND.custom).color; }
+    const w=document.querySelector('[data-why="'+st.r.id+'"]'); if(w&&st.sgn>0&&!st.r.why) w.textContent=''; });
+  const k=$('plKpis'); if(k) k.innerHTML=`<div class="kpi accent"><div class="k-lbl">Starting</div><div class="k-val">${fmtR(c.root,0)}</div><div class="k-sub">your amount</div></div>
+    <div class="kpi"><div class="k-lbl">Going out</div><div class="k-val ${c.out>0?'neg':''}">${fmtR(c.out,0)}</div><div class="k-sub">${c.root>0?Math.round(c.out/Math.max(c.root+c.inn,1)*100):0}% of the pool</div></div>
+    <div class="kpi"><div class="k-lbl">Coming in</div><div class="k-val pos">${fmtR(c.inn,0)}</div><div class="k-sub">extra money</div></div>
+    <div class="kpi"><div class="k-lbl">Left over</div><div class="k-val ${neg?'neg':'pos'}">${fmtR(c.final,0)}</div><div class="k-sub">${neg?'over by '+fmtR(-c.final,0):'after the whole tree'}</div></div>`;
+  // stacked overview
+  const sk=$('plStack'), lg=$('plStackLegend'); if(sk){
+    const base=Math.max(c.root+c.inn, c.out, 1); const segs=c.steps.filter(s=>s.sgn<0&&s.a>0).map(s=>({n:s.r.name,a:s.a,c:(PL_KIND[s.r.kind]||PL_KIND.custom).color}));
+    if(c.final>0.004) segs.push({n:'Left over',a:c.final,c:'#b8b6ae'});
+    sk.innerHTML=segs.map(g=>`<span title="${escapeHtml(g.n)}: ${fmtR(g.a,0)}" style="width:${g.a/base*100}%;background:${g.c}"></span>`).join('');
+    lg.textContent=segs.length?segs.map(g=>g.n+' '+Math.round(g.a/base*100)+'%').join(' · '):'The bar fills as you add items.'; }
+  const nt=$('plNotes'); if(nt) nt.innerHTML=plInsights(c).map(n=>`<div class="note ${n.level}"><div><b>${escapeHtml(n.title)}</b><span>${escapeHtml(n.text)}</span></div></div>`).join('');
+}
+function plPaintSaved(){
+  const h=$('plSaved'); if(!h) return; const L=plState().saved;
+  h.innerHTML=L.length?L.map(sp=>`<div class="pl-saved"><div style="flex:1;min-width:0;"><b>${escapeHtml(sp.name)}</b><div class="muted" style="font-size:12px;">${fmtR(+sp.amount||0,0)} · ${sp.rows.length} item${sp.rows.length===1?'':'s'}</div></div>
+    <button class="btn ghost sm" onclick="plLoadPlan('${sp.id}')">Load</button><button class="icon-btn del" onclick="plDelPlan('${sp.id}')" title="Delete">✕</button></div>`).join(''):'<p class="muted" style="font-size:13px;">Nothing saved yet. Build a plan and press Save plan to compare options later, for example “phone first” against “loan first”.</p>';
+}
+/* pointer-based reordering (works with mouse and touch) */
+function plDragStart(e,id){
+  e.preventDefault(); const tree=$('plTree'), rows=[...tree.querySelectorAll('.pl-row')], i=rows.findIndex(r=>r.dataset.id===id); if(i<0) return;
+  const el0=rows[i], handle=e.currentTarget; try{ handle.setPointerCapture(e.pointerId); }catch(_){}
+  const mids=rows.map(r=>{ const b=r.getBoundingClientRect(); return b.top+b.height/2; }); const startY=e.clientY; let target=i;
+  el0.classList.add('dragging');
+  const move=ev=>{ const dy=ev.clientY-startY; el0.style.transform='translateY('+dy+'px)'; const pos=mids[i]+dy; let t=0; mids.forEach((m,j)=>{ if(j!==i && m<pos) t++; });
+    target=t; rows.forEach((r,j)=>r.classList.toggle('drop-before', j!==i && j===target && target<=i)); rows.forEach((r,j)=>r.classList.toggle('drop-after', j!==i && j===target && target>i)); };
+  const up=()=>{ handle.removeEventListener('pointermove',move); handle.removeEventListener('pointerup',up); handle.removeEventListener('pointercancel',up);
+    el0.classList.remove('dragging'); el0.style.transform='';
+    if(target!==i){ const R=plState().draft.rows, [m]=R.splice(i,1); R.splice(target,0,m); plSave(); }
+    plPaintTree(); plPaintAll(); };
+  handle.addEventListener('pointermove',move); handle.addEventListener('pointerup',up); handle.addEventListener('pointercancel',up);
+}
+
+/* =====================================================================
    VIEWS / ROUTER
    ===================================================================== */
 const VIEWS=[
@@ -1487,6 +1875,7 @@ const VIEWS=[
   {id:'monthly',   label:'Monthly',   eyebrow:'Automation',  sub:'Recurring income & expenses (1st & 25th)'},
   {id:'debt',      label:'Debt',      eyebrow:'Payoff planner', sub:'Project when the loan & credit card are clear'},
   {id:'goals',     label:'Goals',     eyebrow:'Look forward', sub:'Save toward the big things — by amount and by date'},
+  {id:'planner',   label:'Planner',   eyebrow:'What if',      sub:'Drag items into the tree and see what is left, or what you can reach first'},
   {id:'advisor',   label:'Advisor',   eyebrow:'Guidance',    sub:'Where to put your money first — runs on your own numbers'},
 ];
 let currentView='dashboard';
@@ -1504,7 +1893,7 @@ function render(){
   const v=VIEWS.find(x=>x.id===currentView);
   $('viewEyebrow').textContent=v.eyebrow; $('viewTitle').textContent=v.label; $('viewSub').textContent=v.sub;
   const host=$('view');
-  ({dashboard:renderDashboard, wallets:renderWallets, tracker:renderTracker, monthly:renderMonthly, debt:renderDebt, goals:renderGoals, advisor:renderAdvisor}[currentView])(host);
+  ({dashboard:renderDashboard, wallets:renderWallets, tracker:renderTracker, monthly:renderMonthly, debt:renderDebt, goals:renderGoals, planner:renderPlanner, advisor:renderAdvisor}[currentView])(host);
 }
 
 /* ---------- totals ---------- */
