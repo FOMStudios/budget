@@ -130,7 +130,7 @@ nav.pill .nav-links a:hover,nav.pill .nav-links a.active{color:var(--accent);}
 /* forms */
 .field{display:flex;flex-direction:column;gap:5px;}
 .field label{font-size:12px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;}
-input[type=text],input[type=number],input[type=password],input[type=month],select,textarea{
+input[type=text],input[type=number],input[type=password],input[type=month],input[type=date],select,textarea{
   border:1px solid var(--line);border-radius:11px;padding:10px 12px;font-size:14px;background:#fff;color:var(--ink);width:100%;}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px;}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
@@ -175,7 +175,71 @@ table.data .r{text-align:right;}
 
 .hint{font-size:12px;color:var(--ink-soft);background:#eef4fd;border:1px solid #d5e3f7;border-radius:12px;padding:10px 14px;margin-bottom:16px;}
 
+/* ---- goals ---- */
+.goals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+.gcard{background:var(--bg-pill);border:1px solid var(--line);border-radius:var(--radius-card);padding:20px;display:flex;flex-direction:column;gap:14px;}
+.gcard.done{background:#f3f9f3;border-color:#cfe5d0;}
+.g-head{display:flex;align-items:flex-start;gap:12px;}
+.g-ico{font-size:26px;line-height:1;width:46px;height:46px;border-radius:14px;background:#eef4fd;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+.g-title{font-weight:800;font-size:16px;line-height:1.2;word-break:break-word;}
+.g-amt{font-size:22px;font-weight:800;}
+.g-amt small{font-size:13px;color:var(--ink-soft);font-weight:600;}
+.gbar{position:relative;background:#e9e7e1;border-radius:99px;height:14px;overflow:hidden;}
+.gbar.thin{height:6px;}
+.gbar-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .4s;}
+.gbar-fill.time{background:#b8b6ae;}
+.gbar i{position:absolute;top:0;bottom:0;width:2px;background:rgba(255,255,255,.85);}
+.g-facts{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--ink-soft);}
+.g-facts b{color:var(--ink);}
+.g-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:auto;}
+.status{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap;border:1px solid var(--line);height:fit-content;}
+.status.done,.status.ontrack{color:var(--good);background:#eef7ef;border-color:#bfe0c0;}
+.status.behind{color:var(--warn);background:#fff6e5;border-color:#f0d9a8;}
+.status.overdue{color:var(--bad);background:#fdf0ee;border-color:#f2cdc7;}
+.status.noplan{color:var(--ink-soft);background:#f1f0ec;}
+.status.open{color:var(--accent);background:#eef4fd;border-color:#bcd4f5;}
+/* ---- advisor ---- */
+.note{display:flex;gap:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);border-left-width:4px;background:var(--bg-pill);margin-bottom:10px;}
+.note:last-child{margin-bottom:0;}
+.note.good{border-left-color:var(--good);} .note.warn{border-left-color:var(--warn);} .note.bad{border-left-color:var(--bad);} .note.tip{border-left-color:var(--accent);}
+.note b{display:block;font-size:14px;margin-bottom:2px;}
+.note span{font-size:13px;color:var(--ink-soft);line-height:1.5;}
+.ladder{display:flex;flex-direction:column;gap:10px;}
+.rung{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:start;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--bg-pill);}
+.rung .n{width:34px;height:34px;border-radius:50%;background:#b8b6ae;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.rung.next .n{background:var(--accent);} .rung.done .n{background:var(--good);}
+.rung.next{border-color:var(--accent);box-shadow:0 0 0 2px #d5e3f7;}
+.rung h4{font-size:14px;font-weight:800;} .rung p{font-size:13px;color:var(--ink-soft);margin-top:2px;line-height:1.5;}
+.alloc-row{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:10px 0;border-bottom:1px solid var(--line);}
+.alloc-row:last-of-type{border-bottom:none;}
+.alloc-row .a-amt{font-weight:800;font-variant-numeric:tabular-nums;text-align:right;}
+.alloc-row .a-why{grid-column:1/-1;font-size:12px;color:var(--ink-soft);line-height:1.5;}
+.verdict{padding:12px 14px;border-radius:12px;font-size:14px;font-weight:700;line-height:1.4;}
+.verdict.good{background:#eef7ef;color:var(--good);} .verdict.warn{background:#fff6e5;color:#8a5a00;} .verdict.bad{background:#fdf0ee;color:var(--bad);}
+.split{display:flex;height:22px;border-radius:99px;overflow:hidden;background:#e9e7e1;}
+.split span{height:100%;}
+.legend-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 18px;margin-top:14px;font-size:13px;}
+.legend-row div{display:grid;grid-template-columns:12px 1fr auto;gap:4px 8px;align-items:center;}
+.legend-row i{width:12px;height:12px;border-radius:4px;display:block;}
+.legend-row em{grid-column:2/-1;font-style:normal;color:var(--ink-soft);font-size:12px;margin-top:-4px;}
+/* ---- ask the advisor ---- */
+.chat-log{display:flex;flex-direction:column;gap:10px;max-height:380px;overflow-y:auto;padding:4px 2px;margin:12px 0;}
+.msg{max-width:92%;padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.55;white-space:pre-wrap;word-wrap:break-word;}
+.msg.user{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:4px;}
+.msg.bot{align-self:flex-start;background:var(--bg-pill);border:1px solid var(--line);border-bottom-left-radius:4px;}
+.msg.err{align-self:flex-start;background:#fdf0ee;color:var(--bad);border:1px solid #f2cdc7;}
+.chat-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+.chat-chip{font-size:12px;font-weight:700;padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;}
+.chat-chip:hover{border-color:var(--accent);color:var(--accent);}
+.chat-send{display:flex;gap:8px;align-items:flex-end;}
+.chat-send textarea{flex:1;min-height:44px;max-height:120px;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit;font-size:14px;}
+.share-box{font-size:12px;white-space:pre-wrap;background:#f6f5f1;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:8px;color:var(--ink-soft);max-height:220px;overflow:auto;}
+.guide h3{font-size:14px;font-weight:800;margin:14px 0 6px;} .guide ul{margin:0 0 0 18px;font-size:13px;color:var(--ink-soft);line-height:1.6;}
+.guide a{color:var(--accent);font-weight:700;text-decoration:underline;}
+@media(max-width:520px){.rung{grid-template-columns:30px 1fr;}.rung .rs{grid-column:2;justify-self:start;}.goals-grid{grid-template-columns:1fr;}}
+
 @media(max-width:980px){.kpis{grid-template-columns:1fr 1fr;}.grid3{grid-template-columns:1fr;}}
+@media(max-width:1000px){nav.pill .nav-links{gap:16px;}}
 @media(max-width:860px){nav.pill .nav-links{display:none;}.nav-shell{padding:12px var(--gutter) 0;}}
 @media(max-width:720px){.grid2{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr;}.bar-row{grid-template-columns:100px 1fr 84px;}}
 @media(max-width:520px){.kpis{grid-template-columns:1fr;}}
@@ -322,7 +386,8 @@ async function cloudPut(blob){
    ===================================================================== */
 function defaultData(){
   const data = {
-    meta:{ schema:4, createdAt:Date.now(), updatedAt:Date.now() },
+    meta:{ schema:6, createdAt:Date.now(), updatedAt:Date.now() },
+    settings:{ shariah:true, aiConsent:false },
     wallets:[
       {id:'sb',        name:'Standard Bank',        group:'Standard Bank', type:'asset',   balance:248},
       {id:'sbs1',      name:'SB Savings (1)',       group:'Standard Bank', type:'asset',   balance:9.33},
@@ -367,8 +432,8 @@ function defaultData(){
       {id:uid(), name:'Adobe',                 amount:263.35,  kind:'expense',  wallet:'sb',                     category:'subs',         day:1,  active:true},
       {id:uid(), name:'Shopify (+charges)',    amount:183.67,  kind:'expense',  wallet:'sb',                     category:'subs',         day:1,  active:true, note:'167.93 + 8.50 + 7.24'},
       {id:uid(), name:'Cartrack',              amount:108.90,  kind:'expense',  wallet:'sb',                     category:'subs',         day:1,  active:true},
-      {id:uid(), name:'Transfer to Discovery', amount:540,     kind:'transfer', wallet:'sb', toWallet:'disc',    category:'transfer',     day:1,  active:true, note:'Covers Apple, Music & Gym'},
-      {id:uid(), name:'Apple Storage',         amount:60,      kind:'expense',  wallet:'disc',                   category:'subs',         day:1,  active:true},
+      {id:uid(), name:'Transfer to Discovery', amount:550,     kind:'transfer', wallet:'sb', toWallet:'disc',    category:'transfer',     day:1,  active:true, note:'Covers Apple, Music & Gym'},
+      {id:uid(), name:'Apple Storage',         amount:70,      kind:'expense',  wallet:'disc',                   category:'subs',         day:1,  active:true},
       {id:uid(), name:'Apple Music',           amount:60,      kind:'expense',  wallet:'disc',                   category:'subs',         day:1,  active:true},
       {id:uid(), name:'Gym',                   amount:420,     kind:'expense',  wallet:'disc',                   category:'health',       day:1,  active:true},
       {id:uid(), name:'Retirement annuity',    amount:1500,    kind:'transfer', wallet:'sb', toWallet:'retire',  category:'investments',  day:1,  active:true},
@@ -389,6 +454,7 @@ function defaultData(){
         charges:[{name:'Monthly fee',amount:115},{name:'Vitality premium',amount:66},{name:'Facility fee',amount:69},{name:'Interest (21%)',amount:436.62}],
         extra:{}, startOverride:null },
     ],
+    goals:[],
     schedule:{ autoRun:true, applied:[], log:[] },
   };
   seedApplied(data);
@@ -446,6 +512,16 @@ function migrate(data){
       seedApplied(data);   // mark the new transfer's past/current months as done so it doesn't retro-fire
     }
     data.meta.schema=4;
+  }
+  if((data.meta.schema||1) < 5){
+    if(!Array.isArray(data.goals)) data.goals=[];   // new: savings goals
+    data.meta.schema=5;
+  }
+  if((data.meta.schema||1) < 6){
+    if(!data.settings || typeof data.settings!=='object') data.settings={};
+    if(data.settings.shariah===undefined) data.settings.shariah=true;
+    if(data.settings.aiConsent===undefined) data.settings.aiConsent=false;
+    data.meta.schema=6;
   }
   return data;
 }
@@ -575,10 +651,10 @@ function leftoverPool(){
 // Discretionary spend cascade. Unbudgeted spending draws down Leftover first; once Leftover is
 // gone the overflow eats into Entertainment, then Fuel. Direct fuel/entertainment logs still
 // draw their own envelope. Returns remaining balances for each, in priority order.
-function spendWaterfall(){
+function spendWaterfall(extra){
   const mk=ymKey(new Date());
   const pool=leftoverPool();
-  const base=pool.base, unbudget=pool.unbudget;
+  const base=pool.base, unbudget=pool.unbudget+(+extra||0);
   const entItem=state.monthly.find(m=>m.active!==false && m.kind==='budget' && m.category==='entertainment');
   const fuelItem=state.monthly.find(m=>m.active!==false && m.kind==='budget' && m.category==='fuel');
   const entTarget=entItem?budgetTarget(entItem):0, fuelTarget=fuelItem?budgetTarget(fuelItem):0;
@@ -727,6 +803,681 @@ function donutSVG(segs, size=180, stroke=28, centerTop='', centerBottom=''){
 }
 
 /* =====================================================================
+   GOALS — engine
+   ===================================================================== */
+const GOAL_ICONS=['🎯','🚗','🏠','✈️','💍','💻','📷','🎓','🛡️','👶','🏖️','📱'];
+function addMonths(d,n){ return new Date(d.getFullYear(), d.getMonth()+n, Math.min(d.getDate(),28)); }
+function parseYMD(s){ if(!s||typeof s!=='string') return null; const p=s.split('-').map(Number); if(p.length!==3||!p[0]||!p[1]||!p[2]) return null; return new Date(p[0],p[1]-1,p[2]); }
+function toYMD(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function fmtMonthYear(d){ return MONTHS[d.getMonth()]+' '+d.getFullYear(); }
+function humanMonths(n){ n=Math.round(n); if(n<1) return 'under a month'; if(n<12) return n+' month'+(n===1?'':'s'); const y=Math.floor(n/12), m=n%12; return y+' yr'+(y===1?'':'s')+(m?' '+m+' mo':''); }
+function humanDays(d){ const a=Math.abs(d); if(d<=0) return a+' day'+(a===1?'':'s')+' overdue'; if(d<45) return d+' day'+(d===1?'':'s')+' left'; return humanMonths(d/30.4375)+' left'; }
+
+// Monthly plan money flowing INTO a wallet (used to auto-detect how much you save toward a wallet-linked goal)
+function monthlyInto(walletId){
+  return state.monthly.filter(m=>m.active!==false && m.kind==='transfer' && m.toWallet===walletId).reduce((s,m)=>s+(+m.amount||0),0);
+}
+function goalSaved(g){
+  if(g.walletId){ const w=walletById(g.walletId); return w?Math.max(0,+w.balance||0):0; }
+  return Math.max(0,(+g.saved||0)+(g.contribs||[]).reduce((s,c)=>s+(+c.amt||0),0));
+}
+function goalMonthly(g){ if(+g.monthly>0) return +g.monthly; return g.walletId?monthlyInto(g.walletId):0; }
+
+function goalStats(g, now){
+  now = now || new Date();
+  const target=+g.target||0, saved=goalSaved(g);
+  const remaining=Math.max(0,+(target-saved).toFixed(2));
+  const pct=target>0?Math.min(100,saved/target*100):0;
+  const done=target>0 && remaining<=0.005;
+  const monthly=goalMonthly(g);
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const dl=parseYMD(g.deadline);
+  let daysLeft=null, required=null, timePct=null, expected=null;
+  if(dl){
+    daysLeft=Math.round((dl-today)/86400000);
+    const monthsLeft=daysLeft/30.4375;
+    required = remaining<=0 ? 0 : (daysLeft<=0 ? remaining : remaining/Math.max(monthsLeft,1));
+    const c=new Date(g.createdAt||now.getTime()); const s0=new Date(c.getFullYear(),c.getMonth(),c.getDate());
+    const span=dl-s0;
+    timePct = span>0 ? Math.min(100,Math.max(0,(today-s0)/span*100)) : 100;
+    expected = target*timePct/100;
+  }
+  let monthsToGo=null, projected=null;
+  if(remaining<=0){ monthsToGo=0; projected=today; }
+  else if(monthly>0){ monthsToGo=Math.ceil(remaining/monthly-1e-9); projected=addMonths(today,monthsToGo); }
+  let status;
+  if(done) status='done';
+  else if(dl && daysLeft<=0) status='overdue';
+  else if(dl) status = monthly<=0 ? 'noplan' : (projected<=dl ? 'ontrack' : 'behind');
+  else status = monthly>0 ? 'open' : 'noplan';
+  const shortfallMonthly = (required!=null && !done) ? Math.max(0, required-monthly) : 0;
+  const behindBy = expected!=null ? Math.max(0, expected-saved) : 0;
+  const nextMs=[25,50,75,100].find(m=>pct<m)||null;
+  const nextAmt = nextMs ? Math.max(0, target*nextMs/100-saved) : 0;
+  let monthsDiff=null; if(dl && projected && remaining>0) monthsDiff=Math.round((projected-dl)/(86400000*30.4375));
+  return {target,saved,remaining,pct,done,monthly,dl,daysLeft,required,timePct,expected,monthsToGo,projected,status,shortfallMonthly,behindBy,nextMs,nextAmt,monthsDiff};
+}
+// "What if I save X a month / put in a lump sum now?"
+function goalWhatIf(g, monthly, lump){
+  const s=goalStats(g); const today=new Date();
+  const rem=Math.max(0, s.remaining-(+lump||0));
+  const months = rem<=0 ? 0 : (monthly>0 ? Math.ceil(rem/monthly-1e-9) : null);
+  const date = months==null ? null : addMonths(today, months);
+  let diff=null; if(s.dl && date) diff=Math.round((date-s.dl)/(86400000*30.4375));
+  let need=null; if(s.dl){ const dleft=s.daysLeft; need = rem<=0 ? 0 : (dleft<=0 ? rem : rem/Math.max(dleft/30.4375,1)); }
+  return {rem, months, date, diff, need};
+}
+
+/* =====================================================================
+   GOALS — page
+   ===================================================================== */
+let goalSort='deadline';
+function goalTemplates(){
+  const ess=advSnapshot().essentials||0;
+  return {
+    emergency:{name:'Emergency fund (3 months)', icon:'🛡️', target:Math.max(5000, Math.round(ess*3/100)*100), months:12, priority:1},
+    car:      {name:'New car',                   icon:'🚗', target:250000, months:36, priority:2},
+    house:    {name:'House deposit',             icon:'🏠', target:150000, months:60, priority:2},
+    holiday:  {name:'Holiday',                   icon:'✈️', target:30000,  months:12, priority:3},
+    gear:     {name:'New camera / laptop gear',  icon:'📷', target:25000,  months:8,  priority:3},
+    study:    {name:'Study / course fund',       icon:'🎓', target:20000,  months:12, priority:2},
+  };
+}
+function sortGoals(list){
+  const dlv=x=>x.s.dl?x.s.dl.getTime():Infinity;
+  const arr=[...list];
+  if(goalSort==='progress') arr.sort((a,b)=>b.s.pct-a.s.pct);
+  else if(goalSort==='size') arr.sort((a,b)=>b.s.target-a.s.target);
+  else if(goalSort==='priority') arr.sort((a,b)=>((a.g.priority||2)-(b.g.priority||2))||(dlv(a)-dlv(b)));
+  else arr.sort((a,b)=>dlv(a)-dlv(b));
+  return arr;
+}
+function setGoalSort(v){ goalSort=v; render(); }
+
+function renderGoals(host){
+  const all=(state.goals||[]).map(g=>({g,s:goalStats(g)}));
+  const active=all.filter(x=>!x.s.done), done=all.filter(x=>x.s.done);
+  const tTarget=active.reduce((a,x)=>a+x.s.target,0), tSaved=active.reduce((a,x)=>a+x.s.saved,0);
+  const tLeft=active.reduce((a,x)=>a+x.s.remaining,0);
+  const needMo=active.reduce((a,x)=>a+(x.s.required||0),0), haveMo=active.reduce((a,x)=>a+(x.s.dl?x.s.monthly:0),0);
+  const chips=Object.entries(goalTemplates()).map(([k,t])=>`<button class="btn ghost sm" onclick="goalModal(null,'${k}')">${t.icon} ${escapeHtml(t.name.replace(' (3 months)',''))}</button>`).join('');
+  host.innerHTML=`
+    <div class="kpis">
+      <div class="kpi accent"><div class="k-lbl">Still to save</div><div class="k-val">${fmtR(tLeft,0)}</div><div class="k-sub">across ${active.length} active goal${active.length===1?'':'s'}</div></div>
+      <div class="kpi"><div class="k-lbl">Saved so far</div><div class="k-val pos">${fmtR(tSaved,0)}</div><div class="k-sub">${tTarget?Math.round(tSaved/tTarget*100):0}% of ${fmtR(tTarget,0)}</div></div>
+      <div class="kpi"><div class="k-lbl">Needed per month</div><div class="k-val">${fmtR(needMo,0)}</div><div class="k-sub">to hit every deadline</div></div>
+      <div class="kpi"><div class="k-lbl">Saving per month</div><div class="k-val ${haveMo<needMo-1?'neg':'pos'}">${fmtR(haveMo,0)}</div><div class="k-sub">${needMo>haveMo+1?fmtR(needMo-haveMo,0)+' short':'covers your deadlines'}</div></div>
+    </div>
+    <div class="head-actions" style="margin-bottom:12px;">
+      <button class="btn sm" onclick="goalModal()">+ New goal</button>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;margin-left:auto;">Sort
+        <select onchange="setGoalSort(this.value)" style="width:auto;padding:7px 10px;">
+          ${[['deadline','Nearest deadline'],['progress','Most progress'],['priority','Priority'],['size','Biggest']].map(([v,l])=>`<option value="${v}" ${goalSort===v?'selected':''}>${l}</option>`).join('')}
+        </select></label>
+    </div>
+    <div class="head-actions" style="margin-bottom:18px;gap:8px;"><span class="muted" style="font-size:12px;font-weight:600;">QUICK START</span>${chips}</div>
+    ${active.length?`<div class="goals-grid">${sortGoals(active).map(goalCard).join('')}</div>`
+      :`<div class="card"><div class="empty"><p>No goals yet. Pick a quick start above or tap <b>+ New goal</b> — a car, a house deposit, a holiday, anything you're working toward.</p></div></div>`}
+    ${done.length?`<h3 style="margin:26px 0 12px;font-size:15px;font-weight:800;">Reached 🎉</h3><div class="goals-grid">${done.map(goalCard).join('')}</div>`:''}`;
+}
+
+function goalCard(x){
+  const g=x.g, s=x.s, w=g.walletId?walletById(g.walletId):null;
+  const label={done:'Reached',ontrack:'On track',behind:'Behind',overdue:'Overdue',noplan:'No plan yet',open:'Saving'}[s.status];
+  const facts=[];
+  if(!s.done) facts.push(`<b>${fmtR(s.remaining,0)}</b> still to go`);
+  if(s.dl) facts.push(`Deadline <b>${prettyDate(s.dl)}</b> · ${humanDays(s.daysLeft)}`);
+  if(!s.done){
+    facts.push(s.monthly>0 ? `Saving <b>${fmtR(s.monthly,0)}/mo</b>${g.walletId&&!(+g.monthly>0)?' (from your Monthly plan)':''}` : 'No monthly saving set yet');
+    if(s.required!=null && s.required>0) facts.push(`Needed for the date: <b>${fmtR(s.required,0)}/mo</b>`);
+    if(s.projected){
+      let tail='';
+      if(s.monthsDiff!=null) tail = s.monthsDiff>0 ? ` · <span class="neg">${humanMonths(s.monthsDiff)} late</span>` : (s.monthsDiff<0 ? ` · <span class="pos">${humanMonths(-s.monthsDiff)} early</span>` : ' · <span class="pos">right on time</span>');
+      facts.push(`At this pace: <b>${fmtMonthYear(s.projected)}</b>${tail}`);
+    }
+    if(s.status==='behind' && s.shortfallMonthly>0) facts.push(`Add about <b>${fmtR(s.shortfallMonthly,0)}/mo</b> to make the date`);
+    if(s.nextMs && s.nextMs<100) facts.push(`Next milestone <b>${s.nextMs}%</b> · ${fmtR(s.nextAmt,0)} away`);
+  }
+  const prio={1:'High',2:'Medium',3:'Low'}[g.priority||2];
+  return `<div class="gcard ${s.done?'done':''}">
+    <div class="g-head"><div class="g-ico">${escapeHtml(g.icon||'🎯')}</div>
+      <div style="flex:1;min-width:0;"><div class="g-title">${escapeHtml(g.name)}</div>
+        <div class="muted" style="font-size:12px;margin-top:2px;">${w?'Tracks '+escapeHtml(w.name)+' · ':''}${prio} priority</div></div>
+      <span class="status ${s.status}">${label}</span></div>
+    <div><div class="g-amt tnum">${fmtR(s.saved,0)} <small>of ${fmtR(s.target,0)} · ${Math.floor(s.pct)}%</small></div>
+      <div class="gbar" style="margin-top:8px;"><div class="gbar-fill" style="width:${s.pct}%;${s.done?'background:var(--good);':''}"></div><i style="left:25%"></i><i style="left:50%"></i><i style="left:75%"></i></div>
+      ${s.timePct!=null&&!s.done?`<div class="gbar thin" style="margin-top:8px;"><div class="gbar-fill time" style="width:${s.timePct}%"></div></div>
+        <div class="muted" style="font-size:11px;margin-top:4px;">Money ${Math.round(s.pct)}% · Time elapsed ${Math.round(s.timePct)}%</div>`:''}
+    </div>
+    <div class="g-facts">${facts.map(f=>`<div>${f}</div>`).join('')}</div>
+    <div class="g-actions">
+      ${s.done?'':(g.walletId?`<button class="btn ghost sm" onclick="go('wallets')">Open wallet</button>`:`<button class="btn sm" onclick="fundsModal('${g.id}')">+ Add funds</button>`)}
+      ${s.done?'':`<button class="btn ghost sm" onclick="whatIfModal('${g.id}')">What if…</button>`}
+      <button class="icon-btn" title="Edit" onclick="goalModal('${g.id}')">✎</button>
+      <button class="icon-btn del" title="Delete" onclick="deleteGoal('${g.id}')">✕</button>
+    </div></div>`;
+}
+
+function goalModal(id, tplKey){
+  const g=id?state.goals.find(x=>x.id===id):null;
+  let f;
+  const tpl=tplKey?goalTemplates()[tplKey]:null;
+  if(g) f={...g};
+  else if(tpl) f={name:tpl.name,icon:tpl.icon,target:tpl.target,saved:0,walletId:'',deadline:toYMD(addMonths(new Date(),tpl.months)),monthly:Math.round(tpl.target/tpl.months),priority:tpl.priority};
+  else f={name:'',icon:'🎯',target:'',saved:0,walletId:'',deadline:'',monthly:'',priority:2};
+  const wopts=state.wallets.filter(w=>w.type==='asset').map(w=>`<option value="${w.id}" ${f.walletId===w.id?'selected':''}>${escapeHtml(w.name)}</option>`).join('');
+  openModal(`<h3>${g?'Edit goal':'New goal'}</h3><p class="m-sub">Set a target, an optional deadline, and how much you plan to save each month.</p>
+    <div class="stack">
+      <div class="field"><label>Goal name</label><input type="text" id="gName" value="${escapeHtml(f.name||'')}" placeholder="e.g. New car"></div>
+      <div class="form-grid">
+        <div class="field"><label>Icon</label><select id="gIcon">${GOAL_ICONS.map(i=>`<option value="${i}" ${f.icon===i?'selected':''}>${i}</option>`).join('')}</select></div>
+        <div class="field"><label>Priority</label><select id="gPrio">${[[1,'High'],[2,'Medium'],[3,'Low']].map(([v,l])=>`<option value="${v}" ${(f.priority||2)===v?'selected':''}>${l}</option>`).join('')}</select></div>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label>Target (R)</label><input type="number" step="0.01" id="gTarget" value="${f.target||''}" placeholder="0.00"></div>
+        <div class="field"><label>Deadline (optional)</label><input type="date" id="gDeadline" value="${escapeHtml(f.deadline||'')}"></div>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label>Saving per month (R)</label><input type="number" step="0.01" id="gMonthly" value="${f.monthly||''}" placeholder="0.00"></div>
+        <div class="field" id="gSavedWrap"><label>Already saved (R)</label><input type="number" step="0.01" id="gSaved" value="${f.saved||0}"></div>
+      </div>
+      <div class="field"><label>Track a wallet (optional)</label>
+        <select id="gWallet" onchange="goalWalletToggle()"><option value="">— no, I'll add funds manually —</option>${wopts}</select></div>
+      <div class="hint" id="gWalletHint" style="display:none;margin:0;">Progress will follow this wallet's live balance. If you leave the monthly amount blank, it uses the transfers into this wallet from your Monthly plan.</div>
+    </div>
+    <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn" onclick="saveGoal('${g?g.id:''}')">${g?'Save changes':'Add goal'}</button></div>`);
+  goalWalletToggle();
+}
+function goalWalletToggle(){
+  const on=!!$('gWallet').value;
+  $('gSavedWrap').style.display=on?'none':'flex'; $('gWalletHint').style.display=on?'block':'none';
+}
+function saveGoal(id){
+  const name=$('gName').value.trim(), target=clampNum($('gTarget').value);
+  if(!name){ toast('Give it a name',true); return; }
+  if(target<=0){ toast('Set a target amount',true); return; }
+  const dl=$('gDeadline').value;
+  const obj={name, icon:$('gIcon').value, target, deadline:parseYMD(dl)?dl:'', monthly:Math.max(0,clampNum($('gMonthly').value)), priority:+$('gPrio').value||2, walletId:$('gWallet').value||''};
+  if(!obj.walletId) obj.saved=Math.max(0,clampNum($('gSaved').value));
+  if(id){ Object.assign(state.goals.find(x=>x.id===id), obj); }
+  else state.goals.push({id:uid(), createdAt:Date.now(), contribs:[], saved:0, ...obj});
+  closeModal(); markChanged(); render(); toast(id?'Goal updated':'Goal added');
+}
+function deleteGoal(id){
+  const g=state.goals.find(x=>x.id===id); if(!g) return;
+  confirmModal('Delete this goal?','“'+g.name+'” and its saved-funds history will be removed. Your wallets are not affected.',()=>{
+    state.goals=state.goals.filter(x=>x.id!==id); markChanged(); render(); toast('Goal deleted'); });
+}
+function fundsModal(id){
+  const g=state.goals.find(x=>x.id===id); if(!g) return;
+  const hist=[...(g.contribs||[])].reverse().slice(0,6);
+  openModal(`<h3>${escapeHtml(g.icon||'🎯')} ${escapeHtml(g.name)}</h3>
+    <p class="m-sub">Records money you've set aside for this goal. It doesn't move money between wallets — use a transfer in the Tracker for that, or link the goal to a wallet.</p>
+    <div class="stack">
+      <div class="form-grid">
+        <div class="field"><label>Action</label><select id="fAct"><option value="1">Add funds</option><option value="-1">Withdraw</option></select></div>
+        <div class="field"><label>Amount (R)</label><input type="number" step="0.01" id="fAmt" placeholder="0.00"></div>
+      </div>
+      <div class="field"><label>Note (optional)</label><input type="text" id="fNote" placeholder="e.g. Bonus, birthday money"></div>
+      ${hist.length?`<div><div class="muted" style="font-size:12px;font-weight:700;margin-bottom:6px;">RECENT</div>${hist.map(c=>`<div style="display:flex;align-items:center;gap:8px;font-size:13px;padding:5px 0;border-bottom:1px solid var(--line);">
+        <span class="muted" style="width:84px;">${escapeHtml(c.date||'')}</span><span style="flex:1;">${escapeHtml(c.note||'—')}</span>
+        <b class="${c.amt<0?'neg':'pos'}">${c.amt<0?'−':'+'}${fmtR(Math.abs(c.amt),2)}</b>
+        <button class="icon-btn del" style="width:26px;height:26px;" title="Remove" onclick="delContrib('${g.id}','${c.id}')">✕</button></div>`).join('')}</div>`:''}
+    </div>
+    <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Close</button><button class="btn" onclick="addFunds('${g.id}')">Save</button></div>`);
+  setTimeout(()=>$('fAmt')&&$('fAmt').focus(),50);
+}
+function addFunds(id){
+  const g=state.goals.find(x=>x.id===id); if(!g) return;
+  const sign=+$('fAct').value<0?-1:1; let amt=clampNum($('fAmt').value);
+  if(amt<=0){ toast('Enter an amount',true); return; }
+  const before=goalStats(g);
+  if(sign<0) amt=Math.min(amt,before.saved);
+  if(amt<=0){ toast('Nothing to withdraw',true); return; }
+  g.contribs=g.contribs||[]; g.contribs.push({id:uid(), amt:sign*amt, date:toYMD(new Date()), note:$('fNote').value.trim()});
+  const after=goalStats(g);
+  closeModal(); markChanged(); render();
+  toast(after.done&&!before.done ? '🎉 Goal reached: '+g.name : (sign>0?'Added ':'Withdrew ')+fmtR(amt,2));
+}
+function delContrib(gid,cid){
+  const g=state.goals.find(x=>x.id===gid); if(!g) return;
+  g.contribs=(g.contribs||[]).filter(c=>c.id!==cid); markChanged(); render(); fundsModal(gid);
+}
+function whatIfModal(id){
+  const g=state.goals.find(x=>x.id===id); if(!g) return; const s=goalStats(g);
+  openModal(`<h3>What if… ${escapeHtml(g.icon||'')} ${escapeHtml(g.name)}</h3><p class="m-sub">Try different amounts and see when you'd get there.</p>
+    <div class="stack">
+      <div class="form-grid">
+        <div class="field"><label>Save per month (R)</label><input type="number" step="0.01" id="wiMonthly" value="${Math.round(s.monthly)||''}"></div>
+        <div class="field"><label>One-off lump sum now (R)</label><input type="number" step="0.01" id="wiLump" value="0"></div>
+      </div>
+      <div id="wiOut"></div>
+    </div>
+    <div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Close</button><button class="btn" onclick="whatIfApply('${g.id}')">Use this monthly amount</button></div>`);
+  $('wiMonthly').addEventListener('input',()=>whatIfRun(id)); $('wiLump').addEventListener('input',()=>whatIfRun(id)); whatIfRun(id);
+}
+function whatIfRun(id){
+  const g=state.goals.find(x=>x.id===id); if(!g||!$('wiOut')) return;
+  const r=goalWhatIf(g, clampNum($('wiMonthly').value), clampNum($('wiLump').value));
+  const lines=[];
+  if(r.rem<=0) lines.push('<b class="pos">That lump sum reaches the goal straight away.</b>');
+  else if(r.months==null) lines.push('<span class="muted">Enter a monthly amount to see a date.</span>');
+  else lines.push(`You'd reach it in <b>${humanMonths(r.months)}</b> — around <b>${fmtMonthYear(r.date)}</b>.`);
+  if(r.diff!=null && r.rem>0) lines.push(r.diff>0?`<span class="neg">That's ${humanMonths(r.diff)} after your deadline.</span>`:(r.diff<0?`<span class="pos">That's ${humanMonths(-r.diff)} before your deadline.</span>`:'<span class="pos">Right on your deadline.</span>'));
+  if(r.need!=null && r.rem>0) lines.push(`To hit the deadline exactly you'd need <b>${fmtR(r.need,0)}/month</b>.`);
+  $('wiOut').innerHTML=`<div class="hint" style="margin:0;line-height:1.6;">${lines.join('<br>')}</div>`;
+}
+function whatIfApply(id){
+  const g=state.goals.find(x=>x.id===id); const v=clampNum($('wiMonthly').value);
+  if(!g||v<=0){ toast('Enter a monthly amount',true); return; }
+  g.monthly=v; closeModal(); markChanged(); render(); toast('Monthly saving updated');
+}
+// compact dashboard card
+function goalsCardHtml(){
+  const list=(state.goals||[]).map(g=>({g,s:goalStats(g)})).filter(x=>!x.s.done);
+  if(!list.length) return `<div class="card"><h2>Goals</h2><p class="muted">No goals yet. <a href="#" onclick="go('goals');return false;" style="color:var(--accent);font-weight:700;">Add your first one</a> — a car, a house deposit, a holiday.</p></div>`;
+  const top=sortGoals(list.map(x=>x)).slice(0,4);
+  return `<div class="card"><h2>Goals</h2><div class="bars">${top.map(x=>`<div class="bar-row" style="grid-template-columns:minmax(90px,150px) 1fr 70px;">
+      <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(x.g.icon||'')} ${escapeHtml(x.g.name)}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${x.s.pct}%"></div></div>
+      <span class="bv">${Math.floor(x.s.pct)}%</span></div>`).join('')}</div>
+    <p class="muted" style="font-size:12px;margin-top:12px;">${list.length>4?`Showing 4 of ${list.length}. `:''}<a href="#" onclick="go('goals');return false;" style="color:var(--accent);font-weight:700;">Open Goals</a></p></div>`;
+}
+
+/* =====================================================================
+   ADVISOR — engine (rules-based, runs entirely on this device)
+   ===================================================================== */
+// A transfer that only tops up a spending wallet whose own expenses are already listed
+// (e.g. SB → Discovery covering Apple/Music/Gym) — counting both would double count.
+function isPassThrough(m){
+  return m.kind==='transfer' && m.category==='transfer' &&
+    state.monthly.some(x=>x.active!==false && x.kind==='expense' && x.wallet===m.toWallet && !x.fundFrom);
+}
+function shariahOn(){ return !!(state && state.settings && state.settings.shariah); }
+function isDebtWallet(id){ const w=walletById(id); return !!w && (w.type==='debtNeg'||w.type==='debtPos'); }
+function isSavingsWallet(w){ return !!w && w.type==='asset' && /saving|cash/i.test(w.name) && !/nmg|retire|unit trust/i.test(w.name); }
+function liquidSavings(){ return state.wallets.filter(isSavingsWallet).reduce((s,w)=>s+(+w.balance||0),0); }
+function debtMonthlyInterest(d){
+  let i=0; (d.charges||[]).forEach(c=>{ if(/interest/i.test(c.name)) i+=(+c.amount||0); });
+  if(d.interestMode==='percent') i+=debtStart(d)*(+d.interestRate||0)/100/12;
+  return i;
+}
+function advBucket(m){
+  if(m.kind==='transfer' && isDebtWallet(m.toWallet)) return 'debt';
+  if(m.kind==='transfer' && (m.category==='savings'||m.category==='investments')) return 'save';
+  if(m.kind==='budget') return (m.category==='fuel'||m.category==='food'||m.category==='health')?'needs':'wants';
+  return ['housing','insurance','utilities','health','food','fuel','debt'].includes(m.category)?'needs':'wants';
+}
+// Effect of paying an extra amount on a debt (uses the Debt planner's own projection)
+function advDebtEffect(d, extra){
+  const base=projectDebt(d); const nm=ymKey(new Date(new Date().getFullYear(), new Date().getMonth()+1, 1));
+  const d2={...d, extra:{...(d.extra||{})}}; d2.extra[nm]=(+d2.extra[nm]||0)+extra;
+  const p=projectDebt(d2);
+  if(base.stalls && p.stalls) return {monthsSaved:null, saved:0, payoff:null};
+  return {monthsSaved:base.months-p.months, saved:+(base.totalInterest-p.totalInterest).toFixed(2), payoff:p.payoff};
+}
+// Effect of a recurring extra amount (e.g. side income) put on the costliest debt every month
+function advSideIncome(S, extra){
+  extra=Math.max(0,+extra||0); const live=S.debts.filter(x=>x.bal>0.5).sort((a,b)=>(b.apr-a.apr)||(a.bal-b.bal));
+  if(!live.length||extra<=0) return null;
+  const T=live[0], base=projectDebt(T.d), first=new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  const ex={...(T.d.extra||{})};
+  for(let i=1;i<=240;i++){ const mk=ymKey(new Date(first.getFullYear(), first.getMonth()+i, 1)); ex[mk]=(+ex[mk]||0)+extra; }
+  const p=projectDebt({...T.d, extra:ex});
+  return {T, baseMonths:base.months, newMonths:p.months, monthsSaved:base.stalls?null:base.months-p.months, saved:base.stalls?null:+(base.totalInterest-p.totalInterest).toFixed(2), stalledBefore:base.stalls, payoff:p.payoff, stalledAfter:p.stalls};
+}
+// Compact, rounded summary that is the ONLY thing sent when you use "Ask the advisor"
+function advContext(){
+  const S=advSnapshot(), wf=spendWaterfall(), r=v=>Math.round(+v||0), L=[];
+  L.push('Monthly take-home pay: R'+r(S.income));
+  L.push('Fixed obligations (bills, debt payments, subscriptions): R'+r(S.obligations));
+  L.push('Monthly savings/investing: R'+r(S.savingsOut)+'; unallocated each month: R'+r(S.leftover));
+  L.push('Emergency fund: R'+r(S.efBal)+' ('+S.efMonths.toFixed(1)+' months of essentials, essentials R'+r(S.essentials)+'/month)');
+  L.push('Leftover remaining this month: R'+r(wf.leftoverRem));
+  const live=S.debts.filter(x=>x.bal>0.5);
+  if(live.length){ L.push('Debts:'); live.forEach(x=>L.push('- '+x.d.name+': owes R'+r(x.bal)+', interest about R'+r(x.interest)+'/month, pays R'+r(x.d.payment)+'/month, '+(x.stalls?'never clears at this payment':'clears in about '+humanMonths(x.months)))); }
+  else L.push('Debts: none');
+  const gl=(state.goals||[]).map(g=>({g,s:goalStats(g)})).filter(x=>!x.s.done);
+  if(gl.length){ L.push('Goals:'); gl.forEach(x=>L.push('- '+x.g.name+': target R'+r(x.s.target)+', saved R'+r(x.s.saved)+(x.s.dl?', deadline '+prettyDate(x.s.dl):'')+', status '+x.s.status)); }
+  else L.push('Goals: none set');
+  return L.join('\n');
+}
+// When the quickest debt clears, roll its payment onto the costliest remaining one
+function advSnowball(S){
+  const live=S.debts.filter(x=>x.bal>0.5 && !x.stalls && x.months>0);
+  if(live.length<2) return null;
+  const A=[...live].sort((a,b)=>a.months-b.months)[0];
+  const B=live.filter(x=>x!==A).sort((a,b)=>(b.apr-a.apr)||(a.bal-b.bal))[0];
+  if(!B) return null;
+  const first=new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  const extra={...(B.d.extra||{})};
+  for(let i=A.months+1;i<=A.months+150;i++){ const mk=ymKey(new Date(first.getFullYear(), first.getMonth()+i, 1)); extra[mk]=(+extra[mk]||0)+(+A.d.payment||0); }
+  const base=projectDebt(B.d), p2=projectDebt({...B.d, extra});
+  const ms=base.months-p2.months; if(ms<1) return null;
+  return {A,B,monthsSaved:ms, saved:+(base.totalInterest-p2.totalInterest).toFixed(2)};
+}
+// Cash-flow check: will the main account stay positive until the next occurrences land?
+function upcomingSb(days){
+  days=days||35; const now=new Date(); const horizon=new Date(now.getTime()+days*86400000);
+  const sb=walletById('sb'); const ev=[];
+  state.monthly.forEach(m=>{
+    if(m.active===false || m.kind==='budget') return;
+    const delta=(itemDeltas(m).sb)||0; if(!delta) return;
+    let cur=new Date(now.getFullYear(), now.getMonth(), 1);
+    for(let i=0;i<3;i++){
+      const mk=ymKey(cur), rd=new Date(cur.getFullYear(), cur.getMonth(), m.day);
+      if(!isApplied(m.id,mk) && rd>now && rd<=horizon) ev.push({date:rd, delta, name:m.name});
+      cur=new Date(cur.getFullYear(), cur.getMonth()+1, 1);
+    }
+  });
+  ev.sort((a,b)=>a.date-b.date);
+  let bal=sb?+sb.balance:0, min=bal, inflow=0, outflow=0;
+  ev.forEach(e=>{ bal+=e.delta; if(e.delta>0) inflow+=e.delta; else outflow-=e.delta; if(bal<min) min=bal; });
+  return {balance:sb?+sb.balance:0, inflow, outflow, min:+min.toFixed(2), end:+bal.toFixed(2), shortfall:Math.max(0,+(-min).toFixed(2)), events:ev};
+}
+function advSnapshot(){
+  let income=0, employerIn=0, committed=0, savingsOut=0, debtPay=0, housing=0;
+  const buckets={needs:0,debt:0,wants:0,save:0};
+  state.monthly.forEach(m=>{
+    if(m.active===false) return;
+    const amt=+m.amount||0;
+    if(m.kind==='income'){ if(m.wallet==='sb') income+=amt; else employerIn+=amt; return; }
+    if(m.kind==='charge') return;
+    if(m.kind==='budget'){ buckets[advBucket(m)]+=budgetTarget(m); return; }
+    if(isPassThrough(m)) return;
+    committed+=amt; buckets[advBucket(m)]+=amt;
+    if(m.kind==='transfer' && isDebtWallet(m.toWallet)) debtPay+=amt;
+    if(advBucket(m)==='save') savingsOut+=amt;
+    if(m.category==='housing') housing+=amt;
+  });
+  const budgets=state.monthly.filter(m=>m.active!==false && m.kind==='budget').reduce((s,m)=>s+budgetTarget(m),0);
+  const budgetsEss=state.monthly.filter(m=>m.active!==false && m.kind==='budget' && m.category!=='entertainment').reduce((s,m)=>s+budgetTarget(m),0);
+  const essentials=(committed-savingsOut)+budgetsEss;
+  const efBal=liquidSavings();
+  const debts=(state.debts||[]).map(d=>{
+    const bal=debtStart(d), pr=projectDebt(d), fees=debtChargesTotal(d,bal), interest=debtMonthlyInterest(d);
+    return {d, bal, fees, interest, apr:bal>0?interest*12/bal*100:0, months:pr.months, payoff:pr.payoff, stalls:pr.stalls};
+  });
+  const leftover=leftoverPool().base;
+  return {income, employerIn, committed, savingsOut, debtPay, housing, buckets, budgets, essentials, efBal,
+    efMonths: essentials>0?efBal/essentials:0, debts, leftover,
+    interestMonthly:debts.reduce((s,x)=>s+x.interest,0), feesMonthly:debts.reduce((s,x)=>s+x.fees,0),
+    obligations:committed-savingsOut};
+}
+function advInsights(S){
+  const out=[]; const P=v=>S.income>0?Math.round(v/S.income*100):0;
+  const add=(level,title,text)=>out.push({level,title,text});
+  if(S.income<=0){ add('warn','No income in your Monthly plan','Add your salary on the Monthly page so the advisor can work from your real numbers.'); return out; }
+  // buffer
+  if(S.leftover<0) add('bad','Your plan spends more than you earn',`After debit orders and budgets you are ${fmtR(-S.leftover,0)} short every month.`);
+  else if(S.leftover<S.income*0.05) add('warn','Very thin monthly buffer',`Only ${fmtR(S.leftover,0)} (${P(S.leftover)}%) of your pay is unallocated, so one surprise bill would dip into Entertainment or Fuel.`);
+  else add('good','Healthy monthly buffer',`${fmtR(S.leftover,0)} (${P(S.leftover)}%) of your pay is unallocated each month.`);
+  // obligations
+  const obl=S.obligations/S.income;
+  add(obl>0.75?'bad':obl>0.6?'warn':'good', obl>0.6?'Fixed obligations are heavy':'Fixed obligations look manageable',
+    `${P(S.obligations)}% of your pay (${fmtR(S.obligations,0)}) is committed to bills, debt payments and subscriptions, before the ${fmtR(S.savingsOut,0)} you choose to save.`);
+  // housing
+  if(S.housing>0){ const h=S.housing/S.income; add(h>0.45?'bad':h>0.35?'warn':'good','Housing is '+P(S.housing)+'% of take-home pay',`${fmtR(S.housing,0)} a month. A common guideline is to keep housing at 30–35% or less${h>0.35?', so this is a big lever if you ever have the chance to change it.':'.'}`); }
+  // debt cost
+  if(S.feesMonthly>0){ const f=S.feesMonthly/S.income;
+    add(f>0.10?'bad':f>0.04?'warn':'good','Debt costs you '+fmtR(S.feesMonthly,0)+' a month',`${fmtR(S.interestMonthly,0)} is interest and the rest is fees (${P(S.feesMonthly)}% of your pay). Paying debt down is a guaranteed return equal to its interest rate, which is hard to beat elsewhere.`); }
+  if(shariahOn()){
+    const ribaD=S.debts.filter(x=>x.bal>0.5 && x.interest>0.5);
+    if(ribaD.length) add('tip','Shariah lens: clear interest-bearing debt first',`${ribaD.map(x=>x.d.name).join(' and ')} ${ribaD.length>1?'charge':'charges'} interest (riba), about ${fmtR(ribaD.reduce((a,x)=>a+x.interest,0),0)} a month. Paying these off is both the cheapest and the cleanest use of spare money, so put it ahead of investing. See the halal growth guide below, and ask a qualified scholar about anything unclear.`);
+  }
+  S.debts.forEach(x=>{ if(x.bal>0.5 && x.d.payment>0 && x.fees/x.d.payment>0.3)
+    add('warn',x.d.name+': a lot of each payment is charges',`Only ${fmtR(Math.max(0,x.d.payment-x.fees),0)} of your ${fmtR(x.d.payment,0)} payment reduces the balance; ${fmtR(x.fees,0)} goes on charges.`); });
+  const sn=advSnowball(S);
+  if(sn) add('tip','Plan: roll one payment into the next',`When ${sn.A.d.name} clears (${sn.A.payoff?fmtMonthYear(sn.A.payoff):'soon'}), put its ${fmtR(sn.A.d.payment,0)}/month onto ${sn.B.d.name}. It clears about ${humanMonths(sn.monthsSaved)} sooner and saves roughly ${fmtR(sn.saved,0)} in charges.`);
+  // card utilisation
+  const card=walletById('disccredit'); if(card && card.limit>0 && card.balance/card.limit>0.3) add('warn','Credit card utilisation is high',`You're using ${Math.round(card.balance/card.limit*100)}% of your limit. Under 30% is the usual target.`);
+  // emergency fund
+  add(S.efMonths<1?'bad':S.efMonths<3?'warn':'good', S.efMonths<1?'Emergency fund is under one month':S.efMonths<3?'Emergency fund is building':'Emergency fund is solid',
+    `${S.efMonths.toFixed(1)} months of essentials saved (${fmtR(S.efBal,0)} against ${fmtR(S.essentials,0)} a month). Aim for 1 month first, then 3.`);
+  // savings rate
+  const sr=S.savingsOut/S.income;
+  add(sr<0.10?'warn':'good','Saving '+P(S.savingsOut)+'% of your pay',`${fmtR(S.savingsOut,0)} a month goes into savings and investments${S.employerIn>0?`, plus ${fmtR(S.employerIn,0)} a month into your NMG pots`:''}.${sr<0.10?' Try to work toward 10–20% over time.':''}`);
+  // this month's spending
+  const wf=spendWaterfall();
+  if(wf.unbudget>0){
+    if(wf.overspill>0) add('bad','You are over all your budgets this month',`You've spent ${fmtR(wf.overspill,0)} more than Leftover, Entertainment and Fuel combined.`);
+    else if(wf.entEaten>0||wf.fuelEaten>0) add('warn','Leftover is used up',`Everyday spending has moved into your ${wf.fuelEaten>0?'Entertainment and Fuel':'Entertainment'} budget (${fmtR(wf.entEaten+wf.fuelEaten,0)} so far).`);
+    else add('good','Everyday spending is inside Leftover',`${fmtR(wf.unbudget,0)} spent so far; ${fmtR(wf.leftoverRem,0)} of Leftover remains.`);
+  }
+  // goals
+  const gl=(state.goals||[]).map(g=>({g,s:goalStats(g)})).filter(x=>!x.s.done);
+  if(!gl.length) add('tip','Give your money a destination','Add a goal (car, deposit, holiday) on the Goals page and the advisor will factor it into where extra money should go.');
+  else{
+    const behind=gl.filter(x=>x.s.status==='behind'||x.s.status==='overdue'||x.s.status==='noplan'&&x.s.dl);
+    const gap=gl.reduce((a,x)=>a+x.s.shortfallMonthly,0);
+    if(behind.length) add('warn','Goals behind schedule',`${behind.map(x=>x.g.name).join(', ')} ${behind.length>1?'are':'is'} behind. Closing the gap takes about ${fmtR(gap,0)} more a month${S.leftover<gap?`, but only ${fmtR(Math.max(0,S.leftover),0)} is unallocated, so consider moving a deadline.`:'.'}`);
+    else add('good','Goals are on track',`${gl.length} active goal${gl.length===1?'':'s'}, none behind schedule.`);
+  }
+  const rank={bad:0,warn:1,tip:2,good:3}; out.sort((a,b)=>rank[a.level]-rank[b.level]); return out;
+}
+function advLadder(S){
+  const up=upcomingSb(); const rungs=[];
+  rungs.push({title:'Cover this cycle’s debit orders', done:up.shortfall<=0.5,
+    text: up.shortfall>0.5 ? `Your Standard Bank account would dip about ${fmtR(up.shortfall,0)} below zero before payday.` : `Standard Bank stays positive over the next 5 weeks (lowest point ${fmtR(up.min,0)}).`});
+  const one=S.essentials;
+  rungs.push({title:'Starter emergency fund: 1 month of essentials', done:S.efBal>=one&&one>0,
+    text:`${fmtR(S.efBal,0)} of ${fmtR(one,0)} saved (${Math.min(100,Math.round(one>0?S.efBal/one*100:0))}%).`});
+  const live=S.debts.filter(x=>x.bal>0.5).sort((a,b)=>(b.apr-a.apr)||(a.bal-b.bal));
+  rungs.push({title:'Clear the most expensive debt', done:live.length===0,
+    text: live.length ? `${live[0].d.name}: about ${fmtR(live[0].interest,0)}/month in interest on ${fmtR(live[0].bal,0)}. ${live[0].stalls?'At the current payment it never clears.':'Clears in '+humanMonths(live[0].months)+' at the current pace.'}` : 'No debt balances left.'});
+  const three=S.essentials*3;
+  rungs.push({title:'Build the emergency fund to 3 months', done:S.efBal>=three&&three>0, text:`${fmtR(S.efBal,0)} of ${fmtR(three,0)} saved.`});
+  const gl=(state.goals||[]).map(g=>({g,s:goalStats(g)})).filter(x=>!x.s.done);
+  const gdone=gl.length>0 && gl.every(x=>x.s.status==='ontrack'||x.s.status==='open');
+  rungs.push({title:'Fund your goals, nearest deadline first', done:gdone,
+    text: gl.length ? `${gl.filter(x=>x.s.status==='behind'||x.s.status==='overdue').length} of ${gl.length} behind schedule.` : 'No goals set yet.'});
+  const sr=S.income>0?S.savingsOut/S.income:0;
+  rungs.push({title:shariahOn()?'Invest for the long term, Shariah-screened (aim for 15%+ of pay)':'Invest for the long term (aim for 15%+ of pay)', done:sr>=0.15, text:`You're at ${Math.round(sr*100)}% (${fmtR(S.savingsOut,0)}/month).`});
+  rungs.push({title:'Enjoy the rest guilt-free', done:false, text:'Entertainment is yours to spend — the plan already accounts for it.'});
+  const nx=rungs.findIndex(r=>!r.done&&r.title!=='Enjoy the rest guilt-free');
+  rungs.forEach((r,i)=>{ r.next=(i===nx); });
+  return rungs;
+}
+// Where should a one-off amount go? Priority order, each step capped at what it actually needs.
+function advAllocate(X, funPct){
+  X=Math.max(0,+X||0); const rows=[]; if(X<=0) return {rows,fun:0,total:0};
+  const S=advSnapshot();
+  const fun=+(X*Math.min(Math.max(+funPct||0,0),50)/100).toFixed(2);
+  let left=+(X-fun).toFixed(2);
+  const take=(label,whyFn,cap,extra)=>{ const a=Math.min(left,Math.max(0,cap)); if(a>0.004){ const amt=+a.toFixed(2); rows.push({label,amt,why:whyFn(amt),...(extra||{})}); left=+(left-amt).toFixed(2); return amt; } return 0; };
+  const up=upcomingSb();
+  take('Standard Bank float', a=>`Your account would otherwise dip about ${fmtR(up.shortfall,0)} below zero before payday.`, up.shortfall);
+  const ef1=take('Emergency fund (first month)', a=>`Builds your safety net toward one month of essentials (${fmtR(S.essentials,0)}).`, Math.max(0,S.essentials-S.efBal));
+  S.debts.filter(x=>x.bal>0.5).sort((a,b)=>(b.apr-a.apr)||(a.bal-b.bal)).forEach(x=>{
+    take('Extra on '+x.d.name, a=>{ const e=advDebtEffect(x.d,a); return e.monthsSaved>0 ? `Costs you about ${fmtR(x.interest,0)}/month in interest. This clears it ${humanMonths(e.monthsSaved)} sooner and saves about ${fmtR(e.saved,0)} in charges.` : `Costs you about ${fmtR(x.interest,0)}/month in interest, so every rand off the balance counts.`; }, x.bal);
+  });
+  take('Emergency fund (up to 3 months)', a=>`Takes your safety net toward 3 months of essentials (${fmtR(S.essentials*3,0)}).`, Math.max(0,S.essentials*3-S.efBal-ef1));
+  // goals: catch-up first, then by priority/deadline up to what's left to save
+  const gl=(state.goals||[]).map(g=>({g,s:goalStats(g)})).filter(x=>!x.s.done);
+  const dlv=x=>x.s.dl?x.s.dl.getTime():Infinity;
+  gl.sort((a,b)=>((a.g.priority||2)-(b.g.priority||2))||(dlv(a)-dlv(b)));
+  const gAlloc=new Map(); gl.forEach(x=>gAlloc.set(x.g.id,{catch:0,more:0}));
+  gl.forEach(x=>{ const a=Math.min(left,x.s.behindBy,x.s.remaining); if(a>0.004){ gAlloc.get(x.g.id).catch=a; left=+(left-a).toFixed(2); } });
+  gl.forEach(x=>{ const a=Math.min(left,Math.max(0,x.s.remaining-gAlloc.get(x.g.id).catch)); if(a>0.004){ gAlloc.get(x.g.id).more=a; left=+(left-a).toFixed(2); } });
+  gl.forEach(x=>{ const v=gAlloc.get(x.g.id), amt=+(v.catch+v.more).toFixed(2); if(amt>0.004){
+    const w=x.g.walletId?walletById(x.g.walletId):null;
+    rows.push({label:(x.g.icon||'🎯')+' '+x.g.name, amt, why:(v.catch>0?`${fmtR(v.catch,0)} brings you back on schedule. `:'')+`Would leave ${fmtR(Math.max(0,x.s.remaining-amt),0)} to go.`+(w?` Move it into ${w.name}.`:'')}); } });
+  take('Long-term investing', a=>shariahOn()?'Everything above is covered, so put the rest into a Shariah-screened fund, ideally inside a tax-free savings account. Check the fund’s current certification first.':'Everything above is covered, so put the rest to work (unit trust or retirement annuity).', left);
+  if(fun>0.004) rows.push({label:'Guilt-free spending', amt:fun, why:`The ${Math.round(fun/X*100)}% you keep for yourself, no strings attached.`});
+  return {rows, fun, total:X};
+}
+// Can I afford it? Simulates the purchase against Leftover → Entertainment → Fuel and your bank balance.
+function advAfford(amount){
+  amount=Math.max(0,+amount||0); const before=spendWaterfall(), after=spendWaterfall(amount), up=upcomingSb();
+  const entHit=+(after.entEaten-before.entEaten).toFixed(2), fuelHit=+(after.fuelEaten-before.fuelEaten).toFixed(2);
+  let level='good', headline;
+  if(after.overspill>0.004){ level='bad'; headline=`Not this month — it would overshoot Leftover, Entertainment and Fuel by ${fmtR(after.overspill,0)}.`; }
+  else if(fuelHit>0.004){ level='bad'; headline=`It would eat ${fmtR(fuelHit,0)} out of your Fuel budget.`; }
+  else if(entHit>0.004){ level='warn'; headline=`Possible, but it empties Leftover and takes ${fmtR(entHit,0)} from Entertainment.`; }
+  else headline=`Yes — it comes out of Leftover, leaving ${fmtR(after.leftoverRem,0)}.`;
+  const cashLow=+(up.min-amount).toFixed(2);
+  const months = before.base>0 ? Math.ceil(amount/before.base) : null;
+  return {level, headline, before, after, cashLow, cashWarn:cashLow<0, monthsToSave:months, up};
+}
+
+/* =====================================================================
+   ADVISOR — page
+   ===================================================================== */
+function renderAdvisor(host){
+  const S=advSnapshot(), notes=advInsights(S), ladder=advLadder(S), wf=spendWaterfall();
+  const pc=v=>S.income>0?Math.max(0,v/S.income*100):0;
+  const B=S.buckets; const lo=Math.max(0,S.leftover);
+  const seg=[['Needs',B.needs,'var(--accent)'],['Debt repayments',B.debt,'var(--bad)'],['Wants',B.wants,'#e0a93b'],['Savings & investing',B.save,'var(--good)'],['Unallocated',lo,'#b8b6ae']];
+  host.innerHTML=`
+    <div class="hint"><b>How this works:</b> the advisor reads your own wallets, monthly plan, debts and goals and applies standard money rules — safety net first, then the most expensive debt, then goals. The tips, ladder and calculators below run entirely on this device. The optional “Ask the advisor” chat is the only part that sends anything (a small rounded summary you can preview first). It's guidance from your numbers, not regulated financial advice, and the final call is always yours.</div>
+    <div class="kpis">
+      <div class="kpi accent"><div class="k-lbl">Monthly take-home</div><div class="k-val">${fmtR(S.income,0)}</div><div class="k-sub">into Standard Bank</div></div>
+      <div class="kpi"><div class="k-lbl">Savings rate</div><div class="k-val">${Math.round(pc(S.savingsOut))}%</div><div class="k-sub">${fmtR(S.savingsOut,0)} a month</div></div>
+      <div class="kpi"><div class="k-lbl">Safety net</div><div class="k-val ${S.efMonths<1?'neg':''}">${S.efMonths.toFixed(1)} mo</div><div class="k-sub">${fmtR(S.efBal,0)} saved</div></div>
+      <div class="kpi"><div class="k-lbl">Leftover now</div><div class="k-val ${wf.leftoverRem<=0?'neg':''}">${fmtR(wf.leftoverRem,0)}</div><div class="k-sub">this month, after spending</div></div>
+    </div>
+    ${advChatCard()}
+    <div class="grid2" style="align-items:start;">
+      <div class="card">
+        <h2>Where should this money go?</h2>
+        <div class="form-grid">
+          <div class="field"><label>Amount (R)</label><input type="number" step="0.01" id="advAmt" placeholder="e.g. 5000" oninput="advAllocRun()"></div>
+          <div class="field"><label>Keep for fun (%)</label><input type="number" step="1" min="0" max="50" id="advFun" value="10" oninput="advAllocRun()"></div>
+        </div>
+        <div style="margin:10px 0 4px;"><button class="btn ghost sm" onclick="$('advAmt').value=${Math.max(0,Math.round(wf.leftoverRem))};advAllocRun()">Use my leftover (${fmtR(wf.leftoverRem,0)})</button></div>
+        <div id="advAllocOut" style="margin-top:8px;"></div>
+      </div>
+      <div class="card">
+        <h2>Can I afford it?</h2>
+        <div class="field"><label>Purchase (R)</label><input type="number" step="0.01" id="advAfAmt" placeholder="e.g. 2500" oninput="advAffordRun()"></div>
+        <div id="advAffordOut" style="margin-top:8px;"></div>
+      </div>
+    </div>
+    <div class="grid2" style="align-items:start;">
+      <div class="card"><h2>Your priority ladder</h2><div class="ladder">
+        ${ladder.map((r,i)=>`<div class="rung ${r.done?'done':''} ${r.next?'next':''}"><div class="n">${r.done?'✓':i+1}</div>
+          <div><h4>${escapeHtml(r.title)}</h4><p>${escapeHtml(r.text)}</p></div>
+          <span class="status ${r.done?'done':(r.next?'open':'noplan')} rs">${r.done?'Done':(r.next?'Focus here':'Later')}</span></div>`).join('')}
+      </div></div>
+      <div class="card"><h2>Advisor notes</h2>
+        ${notes.map(n=>`<div class="note ${n.level}"><div><b>${escapeHtml(n.title)}</b><span>${escapeHtml(n.text)}</span></div></div>`).join('')}
+      </div>
+    </div>
+    ${advGuideCard(S)}
+    <div class="card"><h2>Where your salary goes</h2>
+      <div class="split">${seg.map(([l,v,c])=>`<span title="${l}" style="width:${pc(v)}%;background:${c}"></span>`).join('')}</div>
+      <div class="legend-row">${seg.map(([l,v,c])=>`<div><i style="background:${c}"></i><span>${l}</span><b>${Math.round(pc(v))}%</b><em>${fmtR(v,0)}</em></div>`).join('')}</div>
+      <p class="muted" style="font-size:12px;margin-top:12px;">A common starting point is roughly 50% needs, 30% wants and 20% savings and debt repayment. South African rent and debt costs often push needs higher, so treat it as a compass rather than a rule.</p>
+    </div>`;
+  advAllocRun(); advAffordRun(); advSideRun(); advChatPaint();
+}
+/* ---- Ask the advisor (opt-in, goes through your Worker /advise) ---- */
+let advChat=[], advBusy=false;
+const ADV_CHIPS=['What should I focus on this month?','How fast can I become debt-free?','Is my savings rate good for my income?','How could I earn an extra R2 000 a month?','Explain halal ways to invest my leftover'];
+function advChatCard(){
+  const on=!!(state.settings&&state.settings.aiConsent), sh=shariahOn();
+  const lens=`<label style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:700;margin-top:10px;cursor:pointer;"><input type="checkbox" ${sh?'checked':''} onchange="advToggleShariah(this.checked)"> Shariah lens (avoid interest-based advice, prefer halal options)</label>`;
+  const body = !on
+    ? `<p class="muted" style="font-size:13px;line-height:1.6;margin-top:6px;">Ask free-form questions and get an answer from Claude, based on your numbers. When you send a question, a <b>small rounded summary</b> (income, totals, debt and goal names with amounts, no passphrase, no account numbers, no transaction list) and your question go to your Worker, which forwards them to Anthropic to generate the reply. Each question costs a small amount on your Anthropic API account. Nothing is sent until you turn this on and press Send.</p>
+       <details style="margin-top:8px;"><summary style="font-size:13px;font-weight:700;cursor:pointer;">Preview exactly what would be shared</summary><div class="share-box">${escapeHtml(advContext())}</div></details>
+       <div style="margin-top:12px;"><button class="btn sm" onclick="advConsent()">Turn on Ask the advisor</button></div>`
+    : `<div class="chat-chips">${ADV_CHIPS.map((c,i)=>`<button class="chat-chip" onclick="advAsk(ADV_CHIPS[${i}])">${escapeHtml(c)}</button>`).join('')}</div>
+       <div class="chat-log" id="advChatLog"></div>
+       <div class="chat-send"><textarea id="advChatIn" rows="1" maxlength="600" placeholder="Ask about your money…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();advAsk();}"></textarea><button class="btn sm" id="advChatBtn" onclick="advAsk()">Send</button></div>
+       <details style="margin-top:10px;"><summary style="font-size:12px;font-weight:700;cursor:pointer;">What is shared with each question</summary><div class="share-box">${escapeHtml(advContext())}</div></details>
+       <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;"><button class="btn ghost sm" onclick="advChat=[];advChatPaint()">Clear chat</button><button class="btn ghost sm" onclick="advRevoke()">Turn off</button></div>`;
+  return `<div class="card" style="margin-bottom:16px;"><h2>Ask the advisor</h2>${body}${lens}</div>`;
+}
+function advChatPaint(){
+  const log=$('advChatLog'); if(!log) return;
+  if(!advChat.length){ log.innerHTML='<p class="muted" style="font-size:13px;">Pick a question above or type your own. Answers use your current numbers; always apply your own judgement.</p>'; return; }
+  log.innerHTML=advChat.map(m=>`<div class="msg ${m.role==='user'?'user':(m.err?'err':'bot')}">${escapeHtml(m.content)}</div>`).join('')+(advBusy?'<div class="msg bot muted">Thinking…</div>':'');
+  log.scrollTop=log.scrollHeight;
+}
+function advConsent(){ state.settings=state.settings||{}; state.settings.aiConsent=true; markChanged(); render(); }
+function advRevoke(){ state.settings.aiConsent=false; advChat=[]; markChanged(); render(); }
+function advToggleShariah(v){ state.settings=state.settings||{}; state.settings.shariah=!!v; markChanged(); render(); }
+async function advAsk(text){
+  if(advBusy) return;
+  const inp=$('advChatIn'); const q=String(text!=null?text:(inp?inp.value:'')).trim().slice(0,600);
+  if(!q) return;
+  if(inp && text==null) inp.value='';
+  advChat.push({role:'user',content:q}); advBusy=true; advChatPaint();
+  const btn=$('advChatBtn'); if(btn) btn.disabled=true;
+  try{
+    const msgs=advChat.filter(m=>!m.err).slice(-10).map(m=>({role:m.role,content:m.content}));
+    const r=await fetch(CONFIG.workerUrl.replace(/\/+$/,'')+'/advise',{method:'POST',headers:{'X-Budget-Key':LOCATOR,'Content-Type':'application/json'},
+      body:JSON.stringify({messages:msgs, context:advContext(), shariah:shariahOn()})});
+    let j={}; try{ j=await r.json(); }catch(e){}
+    if(r.ok && j.reply) advChat.push({role:'assistant',content:j.reply});
+    else if(j.error==='advisor_not_configured') advChat.push({role:'assistant',err:true,content:'The advisor isn’t switched on yet. Add your ANTHROPIC_API_KEY secret to the Worker (see SETUP_budget.md), redeploy, then try again.'});
+    else if(r.status===429) advChat.push({role:'assistant',err:true,content:'You’ve hit today’s question limit. It resets tomorrow.'});
+    else advChat.push({role:'assistant',err:true,content:'The advisor couldn’t answer just now. Try again in a moment.'});
+  }catch(e){ advChat.push({role:'assistant',err:true,content:'No connection to the Worker. Check your internet and try again.'}); }
+  advBusy=false; if(btn) btn.disabled=false; advChatPaint();
+}
+
+/* ---- Halal growth guide ---- */
+function advGuideCard(S){
+  const sh=shariahOn();
+  const live=S.debts.filter(x=>x.bal>0.5), last=live.filter(x=>!x.stalls&&x.payoff).map(x=>x.payoff).sort((a,b)=>b-a)[0];
+  const free=live.length ? (last?`At your current payments you're debt-free around <b>${fmtMonthYear(last)}</b>.`:'At least one debt never clears at its current payment, so raise that payment first.') : 'You have no debt balances left.';
+  return `<div class="card guide"><h2>${sh?'Debt-free and halal growth guide':'Debt-free and growth guide'}</h2>
+    <p class="muted" style="font-size:13px;margin-top:4px;">${free} ${live.length&&S.interestMonthly>0?`Interest and fees cost you about <b>${fmtR(S.feesMonthly,0)}</b> a month.`:''}</p>
+    <h3>Speed it up with extra income</h3>
+    <div class="form-grid"><div class="field"><label>Extra income per month (R)</label><input type="number" step="50" id="advSide" placeholder="e.g. 1500" oninput="advSideRun()"></div></div>
+    <div id="advSideOut" style="margin-top:8px;"></div>
+    <h3>Ways to earn more (ideas, not promises)</h3>
+    <ul><li>Photography and videography: shoots, event coverage, short product videos for small businesses (your FOM Studios skills).</li>
+      <li>Web work: simple sites and booking pages for local businesses, billed as a once-off plus a small monthly care fee.</li>
+      <li>Engineering: tutoring first-year maths or statics, drafting or checking calculations for small contractors, within your employer's outside-work rules.</li>
+      <li>Check your employment contract before taking paid side work, and declare the income at tax time.</li></ul>
+    ${sh?`<h3>Shariah-minded steps</h3>
+    <ul><li><b>Debt first.</b> Interest-bearing debt is the costliest thing you own, so clear it before investing beyond your tax-free account.</li>
+      <li><b>Islamic banking.</b> Al Baraka, HBZ, Standard Bank, Absa and Nedbank offer Shari'ah-compliant structures (murabaha, ijarah, diminishing musharaka), mostly for vehicle and home finance. Whether any will refinance a personal loan or card is something to ask them directly. Standard Bank also lists a <a href="https://www.standardbank.co.za/southafrica/personal/products-and-services/bank-with-us/shari%CC%81ah-banking" target="_blank" rel="noopener">Shari'ah charge card</a>.</li>
+      <li><b>Halal tax-free investing.</b> A tax-free savings account takes up to R46 000 a year (from 1 March 2026) and R500 000 for life; going over costs a 40% penalty. Al Baraka lists <a href="https://www.albaraka.co.za/collections/tax-free-unit-trusts" target="_blank" rel="noopener">tax-free Shariah unit trusts</a> run with Old Mutual, including equity and balanced funds.</li>
+      <li><b>Purification and zakat.</b> Funds may ask you to donate a small share of income to purify it. Zakat itself isn't tax-deductible in South Africa.</li>
+      <li>Check any fund's current Shariah certification and fees yourself, and ask a qualified scholar for rulings. This guide is information, not a fatwa or regulated advice.</li></ul>`:''}
+    <p class="muted" style="font-size:11px;margin-top:12px;">Sources: <a href="https://www.investec.com/en_za/focus/mastering-the-basics/new-tax-free-limits-rethink-your-investment-mix.html" target="_blank" rel="noopener">Investec on TFSA limits</a> · <a href="https://muslimfin.co.za/post/south-african-muslim-tax-planning-guide" target="_blank" rel="noopener">MuslimFin tax guide</a> · <a href="https://muslimfin.co.za/post/islamic-banking-in-south-africa-your-complete-guide" target="_blank" rel="noopener">MuslimFin banking guide</a></p>
+  </div>`;
+}
+function advSideRun(){
+  const out=$('advSideOut'); if(!out) return;
+  const x=clampNum($('advSide').value);
+  if(x<=0){ out.innerHTML='<p class="muted" style="font-size:13px;">Enter an amount to see how much sooner your most expensive debt would clear if every extra rand went onto it.</p>'; return; }
+  const r=advSideIncome(advSnapshot(), x);
+  if(!r){ out.innerHTML='<p class="muted" style="font-size:13px;">No debt balances to pay down. Put it toward your goals or a tax-free account instead.</p>'; return; }
+  let t;
+  if(r.stalledBefore && !r.stalledAfter) t=`Today ${escapeHtml(r.T.d.name)} never clears. With ${fmtR(x,0)} extra a month it clears in <b>${humanMonths(r.newMonths)}</b>.`;
+  else if(r.stalledAfter) t=`Even with ${fmtR(x,0)} extra a month, ${escapeHtml(r.T.d.name)} still doesn't clear at this payment.`;
+  else t=`Putting ${fmtR(x,0)} extra a month on ${escapeHtml(r.T.d.name)} clears it <b>${humanMonths(r.monthsSaved)}</b> sooner (in ${humanMonths(r.newMonths)}) and saves about <b>${fmtR(r.saved,0)}</b> in charges.`;
+  out.innerHTML=`<div class="verdict good">${t}</div>`;
+}
+
+function advAllocRun(){
+  const out=$('advAllocOut'); if(!out) return;
+  const X=clampNum($('advAmt').value);
+  if(X<=0){ out.innerHTML='<p class="muted" style="font-size:13px;">Enter an amount — a bonus, a refund, or this month’s leftover — and the advisor will list where each rand should go, in order.</p>'; return; }
+  const r=advAllocate(X, clampNum($('advFun').value));
+  out.innerHTML=r.rows.map((x,i)=>`<div class="alloc-row"><div><span class="muted" style="font-size:12px;font-weight:700;">${i+1}.</span> <b>${escapeHtml(x.label)}</b></div>
+    <div class="a-amt">${fmtR(x.amt,2)} <span class="muted" style="font-size:12px;font-weight:600;">· ${Math.round(x.amt/X*100)}%</span></div><div class="a-why">${escapeHtml(x.why)}</div></div>`).join('')
+    + `<p class="muted" style="font-size:12px;margin-top:10px;">Steps are skipped once they're fully covered. This is guidance only — adjust as you see fit.</p>`;
+}
+function advAffordRun(){
+  const out=$('advAffordOut'); if(!out) return;
+  const amt=clampNum($('advAfAmt').value);
+  if(amt<=0){ out.innerHTML='<p class="muted" style="font-size:13px;">Enter a price to see whether it fits inside your budget, and what it would eat into if not.</p>'; return; }
+  const r=advAfford(amt);
+  const lines=[`Leftover after: <b>${fmtR(r.after.leftoverRem,0)}</b> (now ${fmtR(r.before.leftoverRem,0)})`,
+    `Entertainment left: <b>${fmtR(r.after.entRem,0)}</b> · Fuel left: <b>${fmtR(r.after.fuelRem,0)}</b>`];
+  if(r.cashWarn) lines.push(`<span class="neg">Standard Bank would dip to <b>${fmtR(r.cashLow,0)}</b> before payday. Pay from savings or wait until the 25th.</span>`);
+  else lines.push(`Standard Bank stays above <b>${fmtR(r.cashLow,0)}</b> through payday.`);
+  if(r.level!=='good' && r.monthsToSave) lines.push(`Saving it from your plan's leftover would take about <b>${r.monthsToSave} month${r.monthsToSave===1?'':'s'}</b>.`);
+  out.innerHTML=`<div class="verdict ${r.cashWarn&&r.level==='good'?'warn':r.level}">${escapeHtml(r.headline)}</div><div class="muted" style="font-size:13px;line-height:1.7;margin-top:10px;">${lines.join('<br>')}</div>`;
+}
+
+/* =====================================================================
    VIEWS / ROUTER
    ===================================================================== */
 const VIEWS=[
@@ -735,6 +1486,8 @@ const VIEWS=[
   {id:'tracker',   label:'Tracker',   eyebrow:'Day to day',  sub:'Log a purchase or income — wallets update instantly'},
   {id:'monthly',   label:'Monthly',   eyebrow:'Automation',  sub:'Recurring income & expenses (1st & 25th)'},
   {id:'debt',      label:'Debt',      eyebrow:'Payoff planner', sub:'Project when the loan & credit card are clear'},
+  {id:'goals',     label:'Goals',     eyebrow:'Look forward', sub:'Save toward the big things — by amount and by date'},
+  {id:'advisor',   label:'Advisor',   eyebrow:'Guidance',    sub:'Where to put your money first — runs on your own numbers'},
 ];
 let currentView='dashboard';
 function buildNav(){
@@ -751,7 +1504,7 @@ function render(){
   const v=VIEWS.find(x=>x.id===currentView);
   $('viewEyebrow').textContent=v.eyebrow; $('viewTitle').textContent=v.label; $('viewSub').textContent=v.sub;
   const host=$('view');
-  ({dashboard:renderDashboard, wallets:renderWallets, tracker:renderTracker, monthly:renderMonthly, debt:renderDebt}[currentView])(host);
+  ({dashboard:renderDashboard, wallets:renderWallets, tracker:renderTracker, monthly:renderMonthly, debt:renderDebt, goals:renderGoals, advisor:renderAdvisor}[currentView])(host);
 }
 
 /* ---------- totals ---------- */
@@ -782,6 +1535,7 @@ function renderDashboard(host){
     if(m.kind==='income'){ mIncome+=(+m.amount||0); return; }
     if(m.kind==='charge') return;
     if(m.kind==='budget'){ const t=budgetTarget(m); mBudgets+=t; catSpend[m.category]=(catSpend[m.category]||0)+t; return; }
+    if(isPassThrough(m)) return;   // e.g. SB→Discovery top-up: its Apple/Music/Gym items are already counted
     const amt=+m.amount||0; mCommitted+=amt; catSpend[m.category]=(catSpend[m.category]||0)+amt;  // expense or transfer
   });
   const budgetsList = state.monthly.filter(m=>m.active!==false && m.kind==='budget');
@@ -869,6 +1623,8 @@ function renderDashboard(host){
       <div class="bars">${debtRows||'<p class="muted">No debts tracked.</p>'}</div>
       <p class="muted" style="font-size:12px;margin-top:12px;">Projected at current repayments. Open the Debt planner to add extra payments.</p>
     </div>
+
+    ${goalsCardHtml()}
 
     <div class="card">
       <h2>Balances by group</h2>
